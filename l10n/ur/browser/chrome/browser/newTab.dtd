@@ -1,0 +1,10 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<!-- These strings are used in the about:newtab page -->
+
+<!ENTITY newtab.pageTitle "نیا ٹیب">
+<!ENTITY newtab.undo.removedLabel "مجمل ہٹا دیا گیا۔">
+<!ENTITY newtab.undo.undoButton "کالعدم کریں۔">
+<!ENTITY newtab.undo.restoreButton "تمام بحال کریں۔">
+<!ENTITY newtab.undo.closeTooltip "چھپائیں">

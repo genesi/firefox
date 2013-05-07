@@ -1,0 +1,32 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY window.width                       "36em">
+
+<!ENTITY     cookiesonsystem.label          "Kuki yii ñi ngi sa biir ordinatëër:">
+<!ENTITY     cookiename.label               "Turu kuki bi">
+<!ENTITY     cookiedomain.label             "Dal"> 
+<!ENTITY     button.removecookies.label     "Màbbal kuki yi">
+<!ENTITY     button.removecookie.label      "Màbbal kuki">
+<!ENTITY     button.removecookie.accesskey  "M">
+<!ENTITY     button.removeallcookies.label  "Màbbal kuki yépp">
+<!ENTITY     button.removeallcookies.accesskey "y">
+
+<!ENTITY     props.name.label               "Tur :">
+<!ENTITY     props.value.label              "Ëmb gi :">
+<!ENTITY     props.domain.label             "Njaatige:">
+<!ENTITY     props.path.label               "Yoon:">
+<!ENTITY     props.secure.label             "Yónnee ngir:">
+<!ENTITY     props.expires.label            "Jeex :">
+
+<!ENTITY     window.title                   "Kuki yi">
+<!ENTITY     windowClose.key                "w">
+<!ENTITY     focusSearch1.key               "f">
+<!ENTITY     focusSearch2.key               "k">
+
+<!ENTITY     filter.label                   "Wut :">
+<!ENTITY     filter.accesskey               "W">
+
+<!ENTITY     button.close.label             "Tëj">
+<!ENTITY     button.close.accesskey         "T">

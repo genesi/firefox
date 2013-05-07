@@ -1,0 +1,147 @@
+Description: Allow specifying a test manifest for chrome mochitests
+ By default, the upstream mochitest harness only allows specifying a JSON
+ manifest for plain mochitests. This patch extends that to all mochitests so
+ that we can skip problematic chrome tests
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+diff --git a/testing/mochitest/browser-harness.xul b/testing/mochitest/browser-harness.xul
+--- a/testing/mochitest/browser-harness.xul
++++ b/testing/mochitest/browser-harness.xul
+@@ -6,16 +6,19 @@
+ 
+ <window id="browserTestHarness"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+         onload="TestStart();"
+         title="Browser chrome tests"
+         width="1024">
+   <script type="application/javascript" src="chrome://mochikit/content/tests/SimpleTest/MozillaLogger.js"/>
+   <script type="application/javascript" src="chrome://mochikit/content/tests/SimpleTest/LogController.js"/>
++  <!-- We need this to make setup.js happy. Perhaps filterTests() should also exist in chrome-harness.js? -->
++  <script type="application/javascript" src="chrome://mochikit/content/tests/SimpleTest/TestRunner.js"/>
++  <script type="application/javascript" src="chrome://mochikit/content/tests/SimpleTest/setup.js"/>
+   <script type="application/javascript" src="chrome://mochikit/content/chrome-harness.js"/>
+   <style xmlns="http://www.w3.org/1999/xhtml"><![CDATA[
+     #results {
+       margin: 5px;
+       background-color: window;
+       -moz-user-select: text;
+     }
+ 
+@@ -181,20 +184,21 @@
+ 
+       // load server.js in so we can share template functions
+       var scriptLoader = Cc["@mozilla.org/moz/jssubscript-loader;1"].
+                            getService(Ci.mozIJSSubScriptLoader);
+       var srvScope = {};
+       scriptLoader.loadSubScript('chrome://mochikit/content/server.js',
+                                  srvScope);
+ 
+-      var fileNames = [];
+       var fileNameRegexp = /browser_.+\.js$/;
+-      srvScope.arrayOfTestFiles(links, fileNames, fileNameRegexp);
+-      return fileNames.map(function (f) new browserTest(f));
++      srvScope.arrayOfTestFiles(links, gTestList, fileNameRegexp);
++      gTestBase = "chrome://mochitests/content";
++      gTestList = filterTests(gConfig.testManifest, gConfig.runOnly);
++      return gTestList.map(function (f) new browserTest(f));
+     }
+ 
+     function setStatus(aStatusString) {
+       document.getElementById("status").value = aStatusString;
+     }
+ 
+     function runTests() {
+       var windowMediator = Cc['@mozilla.org/appshell/window-mediator;1'].
+diff --git a/testing/mochitest/harness-overlay.xul b/testing/mochitest/harness-overlay.xul
+--- a/testing/mochitest/harness-overlay.xul
++++ b/testing/mochitest/harness-overlay.xul
+@@ -47,16 +47,17 @@ function loadTests()
+   // generate our test list
+   srvScope.makeTags();
+   var tableContent = srvScope.linksToTableRows(links, 0);
+ 
+   function populate() {
+     document.getElementById("test-table").innerHTML += tableContent;
+   }
+   gTestList = eval(srvScope.jsonArrayOfTestFiles(links));
++  gTestBase = "chrome://mochitests/content";
+   populate();
+ 
+   hookup();
+ }
+ 
+     window.addEventListener("load", loadTests, false);
+   ]]>
+   </script>
+diff --git a/testing/mochitest/server.js b/testing/mochitest/server.js
+--- a/testing/mochitest/server.js
++++ b/testing/mochitest/server.js
+@@ -596,17 +596,17 @@ function testListing(metadata, response)
+                  src: "/tests/SimpleTest/LogController.js"}),
+         SCRIPT({type: "text/javascript",
+                  src: "/tests/SimpleTest/TestRunner.js"}),
+         SCRIPT({type: "text/javascript",
+                  src: "/tests/SimpleTest/MozillaLogger.js"}),
+         SCRIPT({type: "text/javascript",
+                  src: "/tests/SimpleTest/setup.js"}),
+         SCRIPT({type: "text/javascript"},
+-               "window.onload =  hookup; gTestList=" + tests + ";"
++               "window.onload =  hookup; gTestList=" + tests + "; gTestBase=\"tests\";"
+         )
+       ),
+       BODY(
+         DIV({class: "container"},
+           H2("--> ", A({href: "#", id: "runtests"}, "Run Tests"), " <--"),
+             P({style: "float: right;"},
+             SMALL(
+               "Based on the ",
+diff --git a/testing/mochitest/tests/SimpleTest/setup.js b/testing/mochitest/tests/SimpleTest/setup.js
+--- a/testing/mochitest/tests/SimpleTest/setup.js
++++ b/testing/mochitest/tests/SimpleTest/setup.js
+@@ -243,20 +243,20 @@ function filterTests(filterFile, runOnly
+   // filteredTests.
+   if (Object.keys(runtests).length) {
+     for (var i = 0; i < gTestList.length; i++) {
+       var test_path = gTestList[i];
+       var tmp_path = test_path.replace(/^\//, '');
+       for (var f in runtests) {
+         // Remove leading /tests/ if exists
+         file = f.replace(/^\//, '')
+-        file = file.replace(/^tests\//, '')
++        file = file.replace(RegExp("^" + gTestBase + "/"), '')
+ 
+         // Match directory or filename, gTestList has tests/<path>
+-        if (tmp_path.match("^tests/" + file) != null) {
++        if (tmp_path.match("^" + gTestBase + "/" + file) != null) {
+           filteredTests.push(test_path);
+           break;
+         }
+       }
+     }
+   }
+   else {
+     filteredTests = gTestList.slice(0);
+@@ -268,20 +268,20 @@ function filterTests(filterFile, runOnly
+     var refilteredTests = [];
+     for (var i = 0; i < filteredTests.length; i++) {
+       var found = false;
+       var test_path = filteredTests[i];
+       var tmp_path = test_path.replace(/^\//, '');
+       for (var f in excludetests) {
+         // Remove leading /tests/ if exists
+         file = f.replace(/^\//, '')
+-        file = file.replace(/^tests\//, '')
++        file = file.replace(RegExp("^" + gTestBase + "/"), '')
+ 
+         // Match directory or filename, gTestList has tests/<path>
+-        if (tmp_path.match("^tests/" + file) != null) {
++        if (tmp_path.match("^" + gTestBase + "/" + file) != null) {
+           found = true;
+           break;
+         }
+       }
+       if (!found) {
+         refilteredTests.push(test_path);
+       }
+     }

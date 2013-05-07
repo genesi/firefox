@@ -1,0 +1,76 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY urlbar.emptytext      "Ange sökning eller adress">
+<!ENTITY urlbar.accesskey      "d">
+
+<!ENTITY back.label            "Bakåt">
+<!ENTITY forward.label         "Framåt">
+<!ENTITY newtab.label          "Ny flik">
+<!ENTITY closetab.label        "Stäng flik">
+
+<!ENTITY appbarFindInPage2.label    "Sök på sidan">
+<!ENTITY appbarViewOnDesktop2.label "Visa på skrivbordet">
+
+<!ENTITY startTopSitesHeader.label        "Mest besökta">
+<!ENTITY startBookmarksHeader.label       "Bokmärken">
+<!ENTITY startHistoryHeader.label         "Nyligen besökta">
+<!ENTITY startRemoteTabsHeader.label      "Flikar från andra enheter">
+
+<!ENTITY autocompleteResultsHeader.label  "Dina resultat">
+<!ENTITY autocompleteSearchesHeader.label "Internetsökningar"> 
+
+<!ENTITY downloadsHeader.label     "Filhämtningar">
+<!ENTITY downloadShowPage.label    "Gå till sida">
+<!ENTITY downloadShow2.label       "Hitta">
+<!ENTITY downloadOpen2.label       "Öppna">
+<!ENTITY downloadCancel.label      "Avbryt">
+<!ENTITY downloadPause.label       "Pausa">
+<!ENTITY downloadResume.label      "Återuppta">
+<!ENTITY downloadRetry.label       "Försök igen">
+<!ENTITY downloadRemove.label      "Rensa bort">
+<!ENTITY downloadDelete.label      "Ta bort">
+<!ENTITY downloadFailed.label      "Misslyckad">
+
+<!ENTITY bookmarksHeader.label     "Bokmärken">
+<!ENTITY allBookmarks.label        "Se alla bokmärken">
+
+<!ENTITY consoleHeader.label       "Felkonsol">
+<!ENTITY consoleAll.label          "Alla">
+<!ENTITY consoleErrors.label       "Fel">
+<!ENTITY consoleWarnings.label     "Varningar">
+<!ENTITY consoleMessages.label     "Meddelanden">
+<!ENTITY consoleCodeEval.label     "Kod:">
+<!ENTITY consoleClear.label        "Rensa">
+<!ENTITY consoleEvaluate.label     "…">
+<!ENTITY consoleErrFile.label      "Källfil:">
+<!ENTITY consoleErrLine.label      "Rad:">
+<!ENTITY consoleErrColumn.label    "Kolumn:">
+
+<!--  TEXT CONTEXT MENU -->
+<!ENTITY contextTextCut.label              "Klipp ut">
+<!ENTITY contextTextCopy.label             "Kopiera">
+<!ENTITY contextTextPaste.label            "Klistra in">
+<!-- unique item that is only added to the url bar context menu -->
+<!ENTITY contextTextPasteAndGo.label       "Klistra in och gå">
+<!ENTITY contextTextSelect.label           "Markera">
+<!ENTITY contextTextSelectAll.label        "Markera allt">
+
+<!-- LINK CONTEXT MENU -->
+<!ENTITY contextOpenLinkTab.label          "Öppna länk i ny flik">
+<!ENTITY contextCopyLinkHref.label         "Kopiera länk">
+<!ENTITY contextBookmarkLinkHref.label     "Bokmärk länk">
+
+<!-- IMAGE CONTEXT MENU -->
+<!-- LOCALIZATION NOTE (contextSaveImageLib.label): saves an image to the users "pictures library"
+     (Explorer -> left hand side navigation pane -> Libraries -> Pictures) -->
+<!ENTITY contextSaveImageLib.label         "Spara till bildbiblioteket">
+<!ENTITY contextCopyImage.label            "Kopiera bild">
+<!ENTITY contextCopyImageLocation.label    "Kopiera bildadress">
+<!ENTITY contextOpenImageTab.label         "Öppna bild i ny flik">
+
+<!-- VIDEO CONTEXT MENU -->
+<!ENTITY contextSaveVideoLib.label         "Spara till filmbiblioteket">
+<!ENTITY contextCopyVideoLocation.label    "Kopiera videoadress">
+<!ENTITY contextOpenVideoTab.label         "Öppna video i ny flik">

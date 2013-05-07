@@ -1,0 +1,26 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY  colorsDialog.title              "အရောင်များ">
+<!ENTITY  window.width                    "38em">
+<!ENTITY  window.macWidth                 "41em">
+
+<!ENTITY  allowPagesToUse.label           "Aကျွန်ုပ် ရွေးချယ်မှုများအစား‌ သူတို့ ကိုယ်ပိုင် အရောင်များ ရွေးဖို့ စာမျက်နှာများကို ခွင့်ပြုပါ">
+<!ENTITY  allowPagesToUse.accesskey       "A">
+
+<!ENTITY  color                           "စာသားနဲ့ နောက်ခံ">
+<!ENTITY  textColor.label                 "Tစာသား|">
+<!ENTITY  textColor.accesskey             "T">
+<!ENTITY  backgroundColor.label           "Bနောက်ခံ၊">
+<!ENTITY  backgroundColor.accesskey       "B">
+<!ENTITY  useSystemColors.label           "sနည်းစနစ် အရောင်များကို ‌သုံးစွဲပါ">
+<!ENTITY  useSystemColors.accesskey       "s">
+
+<!ENTITY  underlineLinks.label            "Underline links">
+<!ENTITY  underlineLinks.accesskey        "U">
+<!ENTITY  links                           "အချိတ်အဆက် အရောင်များ">
+<!ENTITY  linkColor.label                 "Lလည်ပတ်ခြင်းမပြုတဲ့ အချိတ်အဆက်များ၊">
+<!ENTITY  linkColor.accesskey             "L">
+<!ENTITY  visitedLinkColor.label          "Visited Links:">
+<!ENTITY  visitedLinkColor.accesskey      "V">

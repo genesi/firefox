@@ -1,0 +1,102 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<!-- Values for changepassword.xul -->
+
+<!ENTITY setPassword.title  "Мастер нууц үгийг соль">
+<!ENTITY setPassword.tokenName.label "Нууцлалын төхөөрөмж">
+<!ENTITY setPassword.oldPassword.label "Одоогийн нууц үг:">
+<!ENTITY setPassword.newPassword.label "Шинэ нууц үг:">
+<!ENTITY setPassword.reenterPassword.label "Шинэ нууц үг (дахиад):">
+<!ENTITY setPassword.meter.label "Нууц үгийн чанарын хэмжүүр">
+<!ENTITY setPassword.meter.loading "Дуудаж байна">
+<!-- Values for resetpassword.xul -->
+
+<!ENTITY resetPasswordButtonLabel "Сэргээ">
+<!ENTITY resetPassword.title  "Мастер Нууц үгийг дахин сэргээх">
+<!ENTITY resetPassword.text  "If you reset your master password, all your stored web and e-mail passwords, form data, personal certificates, and private keys will be forgotten. Are you sure you want to reset your master password?">
+<!-- Values for getpassword.xul -->
+
+<!ENTITY getPassword.title  "Мастер нууц үг оруулна уу">
+<!ENTITY getPassword.tokenName2.label "Нууцлалын төхөөрөмж">
+<!ENTITY getPassword.password.label "Нууц үг:">
+<!-- These should be common -->
+
+<!ENTITY piperror.title "Алдаа">
+<!ENTITY pipalert.title "Алдаа - сэргээж чадахгүй байна">
+<!-- Prefs panel strings -->
+
+<!ENTITY pref.security.general.lHeader "Нууцлал">
+<!ENTITY pref.security.general.rHeader "Ерөнхий нууцлалын тохиргоо">
+<!ENTITY pref.security.general.header "Ерөнхий нууцлалын тохиргоо">
+<!ENTITY pref.security.general.level.title "Нууцлалын түвшин">
+<!ENTITY pref.security.general.paranoid.label "Онцгой нууцлалын тохиргоо хэрэглэх">
+<!ENTITY pref.security.general.certificates.title "Гэрчилгээ">
+<!ENTITY pref.security.general.manageCert.label "Гэрчилгээ зохицуулах">
+<!-- Downloading a cert -->
+
+<!ENTITY downloadCert.title "Гэрчилгээ татаж авч байна">
+<!ENTITY downloadCert.message1 "Танаас шинэ Гэрчилгээний Эрх-д итгэхийг асуусан (ГЭ).">
+<!ENTITY downloadCert.trustSSL "Trust this CA to identify websites.">
+<!ENTITY downloadCert.trustEmail "Захианы хэрэглэгчийг танихад энэ ГЭ-д итгэ">
+<!ENTITY downloadCert.trustObjSign "Програм хөгжүүлэгчийг танихдаа энэ ГЭ-д итгэ">
+<!ENTITY downloadCert.message3 "Та ямар ч зорилгоор бай энэ ГЭ -д итгэхээсээ өмнө үүний гэрчилгээний тохиргоог мөн бодлого бас үйлдлийг нь харах хэрэгтэй (хэрэв боломжтой бол).">
+<!ENTITY downloadCert.viewCert.label "Харах">
+<!ENTITY downloadCert.viewPolicy.label "Бодлого">
+<!ENTITY downloadCert.viewCert.text "CA гэрчилгээг тохируулах">
+<!ENTITY downloadCert.viewPolicy.text "ГЭ -н бодлого ба үйлдлийн тохиргоог харах">
+<!-- Certificate Exists in database -->
+
+<!ENTITY caCertExists.title "Байгаа гэрчилгээ">
+<!ENTITY caCertExists.message "Гэрчилгээ өмнө нь байна">
+<!-- Strings for the SSL client auth ask dialog -->
+
+<!ENTITY clientAuthAsk.title "Хэрэглэгчийг таниулах хүсэлт">
+<!ENTITY clientAuthAsk.message1 "Энэ хуудас таныг өөрийгөө гэрчилгээтэйгээ хамт таниулахыг хүсэж байна:">
+<!ENTITY clientAuthAsk.message2 "Таних явцыг харуулахын тулд гэрчилгээг сонгох:">
+<!ENTITY clientAuthAsk.message3 "Сонгосон гэрчилгээний нарийн мэдээлэл:">
+<!-- Strings for the cert picker dialog -->
+
+<!ENTITY certPicker.title "Гэрчилгээ сонго">
+<!ENTITY certPicker.info  "Гэрчилгээ:">
+<!ENTITY certPicker.detailsLabel "Сонгосон гэрчилгээний нарийн мэдээлэл:">
+
+<!ENTITY pkcs12.setpassword.title  "Гэрчилгээний нөөцлөх нууц үгийг сонго">
+<!ENTITY pkcs12.setpassword.message  "Таны энд оруулах гэрчилгээний нөөцлөх нууц үг нь таны үүсгэх нөөцлөх файлыг хамгаалахад хэрэглэгдэнэ. Та энэ нууц үгийг нөөцлөх үйлдэлтэй хамт оруулах ёстой.">
+<!ENTITY pkcs12.setpassword.label1 "Гэрчилгээний нөөцлөх нууц үг:">
+<!ENTITY pkcs12.setpassword.label2 "Гэрчилгээний нөөцлөх нууц үг (дахиад):">
+<!ENTITY pkcs12.setpassword.reminder "Чухал: Хэрэв та гэрчилгээний нөөцлөх нууц үгээ мартвал, та дахиж энэ нөөц хуулбарыг сэргээж чадахгүй болно. Найдвартай газар бичиж авна уу.">
+
+<!ENTITY pkcs12.getpassword.title  "Password Entry Dialog">
+<!ENTITY pkcs12.getpassword.message "Энэ гэрчилгээний нөөцийг нууцлахад хэрэглэж байсан нууц үгийг оруулна уу.">
+
+<!ENTITY chooseToken.title  "Choose Token Dialog">
+<!ENTITY chooseToken.message1 "Токэн сонгоно уу.">
+
+<!ENTITY escrowWarn.title "Нууцлалтай түлхүүр үгийн хуулбар">
+<!ENTITY escrowWarn.message1 "Чухал: Энэ гэрчилгээний эрх нь таны нууцлалын түлхүүр үгийн нөөц хийхийг асууж байна.">
+<!ENTITY escrowWarn.benefit1 "Хэрэв та нууцлалтай хувийн түлхүүр үг рүү хандах эрхээ алдвал, та энэ гэрчилгээний нөлөөгөөр хуулбарыг нь хүсэх давуу талтай.">
+<!ENTITY escrowWarn.message2 "Хэдийгээр таны нууцлах хувийн түлхүүр үг гэрчилгээний эрхээр хадгалагдах боловч таны зөвшөөрөлгүйгээр нууцлагдсан захиа эсвэл бичиг баримтыг уншихад хэрэглэгдэх боломжтой.">
+<!ENTITY examineCert.label "Гэрчилгээг харах">
+<!ENTITY examineCert.accesskey "ч">
+
+<!ENTITY serverCrlNextupdate.message "Систем зохицуулагчаас тусламж хүснэ үү?">
+<!-- Strings for the CreateCertInfo dialog  -->
+
+<!ENTITY createCertInfo.title "Хувийн түлхүүр үг үүсгэж байна">
+<!ENTITY createCertInfo.msg1 "Key Generation in progress… This may take a few minutes….">
+<!ENTITY createCertInfo.msg2 "Түр хүлээнэ үү…">
+<!-- Form Signing confirmation prompt -->
+
+<!ENTITY formSigning.title "Текстийн гарын үсгийн хүсэлт">
+<!ENTITY formSigning.cert "Гэрчилгээнд гарын үсэг зурж байна">
+<!ENTITY formSigning.confirmPassword "Сонгосон гэрчилгээгээр энэ текст захианд гарын үсгээ баталгаажуулахын тулд мастер нууц үгээ оруулна уу:">
+<!-- Strings for protectedAuth dialog -->
+
+<!ENTITY protectedAuth.title "Хамгаалттай хэсгийн нэвтрэлт">
+<!ENTITY protectedAuth.msg "Энэ хэсэгт нэвтрэх үйлдэл хийх шаардлагатай. Нэвтрүүлэх аргачлал нь тухайн хэсгээс хамаарна.">
+<!ENTITY protectedAuth.tokenName.label "Хэсэг:">
+
+<!ENTITY certErrorDlg.title "Нууцлалтай холболтонд алдаа гарлаа">
+<!ENTITY certErrorDlg.info1 "Энэ нь серверийн тохиргооноос болсон юмуу эсвэл хэн нэг нь уг серверийг дууриах үйлдэл хийсэн байж магадгүй.">
+<!ENTITY certErrorDlg.info2 "Хэрэв та урьд нь энэ сервертэй амжилттай холбогдож байсан бол энэ нь түр зуурынх байж болох бөгөөд дараа дахин оролдоно уу.">

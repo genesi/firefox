@@ -1,0 +1,6 @@
+<!ENTITY noPropertiesFound     "କୌଣସି CSS ଗୁଣଧର୍ମ ମିଳୁନାହିଁ।">
+<!ENTITY selectedElementLabel  "ବଚ୍ଛିତ ଉପାଦାନ:">
+<!ENTITY userStylesSearch      "ସନ୍ଧାନ କରନ୍ତୁ">
+<!ENTITY browserStylesLabel    "ବ୍ରାଉଜର ଶୈଳୀଗୁଡ଼ିକ">
+<!ENTITY computedViewTitle     "ହିସାବ ହୋଇଛି">
+<!ENTITY ruleViewTitle         "ନିୟମାବଳୀ">

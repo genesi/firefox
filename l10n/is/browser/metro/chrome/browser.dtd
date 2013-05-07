@@ -1,0 +1,68 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY urlbar.emptytext "Sláðu inn leitarorð eða veffang">
+<!ENTITY urlbar.accesskey "d">
+<!ENTITY back.label "Til baka">
+<!ENTITY forward.label "Áfram">
+<!ENTITY newtab.label "Nýr flipi">
+<!ENTITY closetab.label "Loka flipa">
+<!ENTITY appbarFindInPage2.label "Finna á síðu">
+<!ENTITY appbarViewOnDesktop2.label "Skoða á skjáborði">
+<!ENTITY startTopSitesHeader.label "Efstu vefsvæði">
+<!ENTITY startBookmarksHeader.label "Bókamerki">
+<!ENTITY startHistoryHeader.label "Nýlegir ferlar">
+<!ENTITY startRemoteTabsHeader.label "Flipar frá öðrum tækjum">
+<!ENTITY autocompleteResultsHeader.label "Þínar niðurstöður">
+<!ENTITY autocompleteSearchesHeader.label "Internet leitir">
+ 
+
+<!ENTITY downloadsHeader.label "Niðurhal">
+<!ENTITY downloadShowPage.label "Fara á síðu">
+<!ENTITY downloadShow2.label "Leita">
+<!ENTITY downloadOpen2.label "Opna">
+<!ENTITY downloadCancel.label "Hætta við">
+<!ENTITY downloadPause.label "Í bið">
+<!ENTITY downloadResume.label "Halda áfram">
+<!ENTITY downloadRetry.label "Reyna aftur">
+<!ENTITY downloadRemove.label "Fjarlægja">
+<!ENTITY downloadDelete.label "Eyða">
+<!ENTITY downloadFailed.label "Mistókst
+">
+<!ENTITY bookmarksHeader.label "Bókamerki">
+<!ENTITY allBookmarks.label "Sýna öll bókamerki">
+<!ENTITY consoleHeader.label "Villugluggi">
+<!ENTITY consoleAll.label "Allir">
+<!ENTITY consoleErrors.label "Villur">
+<!ENTITY consoleWarnings.label "Aðvaranir">
+<!ENTITY consoleMessages.label "Skilaboð">
+<!ENTITY consoleCodeEval.label "Kóði:">
+<!ENTITY consoleClear.label "Hreinsa">
+<!ENTITY consoleEvaluate.label "…">
+<!ENTITY consoleErrFile.label "Upprunarskrá:">
+<!ENTITY consoleErrLine.label "Lína:">
+<!ENTITY consoleErrColumn.label "Dálkur:">
+<!--  TEXT CONTEXT MENU -->
+<!ENTITY contextTextCut.label "Klippa">
+<!ENTITY contextTextCopy.label "Afrita">
+<!ENTITY contextTextPaste.label "Líma">
+<!-- unique item that is only added to the url bar context menu -->
+<!ENTITY contextTextPasteAndGo.label "Líma og hoppa">
+<!ENTITY contextTextSelect.label "Velja">
+<!ENTITY contextTextSelectAll.label "Velja allt">
+<!-- LINK CONTEXT MENU -->
+<!ENTITY contextOpenLinkTab.label "Opna tengil í nýjum flipa">
+<!ENTITY contextCopyLinkHref.label "Afrita tengil">
+<!ENTITY contextBookmarkLinkHref.label "Setja tengil í bókamerki">
+<!-- IMAGE CONTEXT MENU -->
+<!-- LOCALIZATION NOTE (contextSaveImageLib.label): saves an image to the users "pictures library"
+     (Explorer -> left hand side navigation pane -> Libraries -> Pictures) -->
+<!ENTITY contextSaveImageLib.label "Vista mynd í myndasafn">
+<!ENTITY contextCopyImage.label "Afrita mynd">
+<!ENTITY contextCopyImageLocation.label "Afrita staðsetningu myndar">
+<!ENTITY contextOpenImageTab.label "Opna mynd í nýjum flipa">
+<!-- VIDEO CONTEXT MENU -->
+<!ENTITY contextSaveVideoLib.label "Vista myndband í myndbandasafn">
+<!ENTITY contextCopyVideoLocation.label "Afrita myndbandatengil">
+<!ENTITY contextOpenVideoTab.label "Opna myndband í nýjum flipa">

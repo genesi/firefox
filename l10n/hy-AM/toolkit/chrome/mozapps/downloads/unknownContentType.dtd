@@ -1,0 +1,26 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY  intro2.label                "Ըտրել եք բացելու համար.">
+<!ENTITY  from.label                  "աղբյուրը.">
+<!ENTITY  actionQuestion.label        "Ի՞նչ պիտի &brandShortName;­ն անի այս ֆայլի հետ:">
+
+<!ENTITY  openWith.label              "Բացի սրանով">
+<!ENTITY  openWith.accesskey          "O">
+<!ENTITY  other.label                 "Այլ…">
+
+<!ENTITY  saveFile.label              "Պահպանել Ֆայլը">
+<!ENTITY  saveFile.accesskey          "S">
+
+<!ENTITY  rememberChoice.label        "Այս պահից սկսած ինքնաբար կատարել նմանատիպ ֆայլերի համար">
+<!ENTITY  rememberChoice.accesskey    "a">
+
+<!ENTITY  whichIsA.label              "Ֆայլի տեսակը.">
+
+<!ENTITY  chooseHandlerMac.label      "Ընտրել…">
+<!ENTITY  chooseHandlerMac.accesskey  "C">
+<!ENTITY  chooseHandler.label         "Ընտրել…">
+<!ENTITY  chooseHandler.accesskey     "B">
+
+<!ENTITY  unknownPromptText.label     "Ցանկանու՞մ եք պահպանել այս ֆայլը:">

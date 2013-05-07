@@ -1,0 +1,21 @@
+Description: Skip browser_pluginCrashCommentAndURL.js when the crash reporter
+ is disabled
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-22.0~a1~hg20130301r123350/browser/base/content/test/browser_pluginCrashCommentAndURL.js
+===================================================================
+--- firefox-trunk-22.0~a1~hg20130301r123350.orig/browser/base/content/test/browser_pluginCrashCommentAndURL.js	2013-03-01 02:07:39.000000000 +0000
++++ firefox-trunk-22.0~a1~hg20130301r123350/browser/base/content/test/browser_pluginCrashCommentAndURL.js	2013-03-01 16:51:12.409226666 +0000
+@@ -9,6 +9,11 @@
+ const SERVER_URL = "http://example.com/browser/toolkit/crashreporter/test/browser/crashreport.sjs";
+ 
+ function test() {
++  if (!("@mozilla.org/toolkit/crash-reporter;1" in Cc)) {
++    todo(false, "Crash reporting is disabled on this build");
++    return;
++  }
++
+   // Crashing the plugin takes up a lot of time, so extend the test timeout.
+   requestLongerTimeout(runs.length);
+   waitForExplicitFinish();

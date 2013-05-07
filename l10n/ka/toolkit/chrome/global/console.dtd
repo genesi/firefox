@@ -1,0 +1,37 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY errorConsole.title "კონსოლის შეცდომა">
+
+<!ENTITY errFile.label   "საწყისი ფაილი:">
+<!ENTITY errLine.label   "სტრიქონი:">
+<!ENTITY errColumn.label "სვეტი:">
+
+<!ENTITY all.label          "ყველა">
+<!ENTITY all.accesskey      "A">
+<!ENTITY errors.label       "შეცდომები">
+<!ENTITY errors.accesskey   "E">
+<!ENTITY warnings.label     "გაფრთხილება">
+<!ENTITY warnings.accesskey "W">
+<!ENTITY messages.label     "წერილები">
+<!ENTITY messages.accesskey "M">
+<!ENTITY clear.label        "გასუფთავება">
+<!ENTITY clear.accesskey    "C">
+<!ENTITY codeEval.label     "კოდი:">
+<!ENTITY codeEval.accesskey "o">
+<!ENTITY evaluate.label     "ანალიზი">
+<!ENTITY evaluate.accesskey "v">
+<!ENTITY filter.label       "ფილტრი">
+<!ENTITY filter.accesskey   "F">
+
+<!ENTITY copyCmd.label       "კოპირება">  
+<!ENTITY copyCmd.accesskey   "C"> 
+<!ENTITY copyCmd.commandkey  "C"> 
+<!ENTITY sortFirst.label     "პირველი > ბოლო სორტირება">
+<!ENTITY sortFirst.accesskey "f">
+<!ENTITY sortLast.label      "ბოლო > პირველი სორტირება">
+<!ENTITY sortLast.accesskey  "l">
+<!ENTITY closeCmd.commandkey "w">  
+<!ENTITY focus1.commandkey   "l">  
+<!ENTITY focus2.commandkey   "d">  

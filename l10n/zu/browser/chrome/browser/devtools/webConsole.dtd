@@ -1,0 +1,26 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!-- LOCALIZATION NOTE : FILE The correct localization of this file might be to
+  - keep it in English, or another language commonly spoken among web developers.
+  - You want to make that choice consistent across the developer tools.
+  - A good criteria is the language in which you'd find the best
+  - documentation on web development on the web. -->
+
+<!ENTITY networkPanel.requestURL                  "Cela i-URL">
+<!ENTITY networkPanel.requestMethod               "Cela indlela">
+<!ENTITY networkPanel.statusCode                  "Ikhodi lesimo">
+
+<!ENTITY networkPanel.requestHeaders              "Cela izihloko">
+<!ENTITY networkPanel.requestCookie               "Amakhukhi athunyelwe">
+<!ENTITY networkPanel.requestBody                 "Cela umzimbha">
+<!ENTITY networkPanel.requestFormData             "Idatha yefomu elithunyelwe">
+
+<!ENTITY networkPanel.responseHeaders             "Izihloko zezimpendulo">
+<!ENTITY networkPanel.responseBody                "Umzimba wezimpendulo">
+<!ENTITY networkPanel.responseBodyCached          "I-datha ye-cache">
+<!ENTITY networkPanel.responseBodyUnknownType     "Uhlobo lokuqukethwe olungaziwa">
+<!ENTITY networkPanel.responseNoBody              "Akukho mzimba wempendulo">
+<!ENTITY networkPanel.responseImage               "Izithombe ezithunyelwe">
+<!ENTITY networkPanel.responseImageCached         "Isithombe se-cache">

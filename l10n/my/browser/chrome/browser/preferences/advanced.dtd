@@ -1,0 +1,139 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<!-- Note: each tab panel must contain unique accesskeys -->
+
+
+<!ENTITY generalTab.label                "အထွေထွေ">
+
+<!ENTITY accessibility.label             "ဆက်စပ်ပစ္စည်း">
+
+<!ENTITY useCursorNavigation.label       "စာမျက်နှာများထဲမှာ ကူးသန်းဖို့ cursor သော့ချက်များကို အမြဲသုံးစွဲပါ">
+<!ENTITY useCursorNavigation.accesskey   "c">
+<!ENTITY searchStartTyping.label         "စတင် x ရိုက်ထည့်တဲ့အခါ စာသားကို ရှာဖွေပါ">
+<!ENTITY searchStartTyping.accesskey     "x">
+<!ENTITY blockAutoRefresh.label          "၀တ်ဆိုက်သည် ညွှန်းဆိုသို့ပြန်လည် ရယူပြသချင်လိုပါက ကျွန်ုပ်အားသတိပေးပါ။">
+<!ENTITY blockAutoRefresh.accesskey      "၀">
+
+<!ENTITY browsing.label                  "လှော်လှန်ခြင်း">
+
+<!ENTITY useAutoScroll.label             "a အလိုအလျောက်စနစ်ကိုသုံးပါ">
+<!ENTITY useAutoScroll.accesskey         "a">
+<!ENTITY useSmoothScrolling.label        "ချောမွေ့တဲ့mလိမ့်ဆင်းမှုကို သုံးစွဲပါ">
+<!ENTITY useSmoothScrolling.accesskey    "m">
+<!ENTITY allowHWAccel.label              "r ရရှိနိုင်လျှင် စက်ကိရိယာဖြင့် အရှိန်မြှင့်တင်ခြင်းကို သုံးပါ။">
+<!ENTITY allowHWAccel.accesskey          "r">
+<!ENTITY checkSpelling.label             "t ရိုက်ထည့်နေတုန်း ကျွန်ပ် စာလုံးပေါင်းကို စစ်ဆေးပါ">
+<!ENTITY checkSpelling.accesskey         "t">
+
+<!ENTITY systemDefaults.label            "နည်းစနစ် စံထားချက်များ">
+<!--XXX-->
+<!ENTITY alwaysCheckDefault.label        "စတင်ချိန်တိုင်းမှာ &brandShortName; ဟာ စံထား ကွန်ရက်ကြည့် ယန္တရား ဟုတ်မဟုတ် အမြဲ စစ်ဆေးပါ">
+<!ENTITY alwaysCheckDefault.accesskey    "စ">
+<!ENTITY setDefault.label                "&brandShortName; ကိုအမြဲသုံးdဘရောက်ဇာအဖြစ်သုံး">
+<!ENTITY setDefault.accesskey            "d">
+<!ENTITY isDefault.label                 "&brandShortName; က လက်ရှိ သင့်ရဲ့ အမြဲသုံးဘရောက်ဇာ ဖြစ်ပါတယ်">
+
+<!ENTITY dataChoicesTab.label            "Data Choices">
+
+<!ENTITY healthReportSection.label       "&brandShortName; ကျန်းမာရေးအစီရင်ခံစာ">
+<!ENTITY healthReportDesc.label          "သင့်ဘယောက်ဆာ ၏ ကျန်းမာရေးအကြောင်း အား &vendorShortName; မှ မည်သို့မျှဝေ သုံးသပ်သည် ကိုနားလည်အောင် ကူညီပေးသည်">
+<!ENTITY enableHealthReport.label        "&brandShortName; ကျန်မာရေး Rအစီရင်ခံခြင်းအား လုပ်မည်">
+<!ENTITY enableHealthReport.accesskey    "R">
+<!ENTITY healthReportLearnMore.label     "ဆက်လက်ဖတ်ရှူရန်">
+
+<!ENTITY telemetrySection.label          "Telemetry">
+<!ENTITY telemetryDesc.label             "လုပ်ဆောင်ချက်များ ၊ ဟတ်ဒ်ဝဲနှင့် ပြင်ဆင်မှူအချက်အလက်များအား &vendorShortName; အားမျှဝေပေးခြင်း အားဖြင့် &brandShortName; အားပိုကောင်းအောင်လုပ်ရန်ကူညီပါ။">
+<!ENTITY enableTelemetry.label           "Enable Telemetry">
+<!ENTITY enableTelemetry.accesskey       "T">
+<!ENTITY telemetryLearnMore.label        "ဆက်လက်ဖတ်ရှူရန်">
+
+<!ENTITY crashReporterSection.label      "ပျက်ဆီးချက်တင်ပြသူ">
+<!ENTITY crashReporterDesc.label         "&brandShortName; သည် အချက်အလက်အချို့အား &vendorShortName; သို့ပေးပို့ခြင်းအားဖြင့် သင်၏ သုံးဆွဲမှူအားပိုမိုတည်ငြိမ်လုံခြုံအောင် လုပ်ရန် ကူညီပါ။">
+<!ENTITY enableCrashReporter.label       "Enable Crash Reporter">
+<!ENTITY enableCrashReporter.accesskey   "C">
+<!ENTITY crashReporterLearnMore.label    "ဆက်လက်ဖတ်ရှူရန်">
+
+<!ENTITY networkTab.label                "ကွန်ရက် ချိတ်ဆက်မှု">
+
+<!ENTITY connection.label                "အချိတ်အဆက်‌">
+
+<!ENTITY connectionDesc.label            "&brandShortName;က အင်တာနက် ချိတ်ဆက်မဲ့ ပုံစံကို ပြင်ဆင်ဖန်တီးပါ">
+<!ENTITY connectionSettings.label        "eအပြင်အဆင်များ...">
+<!ENTITY connectionSettings.accesskey    "e">
+
+<!ENTITY httpCache.label                 "Cached Web Content">
+
+<!ENTITY offlineStorage2.label           "Offline Web Content and User Data">
+<!-- LOCALIZATION NOTE:
+  The entities limitCacheSizeBefore.label and limitCacheSizeAfter.label appear on a single
+  line in preferences as follows:
+
+  &limitCacheSizeBefore.label [textbox for cache size in MB] &limitCacheSizeAfter.label;
+-->
+
+<!ENTITY limitCacheSizeBefore.label      "အရန်သိမ်းဆည်းမှုကို နေရာလပ်">
+<!ENTITY limitCacheSizeBefore.accesskey  "အ">
+<!ENTITY limitCacheSizeAfter.label       "MB ဖြင့် ကန့်သတ်ထားပါ">
+<!ENTITY clearCacheNow.label             "Cအခုရှင်း">
+<!ENTITY clearCacheNow.accesskey         "C">
+<!ENTITY clearOfflineAppCacheNow.label   "အခု ရှင်းလင်းပါ">
+<!ENTITY clearOfflineAppCacheNow.accesskey "အ">
+<!ENTITY overrideSmartCacheSize.label    "အလိုအလျောက် အရန်သိမ်းဆည်းမှု စီမံခန့်ခွဲခြင်းကို ကျော်လွန်ပြုလုပ်ပါ">
+<!ENTITY overrideSmartCacheSize.accesskey "အ">
+
+<!ENTITY updateTab.label                 "မွမ်းမံချက်">
+
+<!ENTITY updateApp.label                 "&brandShortName; ပြုပြင်ချင်းများ">
+<!ENTITY updateAuto.label                "Aအလိုအလျောက် ပြုပြင်ချင်းများ (အကြံပြုထားသော၊ လုံခြုံရေးမြှင့်ထားသော)">
+<!ENTITY updateAuto.accesskey            "A">
+<!ENTITY updateCheck.label               "Cပြုပြင်ချင်းများစုံစမ်းစစ်ဆေး၊ ဒါပေမယ့် တစ်ခုမဟုတ်တစ်ခု တပ်ဆင်ပါ">
+<!ENTITY updateCheck.accesskey           "C">
+<!ENTITY updateManual.label              "Never check for updates (not recommended: security risk)">
+<!ENTITY updateManual.accesskey          "N">
+
+<!ENTITY updateAutoAddonWarn.label       "ကျွန်ပ်ရဲ့ ပေါင်းထည့်ချက်များ တခုခုကို ပိတ်မယ်ဆိုရင် ကျွန်ပ်ကို သတိပေးပါ">
+<!ENTITY updateAutoAddonWarn.accesskey   "က">
+
+<!ENTITY updateHistory.label             "pမွမ်းမံချက် မှတ်တမ်းကို ပြသပါ">
+<!ENTITY updateHistory.accesskey         "p">
+
+<!ENTITY useService.label                "bအဆင့်မြှင့်ရင် နောက်ခံဆားဗစ် တစ်ခုအာ အသုံးပြုမည်">
+<!ENTITY useService.accesskey            "b">
+
+<!ENTITY updateOthers.label              "အလိုအလျှောက်အဆင့်မြှင့်မည်-">
+<!ENTITY enableSearchUpdate.label        "E ရှာဖွေရေး ယန္တရားများ">
+<!ENTITY enableSearchUpdate.accesskey    "E">
+
+<!ENTITY offlineNotify.label             "T ဝတ်ဆိုဒ်တစ်ခု အင်တာနက်မဲ့သုံးရန် ဖိုင်သိမ်းဖို့တောင်းဆိုလာပါက ပြောပါ">
+<!ENTITY offlineNotify.accesskey         "T">
+<!ENTITY offlineNotifyExceptions.label   "xခြွင်းချက်များ...">
+<!ENTITY offlineNotifyExceptions.accesskey "x">
+
+<!ENTITY offlineAppsList2.label          "အော့ဖ်လိုင်း အသုံးပြုနိုင်ဖို့အတွက် အောက်ပါ ဝက်ဘ်ဆိုက်များမှာ ဒေတာတွေကို သိုလှောင်ခွင့်ပြုတယ်။">
+<!ENTITY offlineAppsList.height          "7em">
+<!ENTITY offlineAppsListRemove.label     "ဖယ်ထုတ်ပါ...">
+<!ENTITY offlineAppsListRemove.accesskey "ဖ">
+<!ENTITY offlineAppRemove.confirm        "ချိတ်ဆက်မဲ့ အချက်အလက်ကြမ်းကို ဖယ်ရှားပါ">
+
+<!ENTITY encryptionTab.label             "စာဝှက်စနစ်">
+
+<!ENTITY protocols.label                 "စည်းမျဉ်းများ">
+<!ENTITY useSSL3.label                   "SSL 3.0 ကို သုံးပါ">
+<!ENTITY useSSL3.accesskey               "3">
+<!ENTITY useTLS1.label                   "Use TLS 1.0">
+<!ENTITY useTLS1.accesskey               "1">
+<!ENTITY certificates.label              "အသိအမှတ်ပြုလက်မှတ်များ">
+<!ENTITY certSelection.description       "ဆာဗာ တခုမှ ကျွန်ပ် ကိုယ်ရေး လက်မှတ်ကို တောင်းဆိုတဲ့အခါ">
+<!ENTITY certs.auto                      "တခုကို အလိုအလျောက် ရွေးချယ်ပါ">
+<!ENTITY certs.auto.accesskey            "l">
+<!ENTITY certs.ask                       "အချိန်တိုင်း ကျွန်ပ်ကို မေးပါ">
+<!ENTITY certs.ask.accesskey             "i">
+<!ENTITY viewCerts.label                 "sလုံခြုံရေးလက်မှတ်များကိုကြည့်မည်">
+<!ENTITY viewCerts.accesskey             "s">
+<!ENTITY viewCRLs.label                  "Rပြန်လည်ရုတ်သိမ်းခြင်း စာရင်းများ">
+<!ENTITY viewCRLs.accesskey              "R">
+<!ENTITY verify2.label                   "Validation">
+<!ENTITY verify2.accesskey               "V">
+<!ENTITY viewSecurityDevices.label       "yလုံခြုံရေး ကိရိယာများ">
+<!ENTITY viewSecurityDevices.accesskey   "y">

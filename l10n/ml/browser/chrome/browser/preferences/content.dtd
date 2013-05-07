@@ -1,0 +1,41 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY  blockPopups.label           "പോപ്പപ്‌ ജാലകങ്ങള്‍ തടയുക">
+<!ENTITY  blockPopups.accesskey       "B">
+<!ENTITY  popupExceptions.label       "വിട്ടുവീഴ്ചകള്‍">
+<!ENTITY  popupExceptions.accesskey   "E">
+
+<!ENTITY  loadImages.label            "ചിത്രങ്ങള്‍ തന്നത്താന്‍ ലോഡ്‌ ചെയ്യുക">
+<!ENTITY  loadImages.accesskey        "I">
+<!ENTITY  exceptions.label            "വിട്ടുവീഴ്ചകള്‍">
+<!ENTITY  exceptions.accesskey        "x">
+
+<!ENTITY  enableJavaScript.label      "Javascript പ്രവര്‍ത്തന സജ്ജമാക്കുക">
+<!ENTITY  enableJavaScript.accesskey  "J">
+<!ENTITY  advancedJS.label            "സങ്കീര്‍ണ്ണമായവ...">
+<!ENTITY  advancedJS.accesskey        "v">
+
+<!ENTITY  enableJava.label            "Java പ്രവര്‍ത്തന സജ്ജമാക്കുക">
+<!ENTITY  enableJava.accesskey        "n">
+
+
+<!ENTITY  fontsAndColors.label        "ഫോണ്ടുകള്‍, കളറുകള്‍ ">
+
+<!ENTITY  defaultFont.label           "ഡിഫോള്‍ട്ട്‌ ഫോണ്ട്‌:">
+<!ENTITY  defaultFont.accesskey       "D">
+<!ENTITY  defaultSize.label           "വലിപ്പം :">
+<!ENTITY  defaultSize.accesskey       "S">
+
+<!ENTITY  advancedFonts.label         "സങ്കീര്‍ണ്ണമായവ...">
+<!ENTITY  advancedFonts.accesskey     "A">
+
+<!ENTITY  colors.label                "കളറുകള്‍">
+<!ENTITY  colors.accesskey            "C">
+
+
+<!ENTITY languages.label              "ഭാഷകള്‍">
+<!ENTITY chooseLanguage.label         "താളുകള്‍ക്കുള്ള ഭാഷ തെരഞ്ഞെടുക്കുക">
+<!ENTITY chooseButton.label           "തെരഞ്ഞെടുക്കുക…">
+<!ENTITY chooseButton.accesskey       "o">

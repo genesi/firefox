@@ -1,0 +1,66 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY aboutSupport.pageTitle "Menyelesaikan masalah Informasi">
+<!-- LOCALIZATION NOTE (aboutSupport.pageSubtitle): don't change the 'supportLink' id. -->
+
+<!ENTITY aboutSupport.pageSubtitle "  This page contains technical information that might be useful when you're 
+trying to solve a problem. If you are looking for answers to common questions 
+about &brandShortName;, check out our <a id='supportLink'>support web site</a>.">
+
+<!ENTITY aboutSupport.extensionsTitle "Sambungan">
+<!ENTITY aboutSupport.extensionName "Nama">
+<!ENTITY aboutSupport.extensionEnabled "Bolehkan">
+<!ENTITY aboutSupport.extensionVersion "Versi">
+<!ENTITY aboutSupport.extensionId "ID">
+
+<!ENTITY aboutSupport.appBasicsTitle "Aplikasi asas">
+<!ENTITY aboutSupport.appBasicsName "Nama">
+<!ENTITY aboutSupport.appBasicsVersion "Versi">
+
+<!ENTITY aboutSupport.appBasicsProfileDir "Direktori Profil">
+<!-- LOCALIZATION NOTE (aboutSupport.appBasicsProfileDirWinMac):
+This is the Windows- and Mac-specific variant of aboutSupport.appBasicsProfileDir.
+Windows/Mac use the term "Folder" instead of "Directory" -->
+<!ENTITY aboutSupport.appBasicsProfileDirWinMac "Profil Folder">
+
+<!ENTITY aboutSupport.appBasicsEnabledPlugins "Mengaktifkan Plugins">
+<!ENTITY aboutSupport.appBasicsBuildConfig "membina Konfigurasi">
+<!ENTITY aboutSupport.appBasicsUserAgent "Ejen pengguna">
+<!ENTITY aboutSupport.appBasicsCrashIDs "Laporan kerosakan">
+<!ENTITY aboutSupport.appBasicsMemoryUse "Kegunaan Memori">
+
+<!ENTITY aboutSupport.showDir.label "Buka Direktori">
+<!-- LOCALIZATION NOTE (aboutSupport.showMac.label): This is the Mac-specific
+variant of aboutSupport.showDir.label.  This allows us to use the preferred
+"Finder" terminology on Mac. -->
+<!ENTITY aboutSupport.showMac.label "Tunjuk dalam Finder">
+<!-- LOCALIZATION NOTE (aboutSupport.showWin.label): This is the Windows-specific
+variant of aboutSupport.showDir.label. -->
+<!ENTITY aboutSupport.showWin.label "Tunjuk Folder">
+
+<!ENTITY aboutSupport.modifiedKeyPrefsTitle "Pengubahan rujukan pilihan yang penting">
+<!ENTITY aboutSupport.modifiedPrefsName "Nama">
+<!ENTITY aboutSupport.modifiedPrefsValue "Nilai">
+<!-- LOCALIZATION NOTE (aboutSupport.userJSTitle, aboutSupport.userJSDescription): user.js is the name of the preference override file being checked. -->
+
+<!ENTITY aboutSupport.userJSTitle "Keutamaan user.js">
+<!ENTITY aboutSupport.userJSDescription "Profil folder anda mengandungi satu <a id='prefs-user-js-link'>fail user.js</a>, dimana termasuk tetapan yang tidak dilakukan oleh &brandShortName; .">
+
+<!ENTITY aboutSupport.graphicsTitle "Grafik">
+
+<!ENTITY aboutSupport.jsTitle "JavaSkrip">
+<!ENTITY aboutSupport.jsIncrementalGC "Penambahan GC">
+
+<!ENTITY aboutSupport.a11yTitle "akses">
+<!ENTITY aboutSupport.a11yActivated "Diaktifkan">
+<!ENTITY aboutSupport.a11yForceDisabled "Elak Accessibility">
+
+<!ENTITY aboutSupport.libraryVersionsTitle "Pustaka Versi">
+
+<!ENTITY aboutSupport.installationHistoryTitle "Sejarah Pemasangan">
+<!ENTITY aboutSupport.updateHistoryTitle "Sejarah Kemaskini">
+
+<!ENTITY aboutSupport.copyTextToClipboard.label "Salin teks ke clipboard">
+<!ENTITY aboutSupport.copyRawDataToClipboard.label "Salin data mentah kepada clipboard">

@@ -1,0 +1,37 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+
+<!ENTITY migrationWizard.title          "იმპორტის მეგზური">
+
+<!ENTITY importFrom.label               "პარამეტრების, სანიშნეების, ისტორიის, პაროლებისა და სხვა მონაცემთა გადმოტანა:">
+<!ENTITY importFromUnix.label           "პარამეტრების, სანიშნეების, ისტორიის, პაროლებისა და სხვა მონაცემთა გადმოტანა:">
+<!ENTITY importFromBookmarks.label      "სანიშნეთა გადმოტანა:">
+
+<!ENTITY importFromIE.label             "Microsoft Internet Explorer">
+<!ENTITY importFromIE.accesskey         "M">
+<!ENTITY importFromNothing.label        "იმპორტის გარეშე">
+<!ENTITY importFromNothing.accesskey    "D">
+<!ENTITY importFromSafari.label         "Safari">
+<!ENTITY importFromSafari.accesskey     "S">
+<!ENTITY importFromChrome.label         "Chrome">
+<!ENTITY importFromChrome.accesskey     "C">
+<!ENTITY importFromFirefox.label        "Firefox">
+<!ENTITY importFromFirefox.accesskey    "X">
+
+<!ENTITY noMigrationSources.label       "ვერ მოიძებნა სანიშნეების, ისტორიის ან პაროლის მონაცემთა შემცველი პროგრამები.">
+
+<!ENTITY importSource.title             "პარამეტრებისა და მონაცემთა გადმოტანა">
+<!ENTITY importItems.title              "გადმოსატანი ელემენტები">
+<!ENTITY importItems.label              "გადმოსატანი ელემენტების არჩევა:">
+
+<!ENTITY migrating.title                "გადმოტანა…">
+<!ENTITY migrating.label                "ამჯერად გადმოიტანება შემდეგი ელემენტები…">
+
+<!ENTITY selectProfile.title            "პროფილის არჩევა">
+<!ENTITY selectProfile.label            "შესაძლოა შემდეგი პროფილების გადმოტანა:">
+
+<!ENTITY done.title                     "გადმოტანა დასრულდა">
+<!ENTITY done.label                     "გადმოტანილია შემდეგი ელემენტები:">
+

@@ -1,0 +1,2 @@
+Tests: xpcshell-tests xpcshell-package-tests jstestbrowser reftest crashtest mochitest-browser mochitest mochitest-chrome mochitest-a11y mochitest-ipcplugins post-process
+Depends: @MOZ_PKG_NAME@-testsuite

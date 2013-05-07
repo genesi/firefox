@@ -1,0 +1,131 @@
+#!/usr/bin/make -f
+
+include $(CURDIR)/debian/build/mozvars.mk
+
+MOZ_PKG_BASENAME	:= firefox
+MOZ_APP			:= browser
+MOZ_VENDOR		:= Mozilla
+MOZ_MOZDIR		:=
+
+MOZ_APP_SUBDIR	:= browser
+
+MOZ_BRANDING		:= $(CHANNEL)
+ifneq (,$(filter release beta, $(MOZ_BRANDING)))
+MOZ_BRANDING		:= official
+endif
+ifeq (1,$(MOZ_BUILD_UNOFFICIAL))
+ifneq (,$(filter official aurora, $(MOZ_BRANDING)))
+MOZ_BRANDING		:= unofficial
+endif
+endif
+MOZ_BRANDING_DIR 	:= $(MOZ_APP)/branding/$(MOZ_BRANDING)
+ifeq (official,$(BRANDING))
+MOZ_BRANDING_OPTION	:= --enable-official-branding
+else
+MOZ_BRANDING_OPTION	:= --with-branding=$(MOZ_BRANDING_DIR)
+endif
+
+MOZ_PKGNAME_SUBST_FILES = \
+	debian/usr.bin.$(MOZ_PKG_NAME) \
+	debian/README.Debian \
+	debian/$(MOZ_PKG_NAME)-locale.preinst \
+	debian/$(MOZ_PKG_BASENAME).sh \
+	debian/apport/blacklist \
+	debian/apport/native-origins \
+	debian/apport/source_$(MOZ_PKG_NAME).py \
+	debian/testing/run_mochitest \
+	debian/testing/run_reftest \
+	$(NULL)
+
+MOZ_APPNAME_SUBST_FILES = \
+	debian/$(MOZ_APP_NAME).1 \
+	$(NULL)
+
+MOZ_PKGCONFIG_FILES = \
+	debian/pkgconfig/mozilla-plugin.pc \
+	$(NULL)
+
+include $(CURDIR)/debian/build/mozbuild.mk
+
+MOZ_EXECUTABLES_$(MOZ_PKG_NAME)-testsuite =	$(MOZ_LIBDIR)/testing/run_mochitest \
+						$(MOZ_LIBDIR)/testing/run_reftest \
+						$(MOZ_LIBDIR)/testing/run_xpcshell_tests \
+						$(MOZ_LIBDIR)/xpcshell \
+						$(MOZ_LIBDIR)/testing/filter_results \
+						$(NULL)
+
+debian/usr.bin.firefox.in:
+	cp $(CURDIR)/debian/usr.bin.firefox.apparmor.12.04 $(CURDIR)/debian/usr.bin.firefox.in
+
+ifeq (firefox, $(MOZ_APP_NAME))
+ifneq (,$(filter precise, $(DISTRIB_CODENAME)))
+PLUGIN_BREAKS := flashplugin-installer (<= 11.1.102.63ubuntu1), adobe-flashplugin (<= 11.1.102.63-0precise1)
+PLUGIN_CONFLICTS := gcu-plugin (<= 0.12.10-1ubuntu1)
+endif
+endif
+
+WRITE_SUBSTVARS = $(shell echo "$(2)=$(3)" | sed 's/[ \t\n]\+/ /g' >> debian/$(1).substvars)
+
+ifeq (firefox, $(MOZ_PKG_NAME))
+ifeq (,$(filter precise, $(DISTRIB_CODENAME)))
+install/firefox::
+	$(call WRITE_SUBSTVARS,firefox,transitional:Replaces,kubuntu-firefox-installer)
+else
+FIREFOX_REPLACES = abrowser, abrowser-branding, firefox-branding, kubuntu-firefox-installer
+FIREFOX_BREAKS = abrowser (<= 4.0~b11+build3+nobinonly-0ubuntu1), abrowser-branding (<= 4.0~b11+build3+nobinonly-0ubuntu1), \
+		 firefox-branding (<= 4.0~b11+build3+nobinonly-0ubuntu1), $(PLUGIN_BREAKS)
+install/firefox::
+	$(call WRITE_SUBSTVARS,firefox,transitional:Replaces,$(FIREFOX_REPLACES))
+	$(call WRITE_SUBSTVARS,firefox,transitional:Breaks,$(FIREFOX_BREAKS))
+	$(call WRITE_SUBSTVARS,firefox,transitional:Conflicts,$(PLUGIN_CONFLICTS))
+endif
+endif
+
+$(patsubst %,binary-post-install/$(MOZ_PKG_NAME)-locale-%,$(MOZ_LANGPACK_TARGETS)):: binary-post-install/$(MOZ_PKG_NAME)-locale-%: install-webapprt-langpack-links-%
+
+install-webapprt-langpack-links-%: XPIS = $(notdir $(wildcard debian/$(MOZ_PKG_NAME)-locale-$*/$(MOZ_ADDONDIR)/extensions/*.xpi))
+install-webapprt-langpack-links-%:
+	$(foreach xpi,$(XPIS),dh_link -p$(MOZ_PKG_NAME)-locale-$* $(MOZ_ADDONDIR)/extensions/$(xpi) $(MOZ_LIBDIR)/webapprt/extensions/$(xpi);)
+
+make-langpack-preinsts::
+	@while read line ; \
+	do \
+		line=`echo $$line | sed 's/#.*//' | sed '/^$$/d'` ; \
+		if [ ! -z "$$line" ] ; \
+		then \
+		pkgname=`echo $$line | sed 's/\([^:]*\):*\([^:]*\)/\2/'` ; \
+			cp $(CURDIR)/debian/$(MOZ_PKG_NAME)-locale.preinst $(CURDIR)/debian/$(MOZ_PKG_NAME)-locale-$${pkgname}.preinst ; \
+		fi \
+	done < $(CURDIR)/debian/config/locales.shipped
+
+pre-build:: make-langpack-preinsts
+	@cp $(DEB_SRCDIR)/toolkit/content/widgets/dialog.xml $(DEB_SRCDIR)/toolkit/content/widgets/dialog-kde.xml
+	@cp $(DEB_SRCDIR)/toolkit/content/widgets/preferences.xml $(DEB_SRCDIR)/toolkit/content/widgets/preferences-kde.xml
+	@cp $(DEB_SRCDIR)/browser/base/content/browser.xul $(DEB_SRCDIR)/browser/base/content/browser-kde.xul
+
+ifneq ($(MOZ_APP_BASENAME),$(MOZ_DEFAULT_APP_BASENAME))
+	@echo "Setting MOZ_APP_UA_NAME to $(MOZ_DEFAULT_APP_BASENAME)"
+	@cp $(DEB_SRCDIR)/$(MOZ_BRANDING_DIR)/configure.sh $(DEB_SRCDIR)/$(MOZ_BRANDING_DIR)/configure.sh.bak; \
+		echo "MOZ_APP_UA_NAME=$(MOZ_DEFAULT_APP_BASENAME)" >> $(DEB_SRCDIR)/$(MOZ_BRANDING_DIR)/configure.sh
+
+	@echo "Setting UAName to $(MOZ_DEFAULT_APP_BASENAME)"
+	@cp $(DEB_SRCDIR)/webapprt/application.ini.in $(DEB_SRCDIR)/webapprt/application.ini.in.bak; \
+		sed -ri 's/@MOZ_APP_BASENAME@/$(MOZ_DEFAULT_APP_BASENAME)/g' $(DEB_SRCDIR)/webapprt/application.ini.in
+endif
+ifneq ($(MOZ_APP_NAME),$(MOZ_DEFAULT_APP_NAME))
+	@echo "Replacing instances of \"%APP%\" with \"firefox\" in firefox-branding.js"
+	@cp $(DEB_SRCDIR)/$(MOZ_BRANDING_DIR)/pref/firefox-branding.js $(DEB_SRCDIR)/$(MOZ_BRANDING_DIR)/pref/firefox-branding.js.bak; \
+		sed -ri 's/%APP%/firefox/g' $(DEB_SRCDIR)/$(MOZ_BRANDING_DIR)/pref/firefox-branding.js
+endif
+
+clean::
+	rm -f debian/$(MOZ_PKG_NAME)-locale-*.preinst
+	rm -f debian/usr.bin.firefox.in
+	$(call RESTORE_BACKUP, $(DEB_SRCDIR)/$(MOZ_BRANDING_DIR)/configure.sh)
+	$(call RESTORE_BACKUP, $(DEB_SRCDIR)/$(MOZ_BRANDING_DIR)/pref/firefox-branding.js)
+	$(call RESTORE_BACKUP, $(DEB_SRCDIR)/webapprt/application.ini.in)
+	rm -f $(DEB_SRCDIR)/toolkit/content/widgets/dialog-kde.xml
+	rm -f $(DEB_SRCDIR)/toolkit/content/widgets/preferences-kde.xml
+	rm -f $(DEB_SRCDIR)/browser/base/content/browser-kde.xul
+
+.PHONY: make-langpack-preinsts

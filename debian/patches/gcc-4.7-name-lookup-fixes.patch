@@ -1,0 +1,15 @@
+Index: firefox-20.0+build1/js/src/ion/shared/IonAssemblerBufferWithConstantPools.h
+===================================================================
+--- firefox-20.0+build1.orig/js/src/ion/shared/IonAssemblerBufferWithConstantPools.h	2013-03-28 01:42:40.000000000 +0000
++++ firefox-20.0+build1/js/src/ion/shared/IonAssemblerBufferWithConstantPools.h	2013-03-29 01:42:11.000000000 +0000
+@@ -675,8 +675,8 @@
+         JS_ASSERT(perforatedNode != NULL);
+         if (numDumps >= (1<<logBasePoolInfo) && (numDumps & (numDumps-1)) == 0) {
+             // need to resize.
+-            poolInfo = static_cast<PoolInfo*>(realloc_(poolInfo, sizeof(PoolInfo) * numDumps,
+-                                                       sizeof(PoolInfo) * numDumps * 2));
++            poolInfo = static_cast<PoolInfo*>(this->realloc_(poolInfo, sizeof(PoolInfo) * numDumps,
++                                                             sizeof(PoolInfo) * numDumps * 2));
+             if (poolInfo == NULL) {
+                 this->fail_oom();
+                 return;

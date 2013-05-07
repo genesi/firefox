@@ -1,0 +1,86 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+DEPTH = @DEPTH@
+topsrcdir = @top_srcdir@
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+include $(DEPTH)/config/autoconf.mk
+
+LIBRARY_NAME = dom_indexeddb_s
+LIBXUL_LIBRARY = 1
+FORCE_STATIC_LIB = 1
+ifndef _MSC_VER
+FAIL_ON_WARNINGS := 1
+endif # !_MSC_VER
+
+EXPORTS_NAMESPACES = mozilla/dom/indexedDB
+
+CPPSRCS = \
+  AsyncConnectionHelper.cpp \
+  CheckPermissionsHelper.cpp \
+  Client.cpp \
+  DatabaseInfo.cpp \
+  FileInfo.cpp \
+  FileManager.cpp \
+  IDBCursor.cpp \
+  IDBDatabase.cpp \
+  IDBEvents.cpp \
+  IDBFactory.cpp \
+  IDBFileHandle.cpp \
+  IDBIndex.cpp \
+  IDBKeyRange.cpp \
+  IDBObjectStore.cpp \
+  IDBRequest.cpp \
+  IDBTransaction.cpp \
+  IDBWrapperCache.cpp \
+  IndexedDatabaseManager.cpp \
+  Key.cpp \
+  KeyPath.cpp \
+  OpenDatabaseHelper.cpp \
+  TransactionThreadPool.cpp \
+  $(NULL)
+
+EXPORTS_mozilla/dom/indexedDB = \
+  Client.h \
+  DatabaseInfo.h \
+  FileManager.h \
+  FileInfo.h \
+  IDBCursor.h \
+  IDBDatabase.h \
+  IDBEvents.h \
+  IDBFactory.h \
+  IDBFileHandle.h \
+  IDBIndex.h \
+  IDBKeyRange.h \
+  IDBObjectStore.h \
+  IDBRequest.h \
+  IDBTransaction.h \
+  IDBWrapperCache.h \
+  IndexedDatabase.h \
+  IndexedDatabaseManager.h \
+  Key.h \
+  KeyPath.h \
+  $(NULL)
+
+LOCAL_INCLUDES = \
+  -I$(topsrcdir)/caps/include \
+  -I$(topsrcdir)/content/base/src \
+  -I$(topsrcdir)/content/events/src \
+  -I$(topsrcdir)/db/sqlite3/src \
+  -I$(topsrcdir)/dom/base \
+  -I$(topsrcdir)/dom/src/storage \
+  -I$(topsrcdir)/dom/quota \
+  -I$(topsrcdir)/xpcom/build \
+  $(NULL)
+
+DEFINES += -D_IMPL_NS_LAYOUT
+
+# Make sure to quickstub as much as possible here! See
+# js/xpconnect/src/dom_quickstubs.qsconf.
+include $(topsrcdir)/config/config.mk
+include $(topsrcdir)/ipc/chromium/chromium-config.mk
+include $(topsrcdir)/config/rules.mk
+

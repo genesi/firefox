@@ -1,0 +1,66 @@
+Index: firefox-trunk-22.0~a1~hg20130317r125128/build/autoconf/arch.m4
+===================================================================
+--- firefox-trunk-22.0~a1~hg20130317r125128.orig/build/autoconf/arch.m4	2013-03-18 02:08:10.000000000 +0000
++++ firefox-trunk-22.0~a1~hg20130317r125128/build/autoconf/arch.m4	2013-03-18 18:21:01.779234392 +0000
+@@ -202,17 +202,17 @@
+       HAVE_ARM_SIMD=1
+   fi
+ 
+-  AC_MSG_CHECKING(for ARM NEON support in compiler)
+-  # We try to link so that this also fails when
+-  # building with LTO.
+-  AC_TRY_LINK([],
+-                 [asm(".fpu neon\n vadd.i8 d0, d0, d0");],
+-                 result="yes", result="no")
+-  AC_MSG_RESULT("$result")
+-  if test "$result" = "yes"; then
+-      AC_DEFINE(HAVE_ARM_NEON)
+-      HAVE_ARM_NEON=1
+-  fi
++  #AC_MSG_CHECKING(for ARM NEON support in compiler)
++  ## We try to link so that this also fails when
++  ## building with LTO.
++  #AC_TRY_LINK([],
++  #               [asm(".fpu neon\n vadd.i8 d0, d0, d0");],
++  #               result="yes", result="no")
++  #AC_MSG_RESULT("$result")
++  #if test "$result" = "yes"; then
++  #    AC_DEFINE(HAVE_ARM_NEON)
++  #    HAVE_ARM_NEON=1
++  #fi
+ 
+   AC_MSG_CHECKING(ARM version support in compiler)
+   dnl Determine the target ARM architecture (5 for ARMv5, v5T, v5E, etc.; 6 for ARMv6, v6K, etc.)
+Index: firefox-trunk-22.0~a1~hg20130317r125128/js/src/build/autoconf/arch.m4
+===================================================================
+--- firefox-trunk-22.0~a1~hg20130317r125128.orig/js/src/build/autoconf/arch.m4	2013-03-18 02:11:57.000000000 +0000
++++ firefox-trunk-22.0~a1~hg20130317r125128/js/src/build/autoconf/arch.m4	2013-03-18 18:21:18.139235064 +0000
+@@ -202,17 +202,17 @@
+       HAVE_ARM_SIMD=1
+   fi
+ 
+-  AC_MSG_CHECKING(for ARM NEON support in compiler)
+-  # We try to link so that this also fails when
+-  # building with LTO.
+-  AC_TRY_LINK([],
+-                 [asm(".fpu neon\n vadd.i8 d0, d0, d0");],
+-                 result="yes", result="no")
+-  AC_MSG_RESULT("$result")
+-  if test "$result" = "yes"; then
+-      AC_DEFINE(HAVE_ARM_NEON)
+-      HAVE_ARM_NEON=1
+-  fi
++  #AC_MSG_CHECKING(for ARM NEON support in compiler)
++  ## We try to link so that this also fails when
++  ## building with LTO.
++  #AC_TRY_LINK([],
++  #               [asm(".fpu neon\n vadd.i8 d0, d0, d0");],
++  #               result="yes", result="no")
++  #AC_MSG_RESULT("$result")
++  #if test "$result" = "yes"; then
++  #    AC_DEFINE(HAVE_ARM_NEON)
++  #    HAVE_ARM_NEON=1
++  #fi
+ 
+   AC_MSG_CHECKING(ARM version support in compiler)
+   dnl Determine the target ARM architecture (5 for ARMv5, v5T, v5E, etc.; 6 for ARMv6, v6K, etc.)

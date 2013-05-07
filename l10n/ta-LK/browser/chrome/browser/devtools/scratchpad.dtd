@@ -1,0 +1,71 @@
+
+
+<!--
+Entities below were automatically added by compare-locales,
+ based on en-US entities.
+-->
+
+<!ENTITY closeCmd.label "மூடுக">
+<!ENTITY fileMenu.accesskey "F">
+<!ENTITY selectAllCmd.label "அனைத்தையும் தெரிவுசெய்க">
+<!ENTITY saveFileCmd.label "சேமிக்குக">
+<!ENTITY cutCmd.accesskey "t">
+<!ENTITY redoCmd.accesskey "R">
+<!ENTITY browserContext.label "உலாவி">
+<!ENTITY run.label "இயக்குக">
+<!ENTITY executeMenu.accesskey "X">
+<!ENTITY undoCmd.key "Z">
+<!ENTITY resetContext.label "மீளமைக்க">
+<!ENTITY pasteCmd.key "V">
+<!ENTITY inspect.key "i">
+<!ENTITY errorConsoleCmd.accesskey "C">
+<!ENTITY webConsoleCmd.commandkey "k">
+<!ENTITY cutCmd.label "Cut">
+<!ENTITY display.key "l">
+<!ENTITY saveFileAsCmd.label "என சேமி…">
+<!ENTITY executeMenu.label "Execute">
+<!ENTITY openFileCmd.accesskey "O">
+<!ENTITY inspect.label "Inspect">
+<!ENTITY cutCmd.key "X">
+<!ENTITY inspect.accesskey "I">
+<!ENTITY errorConsoleCmd.label "Error Console">
+<!ENTITY webConsoleCmd.accesskey "W">
+<!ENTITY fileMenu.label "கோப்பு">
+<!ENTITY undoCmd.label "முன் செயல் நீக்கம்">
+<!ENTITY saveFileCmd.commandkey "s">
+<!ENTITY editMenu.accesskey "E">
+<!ENTITY run.key "r">
+<!ENTITY redoCmd.key "Y">
+<!ENTITY environmentMenu.accesskey "N">
+<!ENTITY newWindowCmd.commandkey "n">
+<!ENTITY saveFileAsCmd.accesskey "A">
+<!ENTITY copyCmd.label "Copy">
+<!ENTITY newWindowCmd.accesskey "N">
+<!ENTITY toolsMenu.accesskey "T">
+<!ENTITY closeCmd.key "W">
+<!ENTITY selectAllCmd.key "A">
+<!ENTITY run.accesskey "R">
+<!ENTITY contentContext.label "உள்ளடக்கம்">
+<!ENTITY copyCmd.key "C">
+<!ENTITY display.accesskey "D">
+<!ENTITY editMenu.label "தொகுக்க">
+<!ENTITY webConsoleCmd.label "Web Console">
+<!ENTITY toolsMenu.label "கருவிகள்">
+<!ENTITY window.title "Scratchpad">
+<!ENTITY contentContext.accesskey "C">
+<!ENTITY pasteCmd.label "ஒட்டு">
+<!ENTITY errorConsoleCmd.commandkey "j">
+<!ENTITY undoCmd.accesskey "U">
+<!ENTITY copyCmd.accesskey "C">
+<!ENTITY openFileCmd.commandkey "o">
+<!ENTITY display.label "காட்சிப்படுத்துக">
+<!ENTITY openFileCmd.label "கோப்பினை திறக்குக…">
+<!ENTITY pasteCmd.accesskey "P">
+<!ENTITY resetContext.accesskey "R">
+<!ENTITY redoCmd.label "Redo">
+<!ENTITY browserContext.accesskey "B">
+<!ENTITY environmentMenu.label "சூழல்">
+<!ENTITY selectAllCmd.accesskey "A">
+<!ENTITY saveFileCmd.accesskey "S">
+<!ENTITY newWindowCmd.label "புதிய சாளரம்">
+<!ENTITY closeCmd.accesskey "C">

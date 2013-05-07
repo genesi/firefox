@@ -1,0 +1,45 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY minimizeWindow.key       "m">
+<!ENTITY minimizeWindow.label     "Хураах">
+<!ENTITY bringAllToFront.label    "Бүгдийг өмнө авчир">
+<!ENTITY zoomWindow.label         "Тэлэлт">
+<!ENTITY windowMenu.label         "Цонх">
+
+<!ENTITY helpMenu.label           "Тусламж"> 
+<!ENTITY helpMenu.accesskey       "Т"> 
+<!-- LOCALIZATION NOTE some localizations of Windows (ex:french, german) use "?"
+                       for the help button in the menubar but Gnome does not.   -->
+<!ENTITY helpMenuWin.label        "Тусламж"> 
+<!ENTITY helpMenuWin.accesskey    "Т">
+<!ENTITY aboutProduct.label       "&brandShortName;-н тухай">
+<!ENTITY aboutProduct.accesskey   "т">
+<!ENTITY productHelp.label        "&brandShortName; Тусламж">
+<!ENTITY productHelp.accesskey    "Т">
+<!ENTITY helpMac.commandkey       "?">
+<!ENTITY helpSafeMode.label       "Restart with Add-ons Disabled…">
+<!ENTITY helpSafeMode.accesskey   "R">
+
+<!ENTITY healthReport.label       "&brandShortName; Health Report">
+<!ENTITY healthReport.accesskey   "e">
+
+<!ENTITY helpTroubleshootingInfo.label      "Troubleshooting Information">
+<!ENTITY helpTroubleshootingInfo.accesskey  "T">
+
+<!ENTITY helpFeedbackPage.label      "Submit Feedback…">
+<!ENTITY helpFeedbackPage.accesskey  "S">
+
+<!ENTITY preferencesCmdMac.label        "Тохируулга…">
+<!ENTITY preferencesCmdMac.commandkey   ",">
+
+<!ENTITY servicesMenuMac.label          "Үйлчилгээнүүд">
+
+<!ENTITY hideThisAppCmdMac.label        "&brandShortName;-г нуу">
+<!ENTITY hideThisAppCmdMac.commandkey   "H">
+
+<!ENTITY hideOtherAppsCmdMac.label      "Бусдыг нь нуу">
+<!ENTITY hideOtherAppsCmdMac.commandkey "H">
+
+<!ENTITY showAllAppsCmdMac.label        "Бүгдийг харуул">

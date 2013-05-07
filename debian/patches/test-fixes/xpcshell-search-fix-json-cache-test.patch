@@ -1,0 +1,26 @@
+Description: Fix test_json_cache.js to work when search plugins aren't installed
+ in to the application searchplugin directory
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-22.0~a1~hg20130317r125128/toolkit/components/search/tests/xpcshell/test_json_cache.js
+===================================================================
+--- firefox-trunk-22.0~a1~hg20130317r125128.orig/toolkit/components/search/tests/xpcshell/test_json_cache.js	2013-03-18 20:17:17.000000000 +0000
++++ firefox-trunk-22.0~a1~hg20130317r125128/toolkit/components/search/tests/xpcshell/test_json_cache.js	2013-03-18 21:14:24.919661744 +0000
+@@ -56,10 +56,12 @@
+ 
+   // Add the app's searchplugins directory to the cache so it won't be ignored.
+   let appSearchPlugins = getDir(NS_APP_SEARCH_DIR);
+-  appPluginsPath = appSearchPlugins.path;
+-  cacheTemplate.directories[appPluginsPath] = {};
+-  cacheTemplate.directories[appPluginsPath].lastModifiedTime = appSearchPlugins.lastModifiedTime;
+-  cacheTemplate.directories[appPluginsPath].engines = [];
++  if (appSearchPlugins.directoryEntries.hasMoreElements()) {
++    appPluginsPath = appSearchPlugins.path;
++    cacheTemplate.directories[appPluginsPath] = {};
++    cacheTemplate.directories[appPluginsPath].lastModifiedTime = appSearchPlugins.lastModifiedTime;
++    cacheTemplate.directories[appPluginsPath].engines = [];
++  }
+ 
+   // Replace the profile placeholder with the correct path.
+   profPlugins = engineFile.parent.path;

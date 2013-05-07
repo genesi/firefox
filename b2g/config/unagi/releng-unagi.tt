@@ -1,0 +1,14 @@
+[
+{
+"size": 833339832,
+"digest": "c5bc3424d9a52bd12dc6d849e8bd111514a7edfb84180bf8dd67f77e925fea95e9f41afade187694e1724b3d9b817e7cf2ba62be000a9f11db1e7ff689bb85fd",
+"algorithm": "sha512",
+"filename": "gonk.tar.xz"
+},
+{
+"size": 8622080,
+"digest": "36681be904b20a52dbebf38b86466026430d59adb0e72428ae7557a442d037eb378d278aab181b04a753821ff0a99b6228380d59f86ddd5fbf291284fe54932b",
+"algorithm": "sha512",
+"filename": "boot.img"
+}
+]

@@ -1,0 +1,66 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY aboutSupport.pageTitle "Xibaari depaane">
+<!-- LOCALIZATION NOTE (aboutSupport.pageSubtitle): don't change the 'supportLink' id. -->
+
+<!ENTITY aboutSupport.pageSubtitle "  Xët wii dafa ëmb ay xibaar yu xarala tu am solo 
+boo bëggee saafara benn jafe jafe. Soo bëggee ay tontu ci laaj yi gëna bari 
+ci &brandShortName;, mën nga laaj sunu <a id='supportLink'>dalu ndimbal</a>.">
+
+<!ENTITY aboutSupport.extensionsTitle "Yokk yi">
+<!ENTITY aboutSupport.extensionName "Tur">
+<!ENTITY aboutSupport.extensionEnabled "Suqaliku">
+<!ENTITY aboutSupport.extensionVersion "Sumb">
+<!ENTITY aboutSupport.extensionId "ID">
+
+<!ENTITY aboutSupport.appBasicsTitle "Paraameetar yi jëkk yu tërëlin bi">
+<!ENTITY aboutSupport.appBasicsName "Tur">
+<!ENTITY aboutSupport.appBasicsVersion "Sumb">
+
+<!ENTITY aboutSupport.appBasicsProfileDir "Wayndare jëmmalin">
+<!-- LOCALIZATION NOTE (aboutSupport.appBasicsProfileDirWinMac):
+This is the Windows- and Mac-specific variant of aboutSupport.appBasicsProfileDir.
+Windows/Mac use the term "Folder" instead of "Directory" -->
+<!ENTITY aboutSupport.appBasicsProfileDirWinMac "Wayndare jëmm">
+
+<!ENTITY aboutSupport.appBasicsEnabledPlugins "Plugins yi ñu suqali">
+<!ENTITY aboutSupport.appBasicsBuildConfig "Tabbinu dajale">
+<!ENTITY aboutSupport.appBasicsUserAgent "Jëfandikookat">
+<!ENTITY aboutSupport.appBasicsCrashIDs "Raapoori Crash">
+<!ENTITY aboutSupport.appBasicsMemoryUse "Jëfandikoo damb">
+
+<!ENTITY aboutSupport.showDir.label "Ubbi wayndare bi mu andal">
+<!-- LOCALIZATION NOTE (aboutSupport.showMac.label): This is the Mac-specific
+variant of aboutSupport.showDir.label.  This allows us to use the preferred
+"Finder" terminology on Mac. -->
+<!ENTITY aboutSupport.showMac.label "Wone ci biir Finder">
+<!-- LOCALIZATION NOTE (aboutSupport.showWin.label): This is the Windows-specific
+variant of aboutSupport.showDir.label. -->
+<!ENTITY aboutSupport.showWin.label "Ubbi wayndare bi mu andal">
+
+<!ENTITY aboutSupport.modifiedKeyPrefsTitle "Taamu yu am solo yu ñu soppi">
+<!ENTITY aboutSupport.modifiedPrefsName "Tur">
+<!ENTITY aboutSupport.modifiedPrefsValue "Solo">
+<!-- LOCALIZATION NOTE (aboutSupport.userJSTitle, aboutSupport.userJSDescription): user.js is the name of the preference override file being checked. -->
+
+<!ENTITY aboutSupport.userJSTitle "Taamu jëfandikookat.js">
+<!ENTITY aboutSupport.userJSDescription "Sa wayndare jëmm dafa ëmb <a id='prefs-user-js-link'>dencukaay jëfandikookat.js</a>, te am ay taamu yu &brandShortName; sosul.">
+
+<!ENTITY aboutSupport.graphicsTitle "Làbbali">
+
+<!ENTITY aboutSupport.jsTitle "JavaScript">
+<!ENTITY aboutSupport.jsIncrementalGC "Incremental GC">
+
+<!ENTITY aboutSupport.a11yTitle "Yomb jot">
+<!ENTITY aboutSupport.a11yActivated "Suqali">
+<!ENTITY aboutSupport.a11yForceDisabled "Prevent Accessibility">
+
+<!ENTITY aboutSupport.libraryVersionsTitle "Sumbu kaggu yi">
+
+<!ENTITY aboutSupport.installationHistoryTitle "Jaar jaaru samp">
+<!ENTITY aboutSupport.updateHistoryTitle "Yeesal jaar jaar bi">
+
+<!ENTITY aboutSupport.copyTextToClipboard.label "Duppi ci dencandikaayu kayit yi">
+<!ENTITY aboutSupport.copyRawDataToClipboard.label "Duppi xibaar ci dencandikkaayu kayit yi">

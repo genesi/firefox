@@ -1,0 +1,32 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<SearchPlugin xmlns="http://www.mozilla.org/2006/browser/search/">
+<ShortName>Google</ShortName>
+<Description>Google Search</Description>
+<InputEncoding>UTF-8</InputEncoding>
+<Image width="16" height="16">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACuUlEQVRYw8VX60sUURSffybWv6MloxeV0Jug+hJB0YMoCCII1E3LnlYKlVkkUZKaRFEGFlgfMntYhlopVpaP1HXuPPbOzOmcOw/XZbed3ZndvXBYlr17zu+8fudcaWmlLKEsQWlFmUOBAsucY4tsSmQ8gjJTBMOpQjYjkoMGSiStUpHCnknmpXz+uLdJgY5eDsN/TJA1C9KdkUkTjraoWXXlBGDNaQZd/VwoP3xHhbVnGOxvVuHLL1MY5QZArEODbfUMllX70+kbACl8N2qAxgE2XmCLfltZI8O3CRtEXLVg00Xm2ynfAOoeacLA2+9G2t8P3lK98Lf3JsIH8OmH7eEzTEGmO6NT9p3JuBU+ADUB/40ASdsb+5KiFxAAw6pfHkt/p/G5Lu6MTZvhAyDP3VPdrqW90/zSRnmjWw8fwLG7C0VGOV5/dnGll2OXfEVeoFpZcUoOHwBJ0wvdA0FtdwS5YF0dg93XFHg1ZMDrYQNW17KcSC1nJtx3U4XH77nwdui3CaZDhAM/TSiP5c6qUhAu33qJeRFp6UnkpSMQgC1JAKZlC3Y1KsUFQEJ5dw/1/8kHWuEARKtk2HNdgctPdTENewYN0fPJxypUG1Zh74/PWsDQS2K8E/c12NmgQMU5BhXYksT/yaehSw8PgEuxn7HSUydhKkjuZIQ+N5xnwQEcv2cTkIGR3uxjzNY81LwoVLZpwQF0D3ChjCad33RRqujQchIYgDuG/2KbRX0CcDckP22ZFUBnH/dCWtuZ3SMqygTmv3/MCKcIt19RvFHMTbu6M1Eu7Yh9IwbMMEt0SGhdcOi2ClPzC9vvLBp48oELMLSq1SMv0HfakD+i5zuuKuHzwCqccmSMph6NY1pOqdWoNgbHTcEDB3AvjOZBxSV/mJT8aVZWwsdpmeQ8zyNOJOJFMBx3bJFN6R++on7RvMlpZAAAAABJRU5ErkJggg==</Image>
+<Url type="application/x-suggestions+json" method="GET" template="https://www.google.com/complete/search?client=firefox&amp;q={searchTerms}"/>
+<Url type="text/html" method="GET" template="https://www.google.com/search">
+  <Param name="q" value="{searchTerms}"/>
+  <Param name="ie" value="utf-8"/>
+  <Param name="oe" value="utf-8"/>
+  <Param name="aq" value="t"/>
+  <Param name="rls" value="{moz:distributionID}:{moz:locale}:{moz:official}"/>
+#if MOZ_UPDATE_CHANNEL == beta
+  <MozParam name="client" condition="defaultEngine" trueValue="firefox-beta" falseValue="firefox"/>
+#elif MOZ_UPDATE_CHANNEL == aurora
+  <MozParam name="client" condition="defaultEngine" trueValue="firefox-aurora" falseValue="firefox"/>
+#elif MOZ_UPDATE_CHANNEL == nightly
+  <MozParam name="client" condition="defaultEngine" trueValue="firefox-nightly" falseValue="firefox"/>
+#else
+  <MozParam name="client" condition="defaultEngine" trueValue="firefox-a" falseValue="firefox"/>
+#endif
+  <MozParam name="channel" condition="purpose" purpose="contextmenu" value="rcs"/>
+  <MozParam name="channel" condition="purpose" purpose="keyword" value="fflb"/>
+  <MozParam name="channel" condition="purpose" purpose="homepage" value="np"/>
+  <MozParam name="source" condition="purpose" purpose="homepage" value="hp"/>
+</Url>
+<SearchForm>https://www.google.com/</SearchForm>
+</SearchPlugin>

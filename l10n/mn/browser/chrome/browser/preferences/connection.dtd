@@ -1,0 +1,44 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+
+<!ENTITY  connectionsDialog.title       "Холболтын тохируулга">
+<!ENTITY  window.width                  "37em">
+<!ENTITY  window.macWidth               "39em">
+
+<!ENTITY  proxyTitle.label              "Интернэтэд орох прокси тохиргоо">
+<!ENTITY  noProxyTypeRadio.label        "Проксигүй">
+<!ENTITY  noProxyTypeRadio.accesskey    "с">
+<!ENTITY  systemTypeRadio.label         "Системийн прокси тохиргоог хэрэглэ">
+<!ENTITY  systemTypeRadio.accesskey     "е">
+<!ENTITY  WPADTypeRadio.label           "Энэ сүлжээний проксиг автоматаар тань">
+<!ENTITY  WPADTypeRadio.accesskey       "в">
+<!ENTITY  manualTypeRadio.label         "Прокси гар тохируулга:">
+<!ENTITY  manualTypeRadio.accesskey     "а">
+<!ENTITY  autoTypeRadio.label           "Автомат прокси тохируулах хаяг:">
+<!ENTITY  autoTypeRadio.accesskey       "п">
+<!ENTITY  reload.label                  "Дахин дууд">
+<!ENTITY  reload.accesskey              "а">
+<!ENTITY  ftp.label                     "FTP Прокси:">
+<!ENTITY  ftp.accesskey                 "F">
+<!ENTITY  http.label                    "HTTP Proxy:">
+<!ENTITY  http.accesskey                "x">
+<!ENTITY  ssl.label                     "SSL Proxy:">
+<!ENTITY  ssl.accesskey                 "L">
+<!ENTITY  socks.label                   "SOCKS Эзэн:">
+<!ENTITY  socks.accesskey               "C">
+<!ENTITY  socks4.label                  "SOCKS v4">
+<!ENTITY  socks4.accesskey              "K">
+<!ENTITY  socks5.label                  "SOCKS v5">
+<!ENTITY  socks5.accesskey              "v">
+<!ENTITY  port.label                    "Порт:">
+<!ENTITY  HTTPport.accesskey            "р">
+<!ENTITY  SSLport.accesskey             "п">
+<!ENTITY  FTPport.accesskey             "т">
+<!ENTITY  SOCKSport.accesskey           "о">
+<!ENTITY  noproxy.label                 "Прокси хэрэггүй хаяг:">
+<!ENTITY  noproxy.accesskey             "и">
+<!ENTITY  noproxyExplain.label          "Жишээ: .mozilla.org, .net.nz, 192.168.1.0/24">
+<!ENTITY  shareproxy.label              "Use this proxy server for all protocols">
+<!ENTITY  shareproxy.accesskey          "s">

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<!--
+https://bugzilla.mozilla.org/show_bug.cgi?id=391777
+-->
+<head>
+  <title>Test for Bug 391777</title>
+  <script type="text/javascript" src="/tests/SimpleTest/SimpleTest.js"></script>        
+  <link rel="stylesheet" type="text/css" href="/tests/SimpleTest/test.css" />
+</head>
+<body>
+<a target="_blank" href="https://bugzilla.mozilla.org/show_bug.cgi?id=391777">Mozilla Bug 391777</a>
+<p id="display"></p>
+<script class="testbody" type="text/javascript">
+
+if (!navigator.platform.startsWith("Win")) {
+  // not Windows
+  SimpleTest.expectAssertions(1);
+}
+
+/** Test for Bug 391777 **/
+var arg = {};
+arg.testVal = "foo";
+var result = window.showModalDialog("javascript:window.returnValue = window.dialogArguments.testVal; window.close(); 'This window should close on its own.';", arg);
+ok(true, "We should get here without user interaction");
+is(result, "foo", "Unexpected result from showModalDialog");
+
+// Garbage collecting the windows created in this test can cause
+// assertions, so GC now to blame those assertions to this test.
+// ("mArguments wasn't cleaned up properly!" in ~nsGlobalWindow,
+// bug 600703)
+SpecialPowers.gc();
+</script>
+</body>
+</html>

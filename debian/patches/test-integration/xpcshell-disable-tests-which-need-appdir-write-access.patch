@@ -1,0 +1,35 @@
+Description: Disable xpcshell tests that always fail in Jenkins because they
+ require write access to the application directory
+Author: Chris Coulson <chris.coulson@canonical.com>
+Forwarded: no
+
+Index: firefox-trunk-22.0~a1~hg20130301r123350/browser/components/places/tests/unit/xpcshell.ini
+===================================================================
+--- firefox-trunk-22.0~a1~hg20130301r123350.orig/browser/components/places/tests/unit/xpcshell.ini	2013-03-01 12:18:24.429812101 +0000
++++ firefox-trunk-22.0~a1~hg20130301r123350/browser/components/places/tests/unit/xpcshell.ini	2013-03-01 12:18:24.421812101 +0000
+@@ -8,6 +8,9 @@
+ [test_browserGlue_corrupt_nobackup.js]
+ [test_browserGlue_corrupt_nobackup_default.js]
+ [test_browserGlue_distribution.js]
++# This test requires write access to the application directory
++skip-if = true
++
+ [test_browserGlue_migrate.js]
+ [test_browserGlue_prefs.js]
+ [test_browserGlue_restore.js]
+Index: firefox-trunk-22.0~a1~hg20130301r123350/toolkit/mozapps/extensions/test/xpcshell/xpcshell.ini
+===================================================================
+--- firefox-trunk-22.0~a1~hg20130301r123350.orig/toolkit/mozapps/extensions/test/xpcshell/xpcshell.ini	2013-03-01 12:18:24.429812101 +0000
++++ firefox-trunk-22.0~a1~hg20130301r123350/toolkit/mozapps/extensions/test/xpcshell/xpcshell.ini	2013-03-01 12:18:24.425812101 +0000
+@@ -233,7 +233,9 @@
+ [test_update_compatmode.js]
+ [test_upgrade.js]
+ # Bug 676992: test consistently hangs on Android
+-skip-if = os == "android"
++# This needs to write to the application directory
++skip-if = true
+ [test_upgrade_strictcompat.js]
+ # Bug 676992: test consistently hangs on Android
+-skip-if = os == "android"
++# This needs to write to the application directory
++skip-if = true

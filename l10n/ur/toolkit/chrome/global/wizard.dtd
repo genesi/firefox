@@ -1,0 +1,24 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY  button-back-mac.label        "واپس جائیں">
+<!ENTITY  button-back-mac.accesskey    "و">
+<!ENTITY  button-next-mac.label        "جاری رکھیں">
+<!ENTITY  button-next-mac.accesskey    "ج">
+<!ENTITY  button-finish-mac.label      "ختم">
+<!ENTITY  button-cancel-mac.label      "منسوخ کریں">
+
+<!ENTITY  button-back-unix.label       "واپس">
+<!ENTITY  button-back-unix.accesskey   "و">
+<!ENTITY  button-next-unix.label       "اگلا">
+<!ENTITY  button-next-unix.accesskey   "ا">
+<!ENTITY  button-finish-unix.label     "تکمیل کریں">
+<!ENTITY  button-cancel-unix.label     "منسوخ کریں">
+
+<!ENTITY  button-back-win.label        "&gt; واپس">
+<!ENTITY  button-back-win.accesskey    "و">
+<!ENTITY  button-next-win.label        "اگلا&lt;">
+<!ENTITY  button-next-win.accesskey    "ا">
+<!ENTITY  button-finish-win.label      "تکمیل کریں">
+<!ENTITY  button-cancel-win.label      "منسوخ کریں">
