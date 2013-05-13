@@ -94,7 +94,7 @@ MOZ_DEFAULT_PROFILEDIR	:= .$(PROFILE_BASE)$(shell echo $(MOZ_DEFAULT_APP_BASENAM
 
 DEB_AUTO_UPDATE_DEBIAN_CONTROL	= no
 
-MOZ_PYTHON		:= $(shell which python)
+MOZ_PYTHON		:= $(shell which python2.7)
 VIRTENV_PYTHON		:= $(CURDIR)/debian/_virtualenv/bin/python
 DISTRIB 		:= $(shell lsb_release -i -s)
 
