@@ -1,3 +1,9 @@
+firefox (22.0~a2~hg20130506r133608-1genesi1) maverick; urgency=low
+
+  * Bump changelog
+
+ -- Ahmed Ammar <aammar@genesi-usa.com>  Mon, 13 May 2013 17:19:15 +0200
+
 firefox (22.0~a2~hg20130506r133608-0ubuntu1~umd1~precise) precise; urgency=low
 
   * Don't access the network from 395609.xul to see if it fixes a hang
