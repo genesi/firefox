@@ -38,7 +38,9 @@ static const int SHORT_FILE_SIZE = 1024 * 1024;
 // The default resource->Read() size when working in push mode
 static const int DEFAULT_SOURCE_READ_SIZE = 50 * 1024;
 
+#if GST_VERSION_MICRO >= 36
 G_DEFINE_BOXED_TYPE(BufferData, buffer_data, BufferData::Copy, BufferData::Free);
+#endif
 
 typedef enum {
   GST_PLAY_FLAG_VIDEO         = (1 << 0),
@@ -232,7 +234,7 @@ nsresult GStreamerReader::ReadMetadata(VideoInfo* aInfo,
    * decoding audio only. This allows us to play streams that have one broken
    * stream but that are otherwise decodeable.
    */
-  guint flags[3] = {GST_PLAY_FLAG_VIDEO|GST_PLAY_FLAG_AUDIO,
+  guint flags[3] = {GST_PLAY_FLAG_VIDEO|GST_PLAY_FLAG_AUDIO|GST_PLAY_FLAG_NATIVE_VIDEO,
     static_cast<guint>(~GST_PLAY_FLAG_AUDIO), static_cast<guint>(~GST_PLAY_FLAG_VIDEO)};
   guint default_flags, current_flags;
   g_object_get(mPlayBin, "flags", &default_flags, nullptr);
@@ -495,7 +497,7 @@ bool GStreamerReader::DecodeVideoFrame(bool &aKeyFrameSkip,
         GST_BUFFER_SIZE(buffer), nullptr, &tmp, image);
 
     /* copy */
-    gst_buffer_copy_metadata(tmp, buffer, GST_BUFFER_COPY_ALL);
+    gst_buffer_copy_metadata(tmp, buffer, (GstBufferCopyFlags)GST_BUFFER_COPY_ALL);
     memcpy(GST_BUFFER_DATA(tmp), GST_BUFFER_DATA(buffer),
         GST_BUFFER_SIZE(tmp));
     gst_buffer_unref(buffer);
@@ -520,6 +522,30 @@ bool GStreamerReader::DecodeVideoFrame(bool &aKeyFrameSkip,
     b.mPlanes[i].mOffset = 0;
     b.mPlanes[i].mSkip = 0;
   }
+
+#if 0
+{
+  /* allocate an image using the container */
+  ImageContainer* container = mDecoder->GetImageContainer();
+  ImageFormat format = PLANAR_YCBCR;
+  PlanarYCbCrImage* img = reinterpret_cast<PlanarYCbCrImage*>(container->CreateImage(&format, 1).get());
+  nsRefPtr<PlanarYCbCrImage> imgref = dont_AddRef(img);
+
+  PlanarYCbCrImage::Data temp;// = new Data();
+
+  temp.mYChannel = (uint8_t*) b.mPlanes[0].mData;
+  temp.mYStride = (uint32_t) b.mPlanes[0].mStride;
+  temp.mYSize = gfxIntSize(b.mPlanes[0].mHeight, b.mPlanes[0].mWidth);
+  temp.mCbChannel = (uint8_t*) b.mPlanes[1].mData;
+  temp.mCrChannel = (uint8_t*) b.mPlanes[2].mData;
+  temp.mCbCrStride = (uint32_t) b.mPlanes[1].mStride;
+  temp.mCbCrSize = gfxIntSize(b.mPlanes[1].mHeight, b.mPlanes[1].mWidth);
+  temp.mPicSize = gfxIntSize(width, height);
+
+  img->SetDataNoCopy(temp);
+  image = imgref;
+}
+#endif
 
   bool isKeyframe = !GST_BUFFER_FLAG_IS_SET(buffer,
       GST_BUFFER_FLAG_DELTA_UNIT);
