@@ -291,6 +291,7 @@ public:
         VendorQualcomm,
         VendorImagination,
         VendorNouveau,
+        VendorAMD,
         VendorOther
     };
 
@@ -300,6 +301,7 @@ public:
         RendererAdreno320,
         RendererSGX530,
         RendererSGX540,
+        RendererZ430,
         RendererOther
     };
 

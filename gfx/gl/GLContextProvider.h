@@ -50,18 +50,18 @@ namespace gl {
 #endif
 #endif
 
-#if defined(MOZ_X11) && !defined(GL_CONTEXT_PROVIDER_DEFAULT)
-#define GL_CONTEXT_PROVIDER_NAME GLContextProviderGLX
-#include "GLContextProviderImpl.h"
-#undef GL_CONTEXT_PROVIDER_NAME
-#define GL_CONTEXT_PROVIDER_DEFAULT GLContextProviderGLX
-#endif
-
 #ifdef MOZ_GL_PROVIDER
 #define GL_CONTEXT_PROVIDER_NAME MOZ_GL_PROVIDER
 #include "GLContextProviderImpl.h"
 #undef GL_CONTEXT_PROVIDER_NAME
 #define GL_CONTEXT_PROVIDER_DEFAULT MOZ_GL_PROVIDER
+#endif
+
+#if defined(MOZ_X11) && !defined(GL_CONTEXT_PROVIDER_DEFAULT)
+#define GL_CONTEXT_PROVIDER_NAME GLContextProviderGLX
+#include "GLContextProviderImpl.h"
+#undef GL_CONTEXT_PROVIDER_NAME
+#define GL_CONTEXT_PROVIDER_DEFAULT GLContextProviderGLX
 #endif
 
 #ifdef GL_CONTEXT_PROVIDER_DEFAULT

@@ -1528,7 +1528,7 @@ LayerManagerOGL::CreateFBOWithTexture(const nsIntRect& aRect, InitMode aInit,
                                     mFBOTextureTarget,
                                     tex,
                                     0);
-
+#if 0
   // Making this call to fCheckFramebufferStatus prevents a crash on
   // PowerVR. See bug 695246.
   GLenum result = mGLContext->fCheckFramebufferStatus(LOCAL_GL_FRAMEBUFFER);
@@ -1544,7 +1544,7 @@ LayerManagerOGL::CreateFBOWithTexture(const nsIntRect& aRect, InitMode aInit,
     msg.AppendInt(aRect.height);
     NS_RUNTIMEABORT(msg.get());
   }
-
+#endif
   SetupPipeline(aRect.width, aRect.height, DontApplyWorldTransform);
   mGLContext->fScissor(0, 0, aRect.width, aRect.height);
 

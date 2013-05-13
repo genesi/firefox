@@ -1980,7 +1980,7 @@ CreateConfig(EGLConfig* aConfig, int32_t depth)
 static bool
 CreateConfig(EGLConfig* aConfig)
 {
-    int32_t depth = gfxPlatform::GetPlatform()->GetScreenDepth();
+    int32_t depth = 16;//gfxPlatform::GetPlatform()->GetScreenDepth();
     if (!CreateConfig(aConfig, depth)) {
 #ifdef MOZ_WIDGET_ANDROID
         // Bug 736005
@@ -2262,7 +2262,7 @@ GLContextEGL::CreateEGLPixmapOffscreenContext(const gfxIntSize& size)
     nsRefPtr<gfxXlibSurface> xsurface =
         gfxXlibSurface::Create(DefaultScreenOfDisplay(DefaultXDisplay()),
                                gfxXlibSurface::FindRenderFormat(DefaultXDisplay(),
-                                                                gfxASurface::ImageFormatRGB24),
+                                                                gfxASurface::ImageFormatRGB16_565),
                                size);
 
     // XSync required after gfxXlibSurface::Create, otherwise EGL will fail with BadDrawable error
@@ -2325,12 +2325,11 @@ GLContextProviderEGL::CreateOffscreen(const gfxIntSize& size,
         return nullptr;
     }
 
-    gfxIntSize dummySize = gfxIntSize(16, 16);
     nsRefPtr<GLContextEGL> glContext;
-#if defined(MOZ_X11)
+#if 0//defined(MOZ_X11)
     glContext = GLContextEGL::CreateEGLPixmapOffscreenContext(dummySize);
 #else
-    glContext = GLContextEGL::CreateEGLPBufferOffscreenContext(dummySize);
+    glContext = GLContextEGL::CreateEGLPBufferOffscreenContext(size);
 #endif
 
     if (!glContext)

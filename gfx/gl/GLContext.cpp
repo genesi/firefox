@@ -331,7 +331,8 @@ GLContext::InitWithPrefix(const char *prefix, bool trygl)
                 "ATI",
                 "Qualcomm",
                 "Imagination",
-                "nouveau"
+                "nouveau",
+                "Advanced Micro Devices"
         };
 
         mVendor = VendorOther;
@@ -353,7 +354,8 @@ GLContext::InitWithPrefix(const char *prefix, bool trygl)
                 "Adreno 205",
                 "Adreno (TM) 320",
                 "PowerVR SGX 530",
-                "PowerVR SGX 540"
+                "PowerVR SGX 540",
+                "AMD Z430"
         };
 
         mRenderer = RendererOther;
@@ -388,7 +390,10 @@ GLContext::InitWithPrefix(const char *prefix, bool trygl)
                 "Intel",
                 "NVIDIA",
                 "ATI",
-                "Qualcomm"
+                "Qualcomm",
+                "Imagination",
+                "nouveau",
+                "Advanced Micro Devices"
             };
 
             MOZ_ASSERT(glVendorString);
@@ -626,7 +631,7 @@ GLContext::InitExtensions()
     mAvailableExtensions.Load(extensions, sExtensionNames, firstRun && DebugMode());
 
     if (WorkAroundDriverBugs() &&
-        Vendor() == VendorQualcomm) {
+         (Vendor() == VendorQualcomm || Vendor() == VendorAMD)) {
 
         // Some Adreno drivers do not report GL_OES_EGL_sync, but they really do support it.
         MarkExtensionSupported(OES_EGL_sync);
@@ -703,7 +708,7 @@ GLContext::CanUploadSubTextures()
 
     // There are certain GPUs that we don't want to use glTexSubImage2D on
     // because that function can be very slow and/or buggy
-    if (Renderer() == RendererAdreno200 || Renderer() == RendererAdreno205)
+    if (Renderer() == RendererAdreno200 || Renderer() == RendererAdreno205 || Renderer() == RendererZ430)
         return false;
 
     // On PowerVR glTexSubImage does a readback, so it will be slower
@@ -745,7 +750,8 @@ GLContext::CanUploadNonPowerOfTwo()
 
     // Some GPUs driver crash when uploading non power of two 565 textures.
     return sPowerOfTwoForced ? false : (Renderer() != RendererAdreno200 &&
-                                        Renderer() != RendererAdreno205);
+                                        Renderer() != RendererAdreno205 /*&&
+                                        Renderer() != RendererZ430*/);
 }
 
 bool
@@ -1820,7 +1826,7 @@ GLContext::BlitTextureImage(TextureImage *aSrc, const nsIntRect& aSrcRect,
     // around an apparent bug
     int savedFb = 0;
     if (mWorkAroundDriverBugs &&
-        mVendor == VendorQualcomm)
+        (mVendor == VendorQualcomm || mVendor == VendorAMD))
     {
         fGetIntegerv(LOCAL_GL_FRAMEBUFFER_BINDING, &savedFb);
     }
@@ -1957,7 +1963,7 @@ GLContext::BlitTextureImage(TextureImage *aSrc, const nsIntRect& aSrcRect,
     // (which it will be, once we assign texture 0 to the color
     // attachment)
     if (mWorkAroundDriverBugs &&
-        mVendor == VendorQualcomm) {
+        (mVendor == VendorQualcomm || mVendor == VendorAMD)) {
         fBindFramebuffer(LOCAL_GL_FRAMEBUFFER, savedFb);
     }
 
