@@ -360,9 +360,9 @@ def main():
             if not gre_path:
                 gre_path = base
             base_path = sink.normalize_path(base)
-            if base_path in formatter.omnijars:
-                precompile_cache(formatter.omnijars[base_path],
-                                 args.source, gre_path, base)
+            #if base_path in formatter.omnijars:
+            #    precompile_cache(formatter.omnijars[base_path],
+            #                     args.source, gre_path, base)
 
     copier.copy(args.destination)
     generate_precomplete(os.path.normpath(os.path.join(args.destination,
