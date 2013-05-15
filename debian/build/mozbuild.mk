@@ -102,9 +102,9 @@ CFLAGS			:= -g
 CXXFLAGS		:= -g
 LDFLAGS 		:= $(shell echo $$LDFLAGS | sed -e 's/-Wl,-Bsymbolic-functions//')
 
-ifneq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
+#ifneq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
 MOZ_WANT_UNIT_TESTS = 0
-endif
+#endif
 
 ifeq (1,$(MOZ_VALGRIND))
 MOZ_BUILD_UNOFFICIAL = 1

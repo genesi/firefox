@@ -37,7 +37,7 @@ ac_add_options --enable-valgrind
 %%ifdef DEB_PARALLEL_JOBS
 mk_add_options MOZ_MAKE_FLAGS=-j@DEB_PARALLEL_JOBS@
 %%endif
-ac_add_options --enable-tests
+ac_add_options --disable-tests
 %%ifdef MOZ_ENABLE_BREAKPAD
 ac_add_options --enable-crashreporter
 %%else
