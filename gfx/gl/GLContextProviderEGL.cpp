@@ -120,7 +120,7 @@ public:
 #include "gfxCrashReporterUtils.h"
 
 
-#if defined(MOZ_PLATFORM_MAEMO) || defined(MOZ_WIDGET_GONK)
+#if defined(MOZ_PLATFORM_MAEMO) || defined(MOZ_WIDGET_GONK) || defined(MOZ_X11)
 static bool gUseBackingSurface = true;
 #else
 static bool gUseBackingSurface = false;
@@ -2326,8 +2326,8 @@ GLContextProviderEGL::CreateOffscreen(const gfxIntSize& size,
     }
 
     nsRefPtr<GLContextEGL> glContext;
-#if 0//defined(MOZ_X11)
-    glContext = GLContextEGL::CreateEGLPixmapOffscreenContext(dummySize);
+#if defined(MOZ_X11)
+    glContext = GLContextEGL::CreateEGLPixmapOffscreenContext(size);
 #else
     glContext = GLContextEGL::CreateEGLPBufferOffscreenContext(size);
 #endif
