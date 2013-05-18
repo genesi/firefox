@@ -488,6 +488,7 @@ bool GStreamerReader::DecodeVideoFrame(bool &aKeyFrameSkip,
   }
 #endif
 
+#if 0
   if (!image) {
     /* Ugh, upstream is not calling gst_pad_alloc_buffer(). Fallback to
      * allocating a PlanarYCbCrImage backed GstBuffer here and memcpy.
@@ -503,7 +504,7 @@ bool GStreamerReader::DecodeVideoFrame(bool &aKeyFrameSkip,
     gst_buffer_unref(buffer);
     buffer = tmp;
   }
-
+#endif
   guint8* data = GST_BUFFER_DATA(buffer);
 
   int width = mPicture.width;
@@ -551,7 +552,10 @@ bool GStreamerReader::DecodeVideoFrame(bool &aKeyFrameSkip,
       GST_BUFFER_FLAG_DELTA_UNIT);
   /* XXX ? */
   int64_t offset = 0;
-  VideoData* video = VideoData::Create(mInfo, image, offset,
+  /*VideoData* video = VideoData::Create(mInfo, image, offset,
+                                       timestamp, nextTimestamp, b,
+                                       isKeyframe, -1, mPicture);*/
+  VideoData* video = VideoData::Create(mInfo, mDecoder->GetImageContainer(), offset,
                                        timestamp, nextTimestamp, b,
                                        isKeyframe, -1, mPicture);
   mVideoQueue.Push(video);
