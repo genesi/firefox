@@ -6,4 +6,4 @@
 etc/apparmor.d/disable
 etc/apport/native-origins.d
 etc/apport/blacklist.d
-@MOZ_LIBDIR@/browser/distribution/searchplugins/common
+@MOZ_LIBDIR@/distribution/searchplugins/common

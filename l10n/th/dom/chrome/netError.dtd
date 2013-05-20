@@ -1,7 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!ENTITY loadError.label "การโหลดหน้าเว็บเกิดข้อผิดพลาด">
 <!ENTITY retry.label "โปรดลองอีกครั้ง">
 <!-- Specific error messages -->
@@ -32,7 +28,7 @@
 <!ENTITY notCached.longDesc "<p>ไม่พบเอกสารที่เรียกในแคชของเบราว์เซอร์</p><ul><li>ตามมาตรการการรักษาความปลอดภัย เบราว์เซอร์จะไม่เรียกเอกสารที่ละเอียดอ่อนให้ใหม่โดยอัตโนมัติ</li><li>กดลองอีกครั้ง เพื่อเรียกเอกสารจากเว็บไซต์ใหม่</li></ul>">
 
 <!ENTITY netOffline.title "โหมดออฟไลน์">
-<!ENTITY netOffline.longDesc2 "<p>The browser is operating in its offline mode and cannot connect to the requested item.</p><ul><li>Is the computer connected to an active network?</li><li>Press &quot;Try Again&quot; to switch to online mode and reload the page.</li></ul>">
+<!ENTITY netOffline.longDesc2 "<p>ขณะนี้เบราว์เซอร์อยู่ในโหมดออฟไลน์และไม่สามารถเชื่อมต่อกับรายการที่เรียกได้</p><ul><li>เครื่องคอมพิวเตอร์อาจไม่ได้เชื่อมต่อกับเครือข่ายที่ใช้การได้</li><li>กดปุ่ม &quot;ลองอีกครั้ง&quot; เพื่อเปลี่ยนเบราว์เซอร์เป็นโหมดออนไลน์และเรียกดูหน้าเว็บใหม่</li></ul>">
 
 <!ENTITY contentEncodingError.title "การเข้ารหัสเนื้อหาผิดพลาด">
 <!ENTITY contentEncodingError.longDesc "<p>หน้าที่เรียกไม่สามารถแสดงผลได้เนื่องจากหน้าดังกล่าวมีการบีบอัดที่ไม่ถูกกฎหรือที่เบราว์เซอร์ไม่สนับสนุน</p><ul><li>โปรดติดต่อเจ้าของเว็บไซต์เพื่อแจ้งปัญหาข้างต้น</li></ul>">
@@ -88,10 +84,11 @@
 
 <!ENTITY remoteXUL.title "รีโมท XUL">
 <!ENTITY remoteXUL.longDesc "<p><ul><li>โปรดติดต่อเจ้าของเว็บไซต์เพื่อแจ้งปัญหาข้างต้น</li></ul></p>">
+
+
 <!-- Include app-specific error messages - do not change this in localization!
      Some applications might override netErrorApp.dtd with their specific version,
-     this inclusion needs to be intact for that approach to work correctly.
-     Please, try to keep this at the end of the file. -->
+     this inclusion needs to be intact for that approach to work correctly. -->
 
 <!ENTITY % netErrorAppDTD SYSTEM "chrome://global/locale/netErrorApp.dtd">
 %netErrorAppDTD;

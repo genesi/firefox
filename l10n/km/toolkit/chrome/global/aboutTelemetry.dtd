@@ -16,7 +16,9 @@
 
 <!ENTITY aboutTelemetry.simpleMeasurementsSection "   រង្វាស់​​សាមញ្ញ">
 
-<!ENTITY aboutTelemetry.lateWritesSection "  សរសេរ​យឺត">
+<!ENTITY aboutTelemetry.lateWritesSection "
+  Late Writes
+">
 
 <!ENTITY aboutTelemetry.systemInfoSection "   ព័ត៌មាន​ប្រព័ន្ធ">
 

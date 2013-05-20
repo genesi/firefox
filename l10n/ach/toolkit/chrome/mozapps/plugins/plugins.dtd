@@ -1,6 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 <!ENTITY pluginWizard.title                                  "Gin arwaka Gin makelo Tic">
 <!ENTITY pluginWizard.firstPage.title                        "Wajoli i &pluginWizard.title;">
 
@@ -35,7 +32,9 @@
 <!ENTITY missingPlugin                                       "Gin arwaka mite me yaro gin manonge iye kamaleng.">
 <!-- LOCALIZATION NOTE (tapToPlayPlugin): Mobile (used for touch interfaces) only has one type of plugin possible. -->
 <!ENTITY tapToPlayPlugin                                     "Gwet kany me mino gin arwaka cak tic.">
-<!ENTITY clickToActivatePlugin                               "Activate plugin.">
+<!ENTITY clickToPlayPlugin                                   "Click here to activate plugin.">
+<!ENTITY clickToPlayPluginVulnerableUpdateAvailable          "Dii kany wek iket rwak iyie ma kwiri.">
+<!ENTITY clickToPlayPluginVulnerableNoUpdate                 "Dii kany wek iket purugram makwiri (ngec mukene peke).">
 <!ENTITY checkForUpdates                                     "Rot pi Ngec…">
 <!ENTITY disabledPlugin                                      "Gin arwaka ma eni ni kikwanyo woko.">
 <!ENTITY blockedPlugin.label                                 "Gin arwaka ma eni ni ki gengo woko pi konyi gwoko.">
@@ -56,8 +55,3 @@
 <!ENTITY report.disabled                                     "Ngec me bal kikwanyo woko.">
 <!ENTITY report.failed                                       "Cwalo pe olare.">
 <!ENTITY report.unavailable                                  "Pe tye ngec mo matye.">
-<!ENTITY report.comment                                      "Med tami (tam romo nonge bot lwak)">
-<!ENTITY report.pageURL                                      "Include the page's URL">
-
-<!ENTITY plugin.file                                         "File">
-<!ENTITY plugin.mimeTypes                                    "MIME Types">

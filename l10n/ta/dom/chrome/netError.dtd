@@ -1,7 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!ENTITY loadError.label "பக்க ஏற்ற பிழை">
 <!ENTITY retry.label "மீண்டும் முயற்சிக்கவும்">
 <!-- Specific error messages -->
@@ -28,19 +24,18 @@
 <!ENTITY netInterrupt.title "தரவு பரிமாற்ற தடங்கல்">
 <!ENTITY netInterrupt.longDesc "[p]The browser connected successfully, but the connection was interrupted while transferring information.  Please try again.[/p][ul][li]Are you unable to browse other sites? Check the computer's network connection.[/li][li]Still having trouble? Consult your network administrator or Internet provider for assistance.[/li][/ul]">
 
-<!ENTITY notCached.title "Document Expired">
-<!ENTITY notCached.longDesc "<p>கோரிய ஆவணம் உலாவியின் தற்காலிக சேமிப்பில் கிடைக்கவில்லை.</p><ul><li> பாதுகாப்பு முன்னெச்சரிக்கையாக, உலாவி தானாக மீண்டும் முக்கியமான ஆவணங்ககளை கோருவது இல்லை.</li><li>இந்த ஆவணத்தை வலைதலத்தில் இருந்து மீண்டும் கோர &quot;மீண்டும் முயற்சிக்கவும்&quot; பொத்தானை சொடுக்கவும்.</li></ul>">
-
 <!ENTITY netOffline.title "இணையத்தில் இல்லை பிழை">
-<!ENTITY netOffline.longDesc2 "<p>The browser is operating in its offline mode and cannot connect to the requested item.</p><ul><li>Is the computer connected to an active network?</li><li>Press &quot;Try Again&quot; to switch to online mode and reload the page.</li></ul>">
+<!ENTITY netOffline.longDesc "உலாவி தற்போது இணையத்தொடர்பில் இல்லை. கேட்ட இணைய பக்கத்துடன் இணைக்க முடியவில்லை. மீண்டும் முயற்சி செய்வதற்கு முன் உங்கள் உலாவியை இணையத்தொடர்புடன் இணைகவும்.">
 
 <!ENTITY contentEncodingError.title "உள்ளடக்க குறிமுறை பிழை">
 <!ENTITY contentEncodingError.longDesc "<p>The page you are trying to view cannot be shown because it uses an invalid or unsupported form of compression.</p><ul><li>Please contact the website owners to inform them of this problem.</li></ul>">
 
 <!ENTITY unsafeContentType.title "பாதுகாப்பில்லாத கோப்பு வகை">
-<!ENTITY unsafeContentType.longDesc "<ul> 
-<li>Please contact the website owners to inform them of this problem.</li> 
-</ul>">
+<!ENTITY unsafeContentType.longDesc "
+<ul>
+  <li>Please contact the website owners to inform them of this problem.</li>
+</ul>
+">
 
 <!ENTITY netReset.title "வலை மீட்டமைப்பு பிழை">
 <!ENTITY netReset.longDesc "தகவலை அனுப்ப துவங்குகையில் வலைமனையின் இணைப்பு கைவிடப்பட்டது. இதற்கு காரணம் வலைப்பின்னல் பிழை அல்லது வலைமனை மற்றும் உங்கள் கணினி இணைப்புக்கிடையே பிழை. இந்த சிக்கல் தொடர்ந்தால் ஆவணத்தை பார்கக்வும் அல்லது கணினி நிர்வாகி அல்லது இணைய சேவை செய்பவரை தொடர்புகொள்ளவும் (ISP).">
@@ -64,34 +59,33 @@
 <!ENTITY unknownSocketType.longDesc "வலைமனை வலைப்பின்னல் கோரிக்கைக்கு எதிர்பாரத பதிலை தந்துள்ளது. இதற்கு காரணம் முகவரி (URL) குறிப்பிட்ட போர்டுக்கு தவறான நெறிமுறையை பயன்படுத்துகிறது. அல்லது தரமற்ற அமைப்பை பயன்படுத்தி இயக்குகிறது.">
 
 <!ENTITY nssFailure2.title "பாதுகாப்பான இணைப்பு தவறி விடுந்தது">
-<!ENTITY nssFailure2.longDesc "<p>The page you are trying to view cannot be shown because the authenticity of the received data could not be verified.</p><ul><li>Please contact the website owners to inform them of this problem.</li></ul>">
+<!ENTITY nssFailure2.longDesc "<p>The page you are trying to view can not be shown because the authenticity of the received data could not be verified.</p><ul><li>Please contact the web site owners to inform them of this problem.</li></ul>">
 
 <!ENTITY nssBadCert.title "பாதுகாப்பான இணைப்பு தவறி விடுந்தது">
-<!ENTITY nssBadCert.longDesc2 "<ul> 
-<li>This could be a problem with the server's configuration, or it could be someone trying to impersonate the server.</li> 
-<li>If you have connected to this server successfully in the past, the error may be temporary, and you can try again later.</li> 
-</ul>">
+<!ENTITY nssBadCert.longDesc2 "<ul>
+<li>This could be a problem with the server's configuration, or it could be someone trying to impersonate the server.</li>
+<li>If you have connected to this server successfully in the past, the error may be temporary, and you can try again later.</li>
+</ul>
+">
 
 <!ENTITY malwareBlocked.title "Suspected Attack Site!">
-<!ENTITY malwareBlocked.longDesc "<p>Attack sites try to install programs that steal private information, use your computer to attack others, or damage your system.</p> 
-<p>Web site owners who believe their site has been reported as an attack site in error may <a href='http://www.stopbadware.org/home/reviewinfo' >request a review</a>.</p>">
+<!ENTITY malwareBlocked.longDesc "
+<p>Attack sites try to install programs that steal private information, use your computer to attack others, or damage your system.</p>
+<p>Web site owners who believe their site has been reported as an attack site in error may <a href='http://www.stopbadware.org/home/reviewinfo' >request a review</a>.</p>
+">
 
 <!ENTITY phishingBlocked.title "Suspected Web Forgery!">
-<!ENTITY phishingBlocked.longDesc "<p>Entering any personal information on this page may result in identity theft or other fraud.</p> 
-<p>These types of web forgeries are used in scams known as phishing attacks, in which fraudulent web pages and emails are used to imitate sources you may trust.</p>">
+<!ENTITY phishingBlocked.longDesc "
+<p>Entering any personal information on this page may result in identity theft or other fraud.</p>
+<p>These types of web forgeries are used in scams known as phishing attacks, in which fraudulent web pages and emails are used to imitate sources you may trust.</p>
+">
+
+<!-- Include app-specific error messages - do not change this in localization!
+     Some applications might override netErrorApp.dtd with their specific version,
+     this inclusion needs to be intact for that approach to work correctly. -->
+<!ENTITY % netErrorAppDTD SYSTEM "chrome://global/locale/netErrorApp.dtd">
+%netErrorAppDTD;
 
 <!ENTITY cspFrameAncestorBlocked.title "Blocked by Content Security Policy">
 <!ENTITY cspFrameAncestorBlocked.longDesc "<p>The browser prevented this page from loading in this way because the page has a content security policy that disallows it.</p>">
-
-<!ENTITY corruptedContentError.title "சிதைந்த உள்ளடக்கப் பிழை">
-<!ENTITY corruptedContentError.longDesc "<p>The page you are trying to view cannot be shown because an error in the data transmission was detected.</p><ul><li>Please contact the website owners to inform them of this problem.</li></ul>">
-
-<!ENTITY remoteXUL.title "தொலைநிலை XUL">
-<!ENTITY remoteXUL.longDesc "<p><ul><li>Please contact the website owners to inform them of this problem.</li></ul></p>">
-<!-- Include app-specific error messages - do not change this in localization!
-     Some applications might override netErrorApp.dtd with their specific version,
-     this inclusion needs to be intact for that approach to work correctly.
-     Please, try to keep this at the end of the file. -->
-
-<!ENTITY % netErrorAppDTD SYSTEM "chrome://global/locale/netErrorApp.dtd">
-%netErrorAppDTD;
+<!ENTITY netOffline.overrideLongDesc "<p>The browser is operating in its offline mode and cannot connect to the requested item.</p><ul><li>Is the computer connected to an active network?</li><li>Place the browser in online mode and try again.</li></ul>">

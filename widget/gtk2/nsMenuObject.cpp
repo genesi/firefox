@@ -113,6 +113,10 @@ nsMenuObject::IconLoader::Notify(imgIRequest *aProxy,
     if (!mImageRect.IsEmpty()) {
         img->ExtractFrame(0, mImageRect, 0, getter_AddRefs(img));
     }
+    if (!img) {
+        mOwner->ClearIcon();
+        return NS_OK;
+    }
 
     int32_t width, height;
     img->GetWidth(&width);
@@ -154,10 +158,7 @@ nsMenuObject::IconLoader::LoadIcon()
         return;
     }
 
-    nsIDocument *doc = mOwner->ContentNode()->GetCurrentDoc();
-    if (!doc) {
-        return;
-    }
+    nsIDocument *doc = mOwner->ContentNode()->OwnerDoc();
 
     nsCOMPtr<nsIURI> uri;
     nsIntRect imageRect;
@@ -173,10 +174,11 @@ nsMenuObject::IconLoader::LoadIcon()
             return;
         }
 
+        nsPresContext *pc = shell->GetPresContext();
         nsRefPtr<nsStyleContext> sc =
             nsComputedDOMStyle::GetStyleContextForElementNoFlush(
                 mOwner->ContentNode()->AsElement(), nullptr, shell);
-        if (!sc) {
+        if (!pc || !sc) {
             return;
         }
 
@@ -184,12 +186,6 @@ nsMenuObject::IconLoader::LoadIcon()
         imageRequest = list->GetListStyleImage();
         if (imageRequest) {
             imageRequest->GetURI(getter_AddRefs(uri));
-
-            nsPresContext *pc = shell->GetPresContext();
-            if (!pc) {
-                return;
-            }
-
             imageRect = list->mImageRegion.ToNearestPixels(
                             pc->AppUnitsPerDevPixel());
         }
@@ -220,6 +216,8 @@ nsMenuObject::IconLoader::LoadIcon()
 
     mIconLoaded = false;
 
+    mURI = uri;
+
     if (imageRequest) {
         mImageRect = imageRect;
         imageRequest->Clone(this, getter_AddRefs(mImageRequest));
@@ -236,15 +234,14 @@ nsMenuObject::IconLoader::LoadIcon()
         loader->LoadImage(uri, nullptr, nullptr, nullptr, loadGroup, this,
                           nullptr, nsIRequest::LOAD_NORMAL, nullptr,
                           nullptr, getter_AddRefs(mImageRequest));
+    }
+
+    if (!mIconLoaded) {
         if (!mImageRequest) {
             NS_WARNING("Failed to load icon");
             return;
         }
-    }
 
-    mURI = uri;
-
-    if (mImageRequest) {
         mImageRequest->RequestDecode();
     }
 }
@@ -260,7 +257,7 @@ nsMenuObject::IconLoader::Destroy()
     mOwner = nullptr;
 }
 
-typedef already_AddRefed<nsMenuObject> (*nsMenuObjectConstructor)(nsMenuObject*,
+typedef already_AddRefed<nsMenuObject> (*nsMenuObjectConstructor)(nsMenuObjectContainer*,
                                                                   nsIContent*);
 struct nsMenuObjectConstructorMapEntry {
   nsIAtom **tag;
@@ -558,7 +555,7 @@ nsMenuObject::SyncIconFromContent()
 }
 
 nsresult
-nsMenuObject::Init(nsMenuObject *aParent, nsIContent *aContent)
+nsMenuObject::Init(nsMenuObjectContainer *aParent, nsIContent *aContent)
 {
     NS_ENSURE_ARG(aParent);
     NS_ENSURE_ARG(aContent);
@@ -568,7 +565,7 @@ nsMenuObject::Init(nsMenuObject *aParent, nsIContent *aContent)
     mListener = aParent->DocListener();
     NS_ENSURE_ARG(mListener);
 
-    return ImplInit();    
+    return NS_OK;    
 }
 
 nsMenuObject::~nsMenuObject()
@@ -578,7 +575,7 @@ nsMenuObject::~nsMenuObject()
     }
 
     if (mListener) {
-        mListener->UnregisterForContentChanges(mContent, this);
+        mListener->UnregisterForContentChanges(mContent);
     }
 
     if (mNativeData) {
@@ -606,7 +603,9 @@ nsMenuObject::CreateNativeData()
 
     mNativeData = dbusmenu_menuitem_new();
     InitializeNativeData();
-    Refresh(eRefreshType_Full);
+    if (mParent && mParent->IsBeingDisplayed()) {
+        Update();
+    }
 
     mListener->RegisterForContentChanges(mContent, this);
 }
@@ -625,33 +624,13 @@ nsMenuObject::AdoptNativeData(DbusmenuMenuitem *aNativeData)
 
     RemoveUnsupportedProperties();
     InitializeNativeData();
-    Refresh(eRefreshType_Full);
+    if (mParent && mParent->IsBeingDisplayed()) {
+        Update();
+    }
 
     mListener->RegisterForContentChanges(mContent, this);
 
     return NS_OK;
-}
-
-void
-nsMenuObject::ContainerIsOpening()
-{
-    Refresh(eRefreshType_ContainerOpening);
-}
-
-uint32_t
-nsMenuObjectContainer::IndexOf(nsIContent *aChild)
-{
-    if (!aChild) {
-        return NoIndex;
-    }
-
-    for (uint32_t i = 0; i < mMenuObjects.Length(); ++i) {
-        if (mMenuObjects[i]->ContentNode() == aChild) {
-            return i;
-        }
-    }
-
-    return NoIndex;
 }
 
 already_AddRefed<nsMenuObject>
@@ -679,6 +658,22 @@ nsMenuObjectContainer::CreateChild(nsIContent *aContent, nsresult *aRv)
         *aRv = NS_OK;
     }
     return res.forget();
+}
+
+uint32_t
+nsMenuObjectContainer::IndexOf(nsIContent *aChild)
+{
+    if (!aChild) {
+        return NoIndex;
+    }
+
+    for (uint32_t i = 0; i < mMenuObjects.Length(); ++i) {
+        if (mMenuObjects[i]->ContentNode() == aChild) {
+            return i;
+        }
+    }
+
+    return NoIndex;
 }
 
 /* static */ nsIContent*

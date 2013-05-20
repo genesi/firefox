@@ -1,6 +1,6 @@
 <!ENTITY tracking.label                 "Tracking">
 
-<!ENTITY doNotTrack.label               "நான் tracked செய்வதற்கு விரும்பாத இணையத்தளங்களை சொல்க">
+<!ENTITY doNotTrack.label               "Tell web sites I do not want to be tracked">
 <!ENTITY doNotTrack.accesskey           "d">
 <!ENTITY  history.label "வரலாறு">
 
@@ -76,15 +76,6 @@ Entities below were automatically added by compare-locales,
 -->
 
 <!ENTITY rememberHistory.label "என்னுடைய உலாவல் வரலாறை ஞாபகம் வைத்திருக்கவும்">
-<!-- <!ENTITY privateBrowsingPermanent.accesskey "P">
-<!ENTITY privateBrowsingPermanent.label "நிரந்தரப் பிரத்தியேக உலாவல் செயற்படுமுறைமை"> -->
+<!ENTITY privateBrowsingPermanent.accesskey "P">
+<!ENTITY privateBrowsingPermanent.label "நிரந்தரப் பிரத்தியேக உலாவல் செயற்படுமுறைமை">
 <!ENTITY rememberHistory.accesskey "b">
-
-
-<!--
-Entities below were automatically added by compare-locales,
- based on en-US entities.
--->
-
-<!ENTITY privateBrowsingPermanent2.accesskey "p">
-<!ENTITY privateBrowsingPermanent2.label "Always use private browsing mode">

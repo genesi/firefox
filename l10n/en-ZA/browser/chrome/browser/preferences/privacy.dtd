@@ -4,13 +4,8 @@
 
 <!ENTITY tracking.label                 "Tracking">
 
-<!ENTITY dntTrackingNopref.label        "Do not tell sites anything about my tracking preferences.">
-<!ENTITY dntTrackingNopref.accesskey    "o">
-<!ENTITY dntTrackingNotOkay.label       "Tell sites that I do not want to be tracked.">
-<!ENTITY dntTrackingNotOkay.accesskey   "n">
-<!ENTITY dntTrackingOkay.label          "Tell sites that I want to be tracked.">
-<!ENTITY dntTrackingOkay.accesskey      "t">
-<!ENTITY doNotTrackInfo.label           "Learn More">
+<!ENTITY doNotTrack.label               "Tell websites I do not want to be tracked">
+<!ENTITY doNotTrack.accesskey           "d">
 
 <!ENTITY  history.label                 "History">
 
@@ -27,11 +22,8 @@
 <!ENTITY  acceptCookies.label           "Accept cookies from sites">
 <!ENTITY  acceptCookies.accesskey       "A">
 
-<!ENTITY  acceptThirdParty.pre.label      "Accept third-party cookies:">
-<!ENTITY  acceptThirdParty.pre.accesskey  "c">
-<!ENTITY  acceptThirdParty.always.label   "Always">
-<!ENTITY  acceptThirdParty.never.label    "Never">
-<!ENTITY  acceptThirdParty.visited.label  "From visited">
+<!ENTITY  acceptThirdParty.label        "Accept third-party cookies">
+<!ENTITY  acceptThirdParty.accesskey    "c">
 
 <!ENTITY  keepUntil.label               "Keep until:">
 <!ENTITY  keepUntil.accesskey           "K">

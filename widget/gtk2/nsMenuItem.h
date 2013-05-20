@@ -33,14 +33,13 @@ public:
 
     nsMenuObject::EType Type() const { return nsMenuObject::eType_MenuItem; }
 
-    static already_AddRefed<nsMenuObject> Create(nsMenuObject *aParent,
+    static already_AddRefed<nsMenuObject> Create(nsMenuObjectContainer *aParent,
                                                  nsIContent *aContent);
 
+    void Update();
     void OnAttributeChanged(nsIContent *aContent, nsIAtom *aAttribute);
 
 private:
-    friend class nsMenuItemRefreshRunnable;
-    friend class nsMenuItemCommandNodeAttributeChangedRunnable;
     friend class nsMenuItemUncheckSiblingsRunnable;
 
     enum {
@@ -59,11 +58,11 @@ private:
         return EMenuItemType(
             (mFlags &
              (((1U << NSMENUITEM_NUMBER_OF_TYPE_BITS) - 1U)
-              << NSMENUITEM_NUMBER_OF_TYPE_BITS)) >> NSMENUITEM_NUMBER_OF_TYPE_BITS);
+              << NSMENUITEM_NUMBER_OF_FLAGS)) >> NSMENUITEM_NUMBER_OF_FLAGS);
     }
     void SetMenuItemType(EMenuItemType aType) {
-        mFlags &= ~(((1U << NSMENUITEM_NUMBER_OF_TYPE_BITS) - 1U) << NSMENUITEM_NUMBER_OF_TYPE_BITS);
-        mFlags |= (aType << NSMENUITEM_NUMBER_OF_TYPE_BITS);
+        mFlags &= ~(((1U << NSMENUITEM_NUMBER_OF_TYPE_BITS) - 1U) << NSMENUITEM_NUMBER_OF_FLAGS);
+        mFlags |= (aType << NSMENUITEM_NUMBER_OF_FLAGS);
     }
     bool IsCheckboxOrRadioItem() const {
         return MenuItemType() == eMenuItemType_Radio ||
@@ -86,18 +85,12 @@ private:
                                   gpointer user_data);
     void Activate(uint32_t aTimestamp);
 
-    void SyncStateFromCommand();
-    void SyncLabelFromCommand();
-    void SyncSensitivityFromCommand();
+    void SyncAttrFromNodeIfExists(nsIContent *aContent, nsIAtom *aAtom);
     void SyncStateFromContent();
     void SyncTypeAndStateFromContent();
     void SyncAccelFromContent();
 
-    void CommandNodeAttributeChanged(nsIAtom *aAttribute);
-
     void InitializeNativeData();
-    void Refresh(nsMenuObject::ERefreshType aType);
-    void RefreshUnblocked(nsMenuObject::ERefreshType aType);
     void UncheckSiblings();
     bool IsCompatibleWithNativeData(DbusmenuMenuitem *aNativeData);
 
@@ -114,7 +107,6 @@ private:
     }
 
     nsCOMPtr<nsIContent> mKeyContent;
-    nsCOMPtr<nsIContent> mCommandContent;
 
     uint8_t mFlags; // The upper bits of this are used to encode the menuitem type
 };

@@ -25,16 +25,16 @@ public:
         return nsMenuObject::eType_MenuSeparator;
     }
 
-    static already_AddRefed<nsMenuObject> Create(nsMenuObject *aParent,
+    static already_AddRefed<nsMenuObject> Create(nsMenuObjectContainer *aParent,
                                                  nsIContent *aContent);
 
+    void Update();
     void OnAttributeChanged(nsIContent *aContent, nsIAtom *aAttribute);
 
 private:
     nsMenuSeparator();
 
     void InitializeNativeData();
-    void Refresh(nsMenuObject::ERefreshType aType);
     bool IsCompatibleWithNativeData(DbusmenuMenuitem *aNativeData);
 
     nsMenuObject::PropertyFlags SupportedProperties() const {

@@ -14,8 +14,8 @@
 <!ENTITY resetPass.label              "Hyehyɛ-bio">
 <!-- Manage Account -->
 
-<!ENTITY manageAccount.label          "Manage Account">
-<!ENTITY manageAccount.accesskey      "n">
+<!ENTITY manageAccount.label          "Hwɛ akawnt so">
+<!ENTITY manageAccount.accesskey      "a">
 <!ENTITY viewQuota.label              "Hwɛ dodoɔ bi">
 <!ENTITY changePassword2.label        "Sesa ehintasɛmfua…">
 <!ENTITY myRecoveryKey.label          "Me nsa-san-ka safoa">
@@ -38,8 +38,8 @@
 <!ENTITY engine.addons.accesskey    "a">
 <!-- Device Settings -->
 
-<!ENTITY syncDeviceName.label       "Fidie Din;">
-<!ENTITY syncDeviceName.accesskey   "i">
+<!ENTITY syncComputerName.label       "Kɔmputa Din:">
+<!ENTITY syncComputerName.accesskey   "m">
 <!ENTITY unlinkDevice.label           "Yi Saa Efidie yi Lenke">
 <!-- Footer stuff -->
 

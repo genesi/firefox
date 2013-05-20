@@ -1,7 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!ENTITY cutCmd.label "Sika">
 <!ENTITY cutCmd.accesskey "a">
 <!ENTITY copyCmd.label "Kopisha">
@@ -17,8 +13,6 @@
 
 <!ENTITY spellAddToDictionary.label "Yengeza kusichazamazwi">
 <!ENTITY spellAddToDictionary.accesskey "k">
-<!ENTITY spellUndoAddToDictionary.label "Yekisa ukungezwa kusichazamazwi">
-<!ENTITY spellUndoAddToDictionary.accesskey "k">
 <!ENTITY spellCheckEnable.label "Hlola isipelingi">
 <!ENTITY spellCheckEnable.accesskey "i">
 <!ENTITY spellNoSuggestions.label "(Azikho izipelingi eziphakamisiwe)">

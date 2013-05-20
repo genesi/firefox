@@ -1,10 +1,7 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!ENTITY sanitizePrefs2.title          "ઈતિહાસ સાફ કરવા માટેના સુયોજનો">
 <!ENTITY sanitizeDialog2.title         "છેલ્લો ઈતિહાસ સાફ કરો">
 
+<!ENTITY sanitizeItems.label          "નીચેની વસ્તુઓ હમણાં જ સાફ કરો:">
 <!ENTITY clearDataSettings2.label     "જ્યારે હું &brandShortName; બંધ કરું, ત્યારે તે બધું આપોઆપ સાફ કરતું હોવું જોઈએ:">
 
 <!-- XXX rearrange entities to match physical layout when l10n isn't an issue -->

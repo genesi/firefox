@@ -10,9 +10,9 @@
 
 <!ENTITY window.title "Wokolera Kumutimbagano">
 
-<!ENTITY networkPanel.requestURLColon             "Request URL:">
-<!ENTITY networkPanel.requestMethodColon          "Request Method:">
-<!ENTITY networkPanel.statusCodeColon             "Status Code:">
+<!ENTITY networkPanel.requestURL                  "Ssaba URL">
+<!ENTITY networkPanel.requestMethod               "Ssaba Engeri">
+<!ENTITY networkPanel.statusCode                  "Koodi era Embeera">
 
 <!ENTITY networkPanel.requestHeaders              "Ssaba Emitwe">
 <!ENTITY networkPanel.requestCookie               "Kuuki Ewerezeddwa">
@@ -20,7 +20,6 @@
 <!ENTITY networkPanel.requestFormData             "Data ali mu Fomu Awerezeddwa">
 
 <!ENTITY networkPanel.responseHeaders             "Emittwe ejje Byokuddamu">
-<!ENTITY networkPanel.responseCookie              "Received Cookie">
 <!ENTITY networkPanel.responseBody                "Omubiiri gwe'Byokuddamu">
 <!ENTITY networkPanel.responseBodyCached          "Data Atterekedwa Okumpi">
 <!ENTITY networkPanel.responseBodyUnknownType     "Ekiika kye Byomunda Ekitamanyiddwa">
@@ -32,11 +31,6 @@
 
 <!ENTITY saveBodies.label     "Wandika Ebisabiddwa era ne Biddidwamu">
 <!ENTITY saveBodies.accesskey "W">
-<!-- LOCALIZATION NOTE (openURL.label): You can see this string in the Web
-   - Console context menu. -->
-
-<!ENTITY openURL.label     "Open URL in New Tab">
-<!ENTITY openURL.accesskey "T">
 <!-- LOCALIZATION NOTE (btnPageNet.label): This string is used for the menu
   -  button that allows users to toggle the network logging output.
   -  This string and the following strings toggle various kinds of output
@@ -59,10 +53,31 @@
 <!ENTITY btnConsoleInfo         "Bubaka">
 <!ENTITY btnConsoleWarnings     "Okulabula">
 <!ENTITY btnConsoleLog          "Wandika">
+<!-- LOCALIZATION NOTE (btnPosition.label): The label shown for the menu which
+  -  allows the user to toggle between the Web Console positioning types. -->
+
+<!ENTITY btnPosition.label     "Ekifo">
+<!-- LOCALIZATION NOTE (btnPosition.tooltip): The tooltip shown when the user
+  -  hovers the Position button in the Web Console toolbar. -->
+
+<!ENTITY btnPosition.tooltip   "Teeka Web Console wagulu oba wansi we kiwandiko">
+<!-- LOCALIZATION NOTE (positionMenu.above): When this option is selected the
+  -  Web Console interface is displayed above the web page. -->
+
+<!ENTITY positionMenu.above    "Wagulu">
+<!-- LOCALIZATION NOTE (positionMenu.below): When this option is selected the
+  -  Web Console interface is displayed below the web page. -->
+
+<!ENTITY positionMenu.below    "Wansi">
+<!-- LOCALIZATION NOTE (positionMenu.window): When this option is selected the
+  -  Web Console interface is displayed in a floating panel. -->
+
+<!ENTITY positionMenu.window   "Eddirisa">
 
 <!ENTITY filterBox.placeholder "Akasengeja">
 <!ENTITY btnClear.label        "Jjawo">
 <!ENTITY btnClear.tooltip      "Clear the Web Console output">
+<!ENTITY btnClose.tooltip      "Galawo Web Console">
 
 <!ENTITY fullZoomEnlargeCmd.commandkey  "+">
 <!-- + is above this key on many keyboards -->
@@ -74,6 +89,3 @@
 
 <!ENTITY fullZoomResetCmd.commandkey    "0">
 <!ENTITY fullZoomResetCmd.commandkey2   "">
-
-<!ENTITY copyURLCmd.label     "Koppa Ekifo ky'akayungiiriro">
-<!ENTITY copyURLCmd.accesskey "k">

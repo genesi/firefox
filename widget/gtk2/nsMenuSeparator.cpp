@@ -20,12 +20,6 @@ nsMenuSeparator::InitializeNativeData()
                                    "separator");
 }
 
-void
-nsMenuSeparator::Refresh(nsMenuObject::ERefreshType aType)
-{
-    SyncVisibilityFromContent();
-}
-
 bool
 nsMenuSeparator::IsCompatibleWithNativeData(DbusmenuMenuitem *aNativeData)
 {
@@ -45,7 +39,7 @@ nsMenuSeparator::~nsMenuSeparator()
 }
 
 /* static */ already_AddRefed<nsMenuObject>
-nsMenuSeparator::Create(nsMenuObject *aParent,
+nsMenuSeparator::Create(nsMenuObjectContainer *aParent,
                         nsIContent *aContent)
 {
     nsRefPtr<nsMenuSeparator> sep = new nsMenuSeparator();
@@ -54,6 +48,12 @@ nsMenuSeparator::Create(nsMenuObject *aParent,
     }
 
     return sep.forget();
+}
+
+void
+nsMenuSeparator::Update()
+{
+    SyncVisibilityFromContent();
 }
 
 void

@@ -36,9 +36,6 @@
 <!ENTITY openRecentMenu.label         "Open Recent">
 <!ENTITY openRecentMenu.accesskey     "R">
 
-<!ENTITY revertCmd.label              "Revert…">
-<!ENTITY revertCmd.accesskey          "t">
-
 <!ENTITY saveFileCmd.label            "Tereka">
 <!ENTITY saveFileCmd.accesskey        "T">
 <!ENTITY saveFileCmd.commandkey       "s">
@@ -105,10 +102,6 @@
 <!ENTITY resetContext2.label          "Ebikyuka ebi zzayo">
 <!ENTITY resetContext2.accesskey      "o">
 
-<!ENTITY reloadAndRun.label           "Reload And Run">
-<!ENTITY reloadAndRun.accesskey       "E">
-<!ENTITY reloadAndRun.key             "r">
-
 <!ENTITY executeMenu.label            "Dduka">
 <!ENTITY executeMenu.accesskey        "d">
 <!-- LOCALIZATION NOTE (errorConsoleCmd.commandkey): This command key launches
@@ -117,3 +110,9 @@
   -->
 
 <!ENTITY errorConsoleCmd.commandkey   "j">
+<!-- LOCALIZATION NOTE (webConsoleCmd.commandkey): This command key launches
+  -  the browser WebConsole, the key should be identical to the property of
+  -  the same name in browser.dtd.
+  -->
+
+<!ENTITY webConsoleCmd.commandkey     "k">

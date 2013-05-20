@@ -307,7 +307,7 @@ nsNativeMenuService::OnNativeMenuBarRegistered(nsMenuBar *aMenuBar,
         return;
     }
 
-    aMenuBar->EndRegisterRequest(aSuccess);
+    aMenuBar->EndRegisterRequest();
     if (!aSuccess) {
         aMenuBar->Deactivate();
     }

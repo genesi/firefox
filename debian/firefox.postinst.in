@@ -110,6 +110,14 @@ EOM
     finish_rm_conffile "/etc/${MOZ_PKG_NAME}/profile/chrome/userContent-example.css"
 
     finish_mv_conffile "/etc/${MOZ_PKG_NAME}/pref/firefox.js" "/etc/${MOZ_PKG_NAME}/syspref.js"
+
+    # Keep until 12.04 is EOL
+    if [ -d $MOZ_LIBDIR/distribution/extensions ] && [ ! -h $MOZ_LIBDIR/distribution/extensions ]; then \
+        rmdir --ignore-fail-on-non-empty $MOZ_LIBDIR/distribution/extensions
+    fi
+    if [ ! -e $MOZ_LIBDIR/distribution/extensions ]; then
+        ln -s ${MOZ_ADDONDIR}/distribution/extensions $MOZ_LIBDIR/distribution/extensions
+    fi
 fi
 
 echo "Please restart all running instances of $MOZ_APP_NAME, or you will experience problems."

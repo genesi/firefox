@@ -53,7 +53,7 @@
 <!ENTITY editMenu.label               "সম্পাদনা (E)">
 <!ENTITY editMenu.accesskey           "E">
 
-<!ENTITY run.label                    "চালান R">
+<!ENTITY run.label                    "চালান (R)">
 <!ENTITY run.accesskey                "R">
 <!ENTITY run.key                      "r">
 
@@ -117,3 +117,9 @@
   -->
 
 <!ENTITY errorConsoleCmd.commandkey   "j">
+<!-- LOCALIZATION NOTE (webConsoleCmd.commandkey): This command key launches
+  -  the browser WebConsole, the key should be identical to the property of
+  -  the same name in browser.dtd.
+  -->
+
+<!ENTITY webConsoleCmd.commandkey     "k">

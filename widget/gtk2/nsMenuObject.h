@@ -23,7 +23,7 @@
 
 class nsIAtom;
 class nsMenuBar;
-class nsMenuObjectIconLoader;
+class nsMenuObjectContainer;
 
 /*
  * This is the base class for all menu nodes. Each instance represents
@@ -37,7 +37,7 @@ class nsMenuObjectIconLoader;
  * during an asynchronous operation, consider that the parent might disappear
  * before this.
  */
-class nsMenuObject
+class nsMenuObject : public nsNativeMenuChangeObserver
 {
 public:
     NS_INLINE_DECL_REFCOUNTING(nsMenuObject)
@@ -47,11 +47,6 @@ public:
         eType_Menu,
         eType_MenuItem,
         eType_MenuSeparator
-    };
-
-    enum ERefreshType {
-        eRefreshType_Full,
-        eRefreshType_ContainerOpening
     };
 
     enum PropertyFlags {
@@ -72,7 +67,7 @@ public:
     DbusmenuMenuitem* GetNativeData() { return mNativeData; }
 
     // Get the parent menu object
-    nsMenuObject* Parent() const { return mParent; }
+    nsMenuObjectContainer* Parent() const { return mParent; }
 
     // Get the content node
     nsIContent* ContentNode() const { return mContent; }
@@ -92,28 +87,14 @@ public:
     // Adopt the specified native menu item node (called by containers)
     nsresult AdoptNativeData(DbusmenuMenuitem *aNativeData);
 
-    // Signal that the containing menu is going to be displayed on screen
-    void ContainerIsOpening();
-
-    virtual void OnAttributeChanged(nsIContent *aContent, nsIAtom *aAttribute) {
-        NS_ERROR("Unhandled AttributeChanged() notification");
-    }
-    virtual void OnContentInserted(nsIContent *aContainer,
-                                   nsIContent *aChild,
-                                   nsIContent *aPrevSibling) {
-        NS_ERROR("Unhandled ContentInserted() notification");
-    }
-    virtual void OnContentRemoved(nsIContent *aContainer, nsIContent *aChild) {
-        NS_ERROR("Unhandled ContentRemoved() notification");
-    }
-    virtual void BeginUpdateBatch(nsIContent *aContent) { };
-    virtual void EndUpdateBatch() { };
+    // Update properties that should be refreshed when the container opens
+    virtual void Update() { };
 
 protected:
     nsMenuObject() :
         mNativeData(nullptr),
         mParent(nullptr) { };
-    nsresult Init(nsMenuObject *aParent, nsIContent *aContent);
+    nsresult Init(nsMenuObjectContainer *aParent, nsIContent *aContent);
 
     void SyncLabelFromContent();
     void SyncVisibilityFromContent();
@@ -123,7 +104,7 @@ protected:
     DbusmenuMenuitem *mNativeData;
     nsCOMPtr<nsIContent> mContent;
     nsRefPtr<nsNativeMenuDocListener> mListener;
-    nsMenuObject *mParent;
+    nsMenuObjectContainer *mParent;
 
 private:
     friend class IconLoader;
@@ -150,12 +131,18 @@ private:
         uint8_t mIconLoaded;
     };
 
+    // Set up initial properties on the native data.
+    // This should be implemented by subclasses
     virtual void InitializeNativeData() { };
-    virtual void Refresh(ERefreshType aType) { };
+
+    // Return the properties that this menu object type supports
+    // This should be implemented by subclasses
     virtual PropertyFlags SupportedProperties() const {
         return PropertyFlags(0);
     }
-    virtual nsresult ImplInit() { return NS_OK; }
+
+    // Determine whether this menu object could use the specified
+    // native item. Returns true by default but can be overridden by subclasses
     virtual bool IsCompatibleWithNativeData(DbusmenuMenuitem *aNativeData) { return true; }
 
     void RemoveUnsupportedProperties();
@@ -171,14 +158,20 @@ class nsMenuObjectContainer : public nsMenuObject
 public:
     typedef nsTArray<nsRefPtr<nsMenuObject> > storage_type;
 
-    already_AddRefed<nsMenuObject> CreateChild(nsIContent *aContent, nsresult *aRv);
+    // Determine if this container is being displayed on screen. Must be
+    // implemented by subclasses
+    virtual bool IsBeingDisplayed() const = 0;
 
+    // Return the first previous sibling that is of a type supported by the
+    // menu system
     static nsIContent* GetPreviousSupportedSibling(nsIContent *aContent);
 
     static const storage_type::index_type NoIndex;
 
 protected:
     nsMenuObjectContainer() : nsMenuObject() { };
+
+    already_AddRefed<nsMenuObject> CreateChild(nsIContent *aContent, nsresult *aRv);
     uint32_t IndexOf(nsIContent *aChild);
 
     storage_type mMenuObjects;

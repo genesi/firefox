@@ -1,7 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!ENTITY accountSetupTitle.label    "&syncBrand.fullName.label; સુયોજન">
 
 <!-- First page of the wizard -->
@@ -11,6 +7,7 @@
 
 <!ENTITY setup.choicePage.title.label     "શું તમે પહેલા &syncBrand.fullName.label; ને વાપરેલ છે?">
 <!ENTITY setup.choicePage.new.label       "મેં કદી પહેલાં &syncBrand.shortName.label; વાપરેલ નથી">
+<!ENTITY setup.choicePage.existing.label  "હું પહેલેથી જ બીજા કમ્પ્યૂટરો પર &syncBrand.shortName.label; ને વાપરી રહ્યો છુ">
 
 <!-- New Account AND Existing Account -->
 <!ENTITY server.label               "સર્વર">
@@ -54,6 +51,8 @@
 
 <!-- Sync Options -->
 <!ENTITY setup.optionsPage.title      "સુમેળ વિકલ્પો">
+<!ENTITY syncComputerName.label       "કમ્પ્યૂટર નામ:">
+<!ENTITY syncComputerName.accesskey   "c">
 
 <!ENTITY syncMy.label               "મને સુમેળ કરો">
 <!ENTITY engine.bookmarks.label     "બુકમાર્કો">
@@ -67,15 +66,24 @@
 <!ENTITY engine.prefs.label         "પસંદગીઓ">
 <!ENTITY engine.prefs.accesskey     "S">
 
+<!ENTITY choice2.merge.main.label      "મારી &syncBrand.shortName.label; માહિતી સાથે કમ્પ્યૂટરની માહિતીને ભેગી કરો">
 <!ENTITY choice2.merge.recommended.label "અગ્રહણીય:">
+<!ENTITY choice2.client.main.label     "મારી &syncBrand.shortName.label; માહિતી સાથે આ કમ્પ્યૂટર પર બધી માહિતીને બદલો">
+<!ENTITY choice2.server.main.label     "આ કમ્પ્યૂટરની માહિતી સાથે બધા બીજા ઉપકરણોને બદલો">
 
 <!-- Confirm Merge Options -->
 <!ENTITY setup.optionsConfirmPage.title "ખાતરી કરો">
+<!ENTITY confirm.merge.label    "&syncBrand.fullName.label; એ તમારા સુમેળ ખાતામાં બધી આ કમ્પ્યૂટરની બ્રાઉઝર માહિતીને હવે ભેગી કરશે.">
+
+<!ENTITY confirm.client.moreinfo.label "&brandShortName;એ પછી આ કમ્પ્યૂટરમાં તમારી  &syncBrand.fullName.label; માહિતીની નકલ કરશે.">
+
+
 
 <!-- New & Existing Account: Setup Complete -->
 <!ENTITY setup.successPage.title "સુયોજન સમાપ્ત">
 <!ENTITY changeOptions.label "તમે નીચે સુમેળ વિકલ્પો પ્રમાણે આ પસંદગીને બદલી શકો છો.">
 <!ENTITY continueUsing.label "તમે હવે &brandShortName; મદદથી ચાલુ રાખી શકો છો.">
+<!ENTITY confirm.client2.label         "ચેતવણી: આ કમ્પ્યૂટર પર નીચેની &brandShortName; માહિતીને કાઢી નંખાશે:">
 <!ENTITY confirm.server2.label         "ચેતવણી: નીચેના ઉપકરણો તમારી સ્થાનિક માહિતી સાથે ઉપર લખાઇ જશે:">
 
 <!ENTITY addDevice.dialog.connected.label   "જોડાયેલ ઉપકરણ">

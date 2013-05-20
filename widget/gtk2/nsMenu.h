@@ -19,7 +19,7 @@
 
 class nsIAtom;
 
-#define NSMENU_NUMBER_OF_POPUPSTATE_BITS 3U
+#define NSMENU_NUMBER_OF_POPUPSTATE_BITS 2U
 #define NSMENU_NUMBER_OF_FLAGS           4U
 
 // This class represents a menu
@@ -28,14 +28,23 @@ class nsMenu MOZ_FINAL : public nsMenuObjectContainer
 public:
     ~nsMenu();
 
-    static already_AddRefed<nsMenuObject> Create(nsMenuObject *aParent,
+    static already_AddRefed<nsMenuObject> Create(nsMenuObjectContainer *aParent,
                                                  nsIContent *aContent);
 
     nsMenuObject::EType Type() const { return nsMenuObject::eType_Menu; }
 
+    bool IsBeingDisplayed() const {
+        return PopupState() == ePopupState_Open;
+    }
+
     // Tell the desktop shell to display this menu
     void OpenMenuDelayed();
 
+    // Normally called via the shell, but it's public so that child
+    // menuitems can do the shells work. Sigh....
+    void OnClose();
+
+    void Update();
     void OnAttributeChanged(nsIContent *aContent, nsIAtom *aAttribute);
     void OnContentInserted(nsIContent *aContainer, nsIContent *aChild,
                            nsIContent *aPrevSibling);
@@ -45,46 +54,39 @@ public:
 
 private:
     enum {
-        eFlag_NeedsRebuild = 1 << 0,
-        eFlag_IgnoreFirstAboutToShow = 1 << 1,
+        eFlag_NeedsBuild = 1 << 0,
+        eFlag_HasPlaceholderItem = 1 << 1,
         eFlag_InUpdateBatch = 1 << 2,
         eFlag_StructureMutated = 1 << 3
-    };
-
-    enum EAboutToOpenOrigin {
-        eAboutToOpenOrigin_FromAboutToShowSignal,
-        eAboutToOpenOrigin_FromOpenedEvent
     };
 
     enum EPopupState {
         ePopupState_Closed,
         ePopupState_Showing,
-        ePopupState_OpenFromAboutToShow,
-        ePopupState_OpenFromOpenedEvent,
+        ePopupState_Open,
         ePopupState_Hiding
     };
 
     nsMenu();
-    nsresult ImplInit();
 
-    bool NeedsRebuild() const {
-        return mFlags & eFlag_NeedsRebuild ? true : false;
+    bool NeedsBuild() const {
+        return mFlags & eFlag_NeedsBuild ? true : false;
     }
-    void SetNeedsRebuildFlag() {
-        mFlags |= eFlag_NeedsRebuild;
+    void SetNeedsBuildFlag() {
+        mFlags |= eFlag_NeedsBuild;
     }
-    void ClearNeedsRebuildFlag() {
-        mFlags &= ~eFlag_NeedsRebuild;
+    void ClearNeedsBuildFlag() {
+        mFlags &= ~eFlag_NeedsBuild;
     }
 
-    bool IgnoreFirstAboutToShow() const {
-        return mFlags & eFlag_IgnoreFirstAboutToShow ? true : false;
+    bool HasPlaceholderItem() const {
+        return mFlags & eFlag_HasPlaceholderItem ? true : false;
     }
-    void SetIgnoreFirstAboutToShowFlag() {
-        mFlags |= eFlag_IgnoreFirstAboutToShow;
+    void SetHasPlaceholderItemFlag() {
+        mFlags |= eFlag_HasPlaceholderItem;
     }
-    void ClearIgnoreFirstAboutToShowFlag() {
-        mFlags &= ~eFlag_IgnoreFirstAboutToShow;
+    void ClearHasPlaceholderItemFlag() {
+        mFlags &= ~eFlag_HasPlaceholderItem;
     }
 
     bool IsInUpdateBatch() const {
@@ -122,11 +124,15 @@ private:
                               GVariant *value,
                               guint timestamp,
                               gpointer user_data);
-    void AboutToOpen(EAboutToOpenOrigin aOrigin);
-    void OnClose();
+
+    // We add a placeholder item to empty menus so that Unity actually treats
+    // us as a proper menu, rather than a menuitem without a submenu
+    void MaybeAddPlaceholderItem();
+    bool EnsureNoPlaceholderItem();
+
+    void AboutToOpen();
     nsresult Build();
     void InitializeNativeData();
-    void Refresh(nsMenuObject::ERefreshType aType);
     void InitializePopup();
     nsresult RemoveMenuObjectAt(uint32_t aIndex);
     nsresult RemoveMenuObject(nsIContent *aChild);

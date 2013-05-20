@@ -9,31 +9,28 @@
 #define __nsNativeMenuDocListener_h__
 
 #include "nsStubMutationObserver.h"
-#include "nsTObserverArray.h"
 #include "nsClassHashtable.h"
 #include "nsTArray.h"
 #include "nsAutoPtr.h"
 #include "nsIContent.h"
 #include "nsIAtom.h"
 #include "mozilla/Attributes.h"
+#include "mozilla/GuardObjects.h"
 
 class nsIDocument;
-class nsMenuObject;
+class nsNativeMenuChangeObserver;
 
 class nsNativeMenuAutoSuspendMutations;
 class nsNativeMenuDocListenerFlushRunnable;
-class DispatchContext;
 
 /*
- * This class keeps a mapping of content nodes to native menu objects,
- * and forwards DOM mutations to registered menu objects. There is exactly
- * one of these for every menubar.
+ * This class keeps a mapping of content nodes to observers and forwards DOM
+ * mutations to these. There is exactly one of these for every menubar.
  */
 class nsNativeMenuDocListener MOZ_FINAL : nsStubMutationObserver
 {
 public:
     typedef nsTArray<nsNativeMenuDocListener *> listener_array_type;
-    typedef nsTObserverArray<nsMenuObject *> observer_array_type;
 
     NS_DECL_ISUPPORTS
     NS_DECL_NSIMUTATIONOBSERVER_ATTRIBUTECHANGED
@@ -44,28 +41,26 @@ public:
 
     static already_AddRefed<nsNativeMenuDocListener> Create(nsIContent *aRootNode);
 
-    // Register a menu object to receive mutation events for the specified
-    // content node. The caller must keep the menu object alive until
+    // Register an observer to receive mutation events for the specified
+    // content node. The caller must keep the observer alive until
     // UnregisterForContentChanges is called.
     void RegisterForContentChanges(nsIContent *aContent,
-                                   nsMenuObject *aMenuObject);
+                                   nsNativeMenuChangeObserver *aObserver);
 
-    // Unregister the menu object from receiving mutation events for the
-    // specified content node.
-    void UnregisterForContentChanges(nsIContent *aContent,
-                                     nsMenuObject *aMenuObject);
+    // Unregister the registered observer for the specified content node
+    void UnregisterForContentChanges(nsIContent *aContent);
 
     // Start listening to the document and forwarding DOM mutations to
-    // registered menu objects.
+    // registered observers.
     void Start();
 
     // Stop listening to the document. No DOM mutations will be forwarded
-    // to registered menu objects.
+    // to registered observers.
     void Stop();
 
 private:
-    friend class nsNativeMenuAutoSuspendMutations;
-    friend class DispatchContext;
+    friend class nsNativeMenuAutoUpdateBatch;
+    friend class DispatchHelper;
 
     struct MutationRecord {
         enum RecordType {
@@ -92,34 +87,60 @@ private:
     void DoBeginUpdateBatch(nsIContent *aTarget);
     void DoEndUpdateBatch(nsIContent *aTarget);
     void FlushPendingMutations();
-    static void ScheduleListener(nsNativeMenuDocListener *aListener);
-    static void RemoveListener(nsNativeMenuDocListener *aListener);
-    static void AddMutationBlocker() { ++sInhibitDepth; }
-    static void RemoveMutationBlocker();
+    static void ScheduleFlush(nsNativeMenuDocListener *aListener);
+    static void UnscheduleFlush(nsNativeMenuDocListener *aListener);
+    static void BeginUpdates() { ++sUpdateDepth; }
+    static void EndUpdates();
 
     nsCOMPtr<nsIContent> mRootNode;
     nsIDocument *mDocument;
+    nsIContent *mLastSource;
+    nsNativeMenuChangeObserver *mLastTarget;
     nsTArray<nsAutoPtr<MutationRecord> > mPendingMutations;
-    nsIContent *mCurrentTarget;
-    nsClassHashtable<nsPtrHashKey<nsIContent>, observer_array_type> mContentToObserverTable;
+    nsDataHashtable<nsPtrHashKey<nsIContent>, nsNativeMenuChangeObserver*> mContentToObserverTable;
 
-    static uint32_t sInhibitDepth;
+    static uint32_t sUpdateDepth;
 };
 
-/* This class is intended to be used inside GObject signal handlers.
- * The idea is that we prevent our view of the menus from mutating
- * whilst dispatching events in to Gecko.
- */
-class nsNativeMenuAutoSuspendMutations
+class nsNativeMenuChangeObserver
 {
 public:
-    nsNativeMenuAutoSuspendMutations() {
-        nsNativeMenuDocListener::AddMutationBlocker();
+    virtual void OnAttributeChanged(nsIContent *aContent, nsIAtom *aAttribute) {
+        NS_ERROR("Unhandled AttributeChanged() notification");
+    }
+    virtual void OnContentInserted(nsIContent *aContainer,
+                                   nsIContent *aChild,
+                                   nsIContent *aPrevSibling) {
+        NS_ERROR("Unhandled ContentInserted() notification");
+    }
+    virtual void OnContentRemoved(nsIContent *aContainer, nsIContent *aChild) {
+        NS_ERROR("Unhandled ContentRemoved() notification");
+    }
+    virtual void BeginUpdateBatch(nsIContent *aContent) { };
+    virtual void EndUpdateBatch() { };
+};
+
+/*
+ * This class is intended to be used inside GObject signal handlers.
+ * It allows us to queue updates until we have finished delivering
+ * events to Gecko, and then we can batch updates to our view of the
+ * menu. This allows us to do menu updates without altering the structure
+ * seen by the OS.
+ */
+class nsNativeMenuAutoUpdateBatch
+{
+public:
+    nsNativeMenuAutoUpdateBatch(MOZ_GUARD_OBJECT_NOTIFIER_ONLY_PARAM) {
+        MOZ_GUARD_OBJECT_NOTIFIER_INIT;
+        nsNativeMenuDocListener::BeginUpdates();
     }
 
-    ~nsNativeMenuAutoSuspendMutations() {
-        nsNativeMenuDocListener::RemoveMutationBlocker();
+    ~nsNativeMenuAutoUpdateBatch() {
+        nsNativeMenuDocListener::EndUpdates();
     }
+
+private:
+    MOZ_DECL_USE_GUARD_OBJECT_NOTIFIER
 };
 
 #endif /* __nsNativeMenuDocListener_h__ */

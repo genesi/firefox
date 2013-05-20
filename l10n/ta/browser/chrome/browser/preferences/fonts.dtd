@@ -1,7 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!ENTITY  fontsDialog.title                       "எழுத்துருக்கள்">
 <!ENTITY  window.width                            "39em">
 <!ENTITY  window.macWidth                         "43em">
@@ -60,8 +56,8 @@
 <!ENTITY minSize.label                            "குறைந்தபட்ச எழுத்துருவின் அளவு:">
 <!ENTITY minSize.accesskey                        "o">
 <!ENTITY minSize.none                             "ஒன்றுமில்லை">
-<!-- default font type -->
 
+<!-- default font type -->
 <!ENTITY  useDefaultFontSerif.label               "ஷெரிஃப்">
 <!ENTITY  useDefaultFontSansSerif.label           "ஸான்ஸ் ஷெரிஃப்">
 

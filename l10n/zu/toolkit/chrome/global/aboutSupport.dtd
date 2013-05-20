@@ -1,7 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!ENTITY aboutSupport.pageTitle "Imininingwane yokuxazululwa kwezinkinga">
 <!-- LOCALIZATION NOTE (aboutSupport.pageSubtitle): don't change the 'supportLink' id. -->
 
@@ -27,17 +23,14 @@
 <!ENTITY aboutSupport.appBasicsCrashIDs "Crash Reports">
 <!ENTITY aboutSupport.appBasicsMemoryUse "Memory Use">
 
-<!ENTITY aboutSupport.showDir.label "Open Directory">
+<!ENTITY aboutSupport.show.label "Vula ifolda equkethe">
 <!-- LOCALIZATION NOTE (aboutSupport.showMac.label): This is the Mac-specific
-variant of aboutSupport.showDir.label.  This allows us to use the preferred
+variant of aboutSupport.show.label.  This allows us to use the preferred
 "Finder" terminology on Mac. -->
 
 <!ENTITY aboutSupport.showMac.label "Bonisa kokutholakele">
-<!-- LOCALIZATION NOTE (aboutSupport.showWin.label): This is the Windows-specific
-variant of aboutSupport.showDir.label. -->
-<!ENTITY aboutSupport.showWin.label "Veza Ifolida">
 
-<!ENTITY aboutSupport.modifiedKeyPrefsTitle "Important Modified Preferences">
+<!ENTITY aboutSupport.modifiedPrefsTitle "Ongakuthanda okulungisiwe">
 <!ENTITY aboutSupport.modifiedPrefsName "Igama">
 <!ENTITY aboutSupport.modifiedPrefsValue "Inani">
 

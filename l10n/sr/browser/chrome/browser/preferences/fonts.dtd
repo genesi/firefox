@@ -1,7 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!ENTITY  fontsDialog.title                       "Фонтови">
 <!ENTITY  window.width                            "49em">
 <!ENTITY  window.macWidth                         "45em">
@@ -60,8 +56,8 @@
 <!ENTITY minSize.label                            "Најмања величина фонта:">
 <!ENTITY minSize.accesskey                        "Н">
 <!ENTITY minSize.none                             "ниједна">
-<!-- default font type -->
 
+<!-- default font type -->
 <!ENTITY  useDefaultFontSerif.label               "Серифни">
 <!ENTITY  useDefaultFontSansSerif.label           "Без серифа">
 

@@ -61,11 +61,14 @@ nsMenuBar::RemoveMenuObjectAt(uint32_t aIndex)
         return NS_ERROR_INVALID_ARG;
     }
 
-    gboolean res = dbusmenu_menuitem_child_delete(mNativeData,
-                                                  mMenuObjects[aIndex]->GetNativeData());
+    if (!dbusmenu_menuitem_child_delete(
+            mNativeData, mMenuObjects[aIndex]->GetNativeData())) {
+        return NS_ERROR_FAILURE;
+    }
+
     mMenuObjects.RemoveElementAt(aIndex);
 
-    return res ? NS_OK : NS_ERROR_FAILURE;
+    return NS_OK;
 }
 
 nsresult
@@ -91,10 +94,13 @@ nsMenuBar::InsertMenuObjectAfter(nsMenuObject *aChild,
     ++index;
 
     aChild->CreateNativeData();
-    gboolean res = dbusmenu_menuitem_child_add_position(mNativeData,
-                                                        aChild->GetNativeData(),
-                                                        index);
-    return res && mMenuObjects.InsertElementAt(index, aChild) ?
+    if (!dbusmenu_menuitem_child_add_position(mNativeData,
+                                              aChild->GetNativeData(),
+                                              index)) {
+        return NS_ERROR_FAILURE;
+    }
+
+    return mMenuObjects.InsertElementAt(index, aChild) ?
         NS_OK : NS_ERROR_FAILURE;
 }
 
@@ -102,9 +108,12 @@ nsresult
 nsMenuBar::AppendMenuObject(nsMenuObject *aChild)
 {
     aChild->CreateNativeData();
-    gboolean res = dbusmenu_menuitem_child_append(mNativeData,
-                                                  aChild->GetNativeData());
-    return res && mMenuObjects.AppendElement(aChild) ? NS_OK : NS_ERROR_FAILURE;
+    if (!dbusmenu_menuitem_child_append(mNativeData,
+                                        aChild->GetNativeData())) {
+        return NS_ERROR_FAILURE;
+    }
+
+    return mMenuObjects.AppendElement(aChild) ? NS_OK : NS_ERROR_FAILURE;
 }
 
 nsresult
@@ -487,13 +496,10 @@ nsMenuBar::Activate()
 
     mListener->Start();
 
-    {
-        nsNativeMenuAutoSuspendMutations as;
-        nsresult rv = Build();
-        if (NS_FAILED(rv)) {
-            Deactivate();
-            return rv;
-        }
+    nsresult rv = Build();
+    if (NS_FAILED(rv)) {
+        Deactivate();
+        return rv;
     }
 
     SetShellShowingMenuBar(true);

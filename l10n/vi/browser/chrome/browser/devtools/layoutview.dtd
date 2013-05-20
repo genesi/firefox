@@ -16,7 +16,6 @@
 
 
 
-<!ENTITY title                  "Box Model">
 <!ENTITY margins.tooltip        "margins (lề)">
 <!ENTITY borders.tooltip        "viền">
 <!ENTITY padding.tooltip        "padding (khoảng cách đệm)">

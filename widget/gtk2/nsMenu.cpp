@@ -32,6 +32,37 @@
 using namespace mozilla;
 using mozilla::AutoPushJSContext;
 
+class nsSetAttrRunnableNoNotify : public nsRunnable {
+public:
+    nsSetAttrRunnableNoNotify(nsIContent *aContent, nsIAtom *aAttribute,
+                              nsAString& aValue) :
+                              mContent(aContent), mAttribute(aAttribute),
+                              mValue(aValue) { };
+
+    NS_IMETHODIMP Run() {
+        return mContent->SetAttr(kNameSpaceID_None, mAttribute, mValue, false);
+    }
+
+private:
+    nsCOMPtr<nsIContent> mContent;
+    nsCOMPtr<nsIAtom> mAttribute;
+    nsAutoString mValue;
+};
+
+class nsUnsetAttrRunnableNoNotify : public nsRunnable {
+public:
+    nsUnsetAttrRunnableNoNotify(nsIContent *aContent, nsIAtom *aAttribute) :
+                                mContent(aContent), mAttribute(aAttribute) { };
+
+    NS_IMETHODIMP Run() {
+        return mContent->UnsetAttr(kNameSpaceID_None, mAttribute, false);
+    }
+
+private:
+    nsCOMPtr<nsIContent> mContent;
+    nsCOMPtr<nsIAtom> mAttribute;
+};
+
 void
 nsMenu::SetPopupState(EPopupState aState)
 {
@@ -47,8 +78,7 @@ nsMenu::SetPopupState(EPopupState aState)
         case ePopupState_Showing:
             state.Assign(NS_LITERAL_STRING("showing"));
             break;
-        case ePopupState_OpenFromAboutToShow:
-        case ePopupState_OpenFromOpenedEvent:
+        case ePopupState_Open:
             state.Assign(NS_LITERAL_STRING("open"));
             break;
         case ePopupState_Hiding:
@@ -58,28 +88,27 @@ nsMenu::SetPopupState(EPopupState aState)
             break;
     }
 
-    nsCOMPtr<nsIRunnable> event;
     if (nsContentUtils::IsSafeToRunScript()) {
         if (state.IsEmpty()) {
             mPopupContent->UnsetAttr(kNameSpaceID_None,
                                      nsNativeMenuAtoms::_moz_menupopupstate,
-                                     true);
+                                     false);
         } else {
             mPopupContent->SetAttr(kNameSpaceID_None,
                                    nsNativeMenuAtoms::_moz_menupopupstate,
-                                   state, true);
+                                   state, false);
         }
     } else {
+        nsCOMPtr<nsIRunnable> r;
         if (state.IsEmpty()) {
-            event = new nsUnsetAttrRunnable(
-                mPopupContent, nsNativeMenuAtoms::_moz_menupopupstate);
+            r = new nsUnsetAttrRunnableNoNotify(
+                        mPopupContent, nsNativeMenuAtoms::_moz_menupopupstate);
         } else {
-            event =
-                new nsSetAttrRunnable(mPopupContent,
-                                      nsNativeMenuAtoms::_moz_menupopupstate,
-                                      state);
+            r = new nsSetAttrRunnableNoNotify(
+                        mPopupContent, nsNativeMenuAtoms::_moz_menupopupstate,
+                        state);
         }
-        nsContentUtils::AddScriptRunner(event);
+        nsContentUtils::AddScriptRunner(r);
     }
 }
 
@@ -89,12 +118,7 @@ nsMenu::menu_about_to_show_cb(DbusmenuMenuitem *menu,
 {
     nsMenu *self = static_cast<nsMenu *>(user_data);
 
-    if (self->IgnoreFirstAboutToShow()) {
-        self->ClearIgnoreFirstAboutToShowFlag();
-        return FALSE;
-    }
-
-    self->AboutToOpen(eAboutToOpenOrigin_FromAboutToShowSignal);
+    self->AboutToOpen();
 
     return FALSE;
 }
@@ -116,9 +140,67 @@ nsMenu::menu_event_cb(DbusmenuMenuitem *menu,
     }
 
     if (event.Equals(NS_LITERAL_CSTRING("opened"))) {
-        self->AboutToOpen(eAboutToOpenOrigin_FromOpenedEvent);
+        self->AboutToOpen();
         return;
     }
+}
+
+void
+nsMenu::MaybeAddPlaceholderItem()
+{
+    NS_ASSERTION(!IsInUpdateBatch(),
+                 "Shouldn't be modifying the native menu structure now");
+
+    GList *children = dbusmenu_menuitem_get_children(mNativeData);
+    if (!children) {
+        NS_ASSERTION(!HasPlaceholderItem(), "Huh?");
+
+        DbusmenuMenuitem *ph = dbusmenu_menuitem_new();
+        if (!ph) {
+            return;
+        }
+
+        dbusmenu_menuitem_property_set_bool(
+            ph, DBUSMENU_MENUITEM_PROP_VISIBLE, false);
+
+        if (!dbusmenu_menuitem_child_append(mNativeData, ph)) {
+            NS_WARNING("Failed to create placeholder item");
+            g_object_unref(ph);
+            return;
+        }
+
+        g_object_unref(ph);
+
+        SetHasPlaceholderItemFlag();
+    }
+}
+
+bool
+nsMenu::EnsureNoPlaceholderItem()
+{
+    NS_ASSERTION(!IsInUpdateBatch(),
+                 "Shouldn't be modifying the native menu structure now");
+
+    if (HasPlaceholderItem()) {
+        GList *children = dbusmenu_menuitem_get_children(mNativeData);
+
+        NS_ASSERTION(g_list_length(children) == 1,
+                     "Unexpected number of children in native menu (should be 1!)");
+
+        ClearHasPlaceholderItemFlag();
+
+        if (!children) {
+            return true;
+        }
+
+        if (!dbusmenu_menuitem_child_delete(
+                mNativeData, static_cast<DbusmenuMenuitem *>(children->data))) {
+            NS_ERROR("Failed to remove placeholder item");
+            return false;
+        }
+    }
+
+    return true;
 }
 
 static void
@@ -133,74 +215,39 @@ DispatchMouseEvent(nsIContent *aTarget, uint32_t aMsg)
 }
 
 void
-nsMenu::AboutToOpen(EAboutToOpenOrigin aOrigin)
+nsMenu::AboutToOpen()
 {
-    // This function can be called in 2 ways:
-    // - "about-to-show" signal from dbusmenu
-    // - "opened" event from dbusmenu
-    // Unity sends both of these, but we only want to respond to one of them.
-    // Unity-2D only sends the second one.
-    // To complicate things even more, Unity doesn't send us a closed event
-    // when a menuitem is activated, so we need to accept consecutive
-    // about-to-show signals without corresponding "closed" events (else we would
-    // just ignore all calls to this function once the menu is open). So, the
-    // way this works is:
-    // - If we were called from an "about-to-show" signal, ignore the "opened"
-    //   event and accept consecutive "about-to-show" signals
-    // - If we were called from an "opened" event, accept any consecutve call
-    //   without a corresponding "closed" event
-
-    if (PopupState() == ePopupState_Showing ||
-        (PopupState() == ePopupState_OpenFromAboutToShow &&
-         aOrigin == eAboutToOpenOrigin_FromOpenedEvent)) {
+    if (PopupState() == ePopupState_Open) {
         return;
     }
 
-    nsNativeMenuAutoSuspendMutations as;
-
-    if (NeedsRebuild()) {
-        if (NS_FAILED(Build())) {
-            NS_WARNING("Menu build failed - marking invalid");
-            SetNeedsRebuildFlag();
-            return;
-        }
+    if (NeedsBuild() && NS_FAILED(Build())) {
+        SetNeedsBuildFlag();
+        return;
     }
 
-    SetPopupState(ePopupState_Showing);
-    DispatchMouseEvent(mPopupContent, NS_XUL_POPUP_SHOWING);
+    nsCOMPtr<nsIContent> popupContent(mPopupContent);
+    {
+        nsNativeMenuAutoUpdateBatch batch;
+
+        SetPopupState(ePopupState_Showing);
+        DispatchMouseEvent(mPopupContent, NS_XUL_POPUP_SHOWING);
+
+        mContent->SetAttr(kNameSpaceID_None, nsGkAtoms::open,
+                          NS_LITERAL_STRING("true"), true);
+    }
 
     uint32_t count = mMenuObjects.Length();
     for (uint32_t i = 0; i < count; ++i) {
-        mMenuObjects[i]->ContainerIsOpening();
+        mMenuObjects[i]->Update();
     }
 
-    EPopupState openState = aOrigin == eAboutToOpenOrigin_FromOpenedEvent ?
-        ePopupState_OpenFromOpenedEvent : ePopupState_OpenFromAboutToShow;
-    SetPopupState(openState);
-    mContent->SetAttr(kNameSpaceID_None, nsGkAtoms::open,
-                      NS_LITERAL_STRING("true"), true);
-    DispatchMouseEvent(mPopupContent, NS_XUL_POPUP_SHOWN);
-}
-
-void
-nsMenu::OnClose()
-{
-    if (PopupState() != ePopupState_Showing &&
-        PopupState() != ePopupState_OpenFromAboutToShow &&
-        PopupState() != ePopupState_OpenFromOpenedEvent) {
-        return;
+    // I guess that the popup could have changed
+    if (popupContent == mPopupContent) {
+        nsNativeMenuAutoUpdateBatch batch;
+        SetPopupState(ePopupState_Open);
+        DispatchMouseEvent(mPopupContent, NS_XUL_POPUP_SHOWN);
     }
-
-    nsNativeMenuAutoSuspendMutations as;
-
-    SetPopupState(ePopupState_Hiding);
-
-    DispatchMouseEvent(mPopupContent, NS_XUL_POPUP_HIDING);
-    SetPopupState(ePopupState_Closed);
-
-    DispatchMouseEvent(mPopupContent, NS_XUL_POPUP_HIDDEN);
-
-    mContent->UnsetAttr(kNameSpaceID_None, nsGkAtoms::open, true);
 }
 
 nsresult
@@ -210,13 +257,25 @@ nsMenu::Build()
         RemoveMenuObjectAt(0);
     }
 
+    if (NeedsBuild() && !HasPlaceholderItem()) {
+        NS_ASSERTION(!IsInUpdateBatch(), "How did we end up here?");
+
+        // Make sure there are no orphaned children. We skip this if
+        // we have a placeholder item. In this case, we only add a placeholder
+        // when there are no other children, and assert when removing it that
+        // there are no other children.
+        GList *children = dbusmenu_menuitem_take_children(mNativeData);
+        g_list_foreach(children, (GFunc)g_object_unref, nullptr);
+        g_list_free(children);
+    }
+
     InitializePopup();
 
     if (!mPopupContent) {
         return NS_OK;
     }
 
-    ClearNeedsRebuildFlag();
+    ClearNeedsBuildFlag();
 
     uint32_t count = mPopupContent->GetChildCount();
     for (uint32_t i = 0; i < count; ++i) {
@@ -230,6 +289,7 @@ nsMenu::Build()
         }
 
         if (NS_FAILED(rv)) {
+            NS_ERROR("Menu build failed");
             return rv;
         }
     }
@@ -240,29 +300,16 @@ nsMenu::Build()
 void
 nsMenu::InitializeNativeData()
 {
-    // This happens automatically when we add children, but we have to
-    // do this manually for menus which don't initially have children,
-    // so we can receive about-to-show which triggers a build of the menu
-    dbusmenu_menuitem_property_set(mNativeData,
-                                   DBUSMENU_MENUITEM_PROP_CHILD_DISPLAY,
-                                   DBUSMENU_MENUITEM_CHILD_DISPLAY_SUBMENU);
-
     g_signal_connect(G_OBJECT(mNativeData), "about-to-show",
                      G_CALLBACK(menu_about_to_show_cb), this);
     g_signal_connect(G_OBJECT(mNativeData), "event",
                      G_CALLBACK(menu_event_cb), this);
-}
 
-void
-nsMenu::Refresh(nsMenuObject::ERefreshType aType)
-{
-    if (aType == nsMenuObject::eRefreshType_Full) {
-        SyncLabelFromContent();
-        SyncSensitivityFromContent();
-    }
+    SyncLabelFromContent();
+    SyncSensitivityFromContent();
 
-    SyncVisibilityFromContent();
-    SyncIconFromContent();
+    SetNeedsBuildFlag();
+    MaybeAddPlaceholderItem();
 }
 
 void
@@ -287,14 +334,14 @@ nsMenu::InitializePopup()
     }
 
     if (oldPopupContent && oldPopupContent != mContent) {
-        mListener->UnregisterForContentChanges(oldPopupContent, this);
+        mListener->UnregisterForContentChanges(oldPopupContent);
     }
+
+    SetPopupState(ePopupState_Closed);
 
     if (!mPopupContent) {
         return;
     }
-
-    SetPopupState(ePopupState_Closed);
 
     nsCOMPtr<nsIXPConnect> xpconnect = services::GetXPConnect();
     nsIScriptGlobalObject *sgo = mPopupContent->OwnerDoc()->GetScriptGlobalObject();
@@ -324,17 +371,23 @@ nsMenu::RemoveMenuObjectAt(uint32_t aIndex)
         return NS_ERROR_INVALID_ARG;
     }
 
-    gboolean res = TRUE;
     if (!IsInUpdateBatch()) {
-        res = dbusmenu_menuitem_child_delete(mNativeData,
-                                             mMenuObjects[aIndex]->GetNativeData());
+        NS_ASSERTION(!HasPlaceholderItem(), "Shouldn't have a placeholder menuitem");
+        if (!dbusmenu_menuitem_child_delete(
+                mNativeData, mMenuObjects[aIndex]->GetNativeData())) {
+            return NS_ERROR_FAILURE;
+        }
     }
 
     SetStructureMutatedFlag();
 
     mMenuObjects.RemoveElementAt(aIndex);
 
-    return res ? NS_OK : NS_ERROR_FAILURE;
+    if (!IsInUpdateBatch()) {
+        MaybeAddPlaceholderItem();
+    }
+
+    return NS_OK;
 }
 
 nsresult
@@ -358,33 +411,43 @@ nsMenu::InsertMenuObjectAfter(nsMenuObject *aChild, nsIContent *aPrevSibling)
 
     ++index;
 
-    gboolean res = TRUE;
     if (!IsInUpdateBatch()) {
+        if (!EnsureNoPlaceholderItem()) {
+            return NS_ERROR_FAILURE;
+        }
+
         aChild->CreateNativeData();
-        res = dbusmenu_menuitem_child_add_position(mNativeData,
-                                                   aChild->GetNativeData(),
-                                                   index);
+        if (!dbusmenu_menuitem_child_add_position(mNativeData,
+                                                  aChild->GetNativeData(),
+                                                  index)) {
+            return NS_ERROR_FAILURE;
+        }
     }
 
     SetStructureMutatedFlag();
 
-    return res && mMenuObjects.InsertElementAt(index, aChild) ?
+    return mMenuObjects.InsertElementAt(index, aChild) ?
         NS_OK : NS_ERROR_FAILURE;
 }
 
 nsresult
 nsMenu::AppendMenuObject(nsMenuObject *aChild)
 {
-    gboolean res = TRUE;
     if (!IsInUpdateBatch()) {
+        if (!EnsureNoPlaceholderItem()) {
+            return NS_ERROR_FAILURE;
+        }
+
         aChild->CreateNativeData();
-        res = dbusmenu_menuitem_child_append(mNativeData,
-                                             aChild->GetNativeData());
+        if (!dbusmenu_menuitem_child_append(mNativeData,
+                                            aChild->GetNativeData())) {
+            return NS_ERROR_FAILURE;
+        }
     }
 
     SetStructureMutatedFlag();
 
-    return res && mMenuObjects.AppendElement(aChild) ? NS_OK : NS_ERROR_FAILURE;
+    return mMenuObjects.AppendElement(aChild) ? NS_OK : NS_ERROR_FAILURE;
 }
 
 bool
@@ -407,18 +470,6 @@ nsMenu::nsMenu() :
     MOZ_COUNT_CTOR(nsMenu);
 }
 
-nsresult
-nsMenu::ImplInit()
-{
-    SetNeedsRebuildFlag();
-
-    if (mParent == MenuBar() && !MenuBar()->IsRegistered()) {
-        SetIgnoreFirstAboutToShowFlag();
-    }
-
-    return NS_OK;
-}
-
 nsMenu::~nsMenu()
 {
     if (IsInUpdateBatch()) {
@@ -433,8 +484,10 @@ nsMenu::~nsMenu()
         RemoveMenuObjectAt(0);
     }
 
+    EnsureNoPlaceholderItem();
+
     if (mListener && mPopupContent && mContent != mPopupContent) {
-        mListener->UnregisterForContentChanges(mPopupContent, this);
+        mListener->UnregisterForContentChanges(mPopupContent);
     }
 
     if (mNativeData) {
@@ -450,7 +503,7 @@ nsMenu::~nsMenu()
 }
 
 /* static */ already_AddRefed<nsMenuObject>
-nsMenu::Create(nsMenuObject *aParent,
+nsMenu::Create(nsMenuObjectContainer *aParent,
                nsIContent *aContent)
 {
     nsRefPtr<nsMenu> menu = new nsMenu();
@@ -485,7 +538,7 @@ nsMenu::OpenMenuDelayed()
     // because extra items to appear at the top of the menu
 
     SetPopupState(ePopupState_Closed);
-    AboutToOpen(eAboutToOpenOrigin_FromAboutToShowSignal);
+    AboutToOpen();
     SetPopupState(ePopupState_Closed);
 
     nsCOMPtr<nsITimer> timer = do_CreateInstance(NS_TIMER_CONTRACTID);
@@ -500,6 +553,34 @@ nsMenu::OpenMenuDelayed()
 
     NS_ADDREF(this);
     timer.forget();
+}
+
+void
+nsMenu::OnClose()
+{
+    if (PopupState() == ePopupState_Closed) {
+        return;
+    }
+
+    // We do this here as an alternative to holding a strong
+    // reference to ourselves (and also mPopupContent)
+    nsNativeMenuAutoUpdateBatch batch;
+
+    SetPopupState(ePopupState_Hiding);
+
+    DispatchMouseEvent(mPopupContent, NS_XUL_POPUP_HIDING);
+    SetPopupState(ePopupState_Closed);
+
+    DispatchMouseEvent(mPopupContent, NS_XUL_POPUP_HIDDEN);
+
+    mContent->UnsetAttr(kNameSpaceID_None, nsGkAtoms::open, true);
+}
+
+void
+nsMenu::Update()
+{
+    SyncVisibilityFromContent();
+    SyncIconFromContent();
 }
 
 void
@@ -535,7 +616,7 @@ nsMenu::OnContentInserted(nsIContent *aContainer, nsIContent *aChild,
     NS_ASSERTION(aContainer == mContent || aContainer == mPopupContent,
                  "Received an event that wasn't meant for us!");
 
-    if (NeedsRebuild()) {
+    if (NeedsBuild()) {
         return;
     }
 
@@ -551,8 +632,8 @@ nsMenu::OnContentInserted(nsIContent *aContainer, nsIContent *aChild,
     }
 
     if (NS_FAILED(rv)) {
-        NS_WARNING("OnContentInserted failed - marking invalid");
-        SetNeedsRebuildFlag();
+        NS_ERROR("OnContentInserted() failed");
+        SetNeedsBuildFlag();
     }
 }
 
@@ -562,7 +643,7 @@ nsMenu::OnContentRemoved(nsIContent *aContainer, nsIContent *aChild)
     NS_ASSERTION(aContainer == mContent || aContainer == mPopupContent,
                  "Received an event that wasn't meant for us!");
 
-    if (NeedsRebuild()) {
+    if (NeedsBuild()) {
         return;
     }
 
@@ -574,8 +655,8 @@ nsMenu::OnContentRemoved(nsIContent *aContainer, nsIContent *aChild)
     }
 
     if (NS_FAILED(rv)) {
-        NS_WARNING("OnContentRemoved failed - marking invalid");
-        SetNeedsRebuildFlag();
+        NS_ERROR("OnContentRemoved() failed");
+        SetNeedsBuildFlag();
     }
 }
 
@@ -618,6 +699,11 @@ nsMenu::EndUpdateBatch()
         return;
     }
 
+    if (!EnsureNoPlaceholderItem()) {
+        SetNeedsBuildFlag();
+        return;
+    }
+
     GList *nextNativeChild = dbusmenu_menuitem_get_children(mNativeData);
     DbusmenuMenuitem *nextOwnedNativeChild = nullptr;
 
@@ -642,10 +728,16 @@ nsMenu::EndUpdateBatch()
             // modify the native menu structure.
             while (nextNativeChild &&
                    nextNativeChild->data != nextOwnedNativeChild) {
+
                 DbusmenuMenuitem *data =
                     static_cast<DbusmenuMenuitem *>(nextNativeChild->data);
                 nextNativeChild = nextNativeChild->next;
-                dbusmenu_menuitem_child_delete(mNativeData, data);
+
+                if (!dbusmenu_menuitem_child_delete(mNativeData, data)) {
+                    NS_ERROR("Failed to remove orphaned native item from menu");
+                    SetNeedsBuildFlag();
+                    return;
+                }
             }
 
             if (nextNativeChild) {
@@ -662,9 +754,12 @@ nsMenu::EndUpdateBatch()
             }
         } else {
             // This child is new, and doesn't have a native menu item. Find one!
-            if (nextNativeChild && nextNativeChild->data != nextOwnedNativeChild) {
+            if (nextNativeChild &&
+                nextNativeChild->data != nextOwnedNativeChild) {
+
                 DbusmenuMenuitem *data =
                     static_cast<DbusmenuMenuitem *>(nextNativeChild->data);
+
                 if (NS_SUCCEEDED(child->AdoptNativeData(data))) {
                     nextNativeChild = nextNativeChild->next;
                 }
@@ -674,19 +769,29 @@ nsMenu::EndUpdateBatch()
             // At this point, we modify the native menu structure.
             if (!child->GetNativeData()) {
                 child->CreateNativeData();
-                dbusmenu_menuitem_child_add_position(mNativeData,
-                                                     child->GetNativeData(),
-                                                     i);
+                if (!dbusmenu_menuitem_child_add_position(mNativeData,
+                                                          child->GetNativeData(),
+                                                          i)) {
+                    NS_ERROR("Failed to add new native item");
+                    SetNeedsBuildFlag();
+                    return;
+                }
             }
         }
     }
 
     while (nextNativeChild) {
+
         DbusmenuMenuitem *data =
             static_cast<DbusmenuMenuitem *>(nextNativeChild->data);
         nextNativeChild = nextNativeChild->next;
-        dbusmenu_menuitem_child_delete(mNativeData, data);
+
+        if (!dbusmenu_menuitem_child_delete(mNativeData, data)) {
+            NS_ERROR("Failed to remove orphaned native item from menu");
+            SetNeedsBuildFlag();
+            return;
+        }
     }
 
-    ClearStructureMutatedFlag();
+    MaybeAddPlaceholderItem();
 }

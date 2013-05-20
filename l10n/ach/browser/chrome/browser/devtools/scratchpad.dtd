@@ -36,9 +36,6 @@
 <!ENTITY openRecentMenu.label         "Yab Ma okati kombedi">
 <!ENTITY openRecentMenu.accesskey     "M">
 
-<!ENTITY revertCmd.label              "Wir...">
-<!ENTITY revertCmd.accesskey          "r">
-
 <!ENTITY saveFileCmd.label            "Gwok">
 <!ENTITY saveFileCmd.accesskey        "G">
 <!ENTITY saveFileCmd.commandkey       "s">
@@ -105,10 +102,6 @@
 <!ENTITY resetContext2.label          "Ter odoco Alama">
 <!ENTITY resetContext2.accesskey      "r">
 
-<!ENTITY reloadAndRun.label           "Ket odoco Ki Mi ti">
-<!ENTITY reloadAndRun.accesskey       "E">
-<!ENTITY reloadAndRun.key             "r">
-
 <!ENTITY executeMenu.label            "Tii">
 <!ENTITY executeMenu.accesskey        "i">
 <!-- LOCALIZATION NOTE (errorConsoleCmd.commandkey): This command key launches
@@ -117,3 +110,9 @@
   -->
 
 <!ENTITY errorConsoleCmd.commandkey   "j">
+<!-- LOCALIZATION NOTE (webConsoleCmd.commandkey): This command key launches
+  -  the browser WebConsole, the key should be identical to the property of
+  -  the same name in browser.dtd.
+  -->
+
+<!ENTITY webConsoleCmd.commandkey     "k">

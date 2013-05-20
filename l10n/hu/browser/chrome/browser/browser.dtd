@@ -280,7 +280,13 @@ These should match what Safari and other Apple applications use on OS X Lion. --
 <!ENTITY preferencesCmdUnix.accesskey     "B"> 
 
 <!ENTITY clearRecentHistory.label               "Előzmények törlése…">
+<!ENTITY clearRecentHistory.accesskey           "E">
 
+<!-- LOCALIZATION NOTE : These two strings can share an access key because they never appear together on the menu -->
+<!ENTITY privateBrowsingCmd.start.label         "Privát böngészés indítása">
+<!ENTITY privateBrowsingCmd.start.accesskey     "P">
+<!ENTITY privateBrowsingCmd.stop.label          "Privát böngészés leállítása">
+<!ENTITY privateBrowsingCmd.stop.accesskey      "P">
 <!ENTITY privateBrowsingCmd.commandkey          "P">
 
 <!ENTITY viewMenu.label         "Nézet"> 
@@ -319,7 +325,7 @@ These should match what Safari and other Apple applications use on OS X Lion. --
 <!ENTITY appMenuSafeMode.accesskey "R">
 
 <!ENTITY openCmd.commandkey           "l">
-<!ENTITY urlbar.placeholder2          "Keresés vagy cím">
+<!ENTITY urlbar.placeholder           "Ugrás egy webhelyre">
 <!ENTITY urlbar.accesskey             "d">
 <!ENTITY urlbar.switchToTab.label     "Váltás erre a lapra:">
 
@@ -422,10 +428,6 @@ These should match what Safari and other Apple applications use on OS X Lion. --
 <!ENTITY emailVideoCmd.accesskey      "i">
 <!ENTITY emailAudioCmd.label          "Hang küldése e-mailben…">
 <!ENTITY emailAudioCmd.accesskey      "a">
-<!ENTITY playPluginCmd.label          "Ezen bővítmény aktiválása">
-<!ENTITY playPluginCmd.accesskey      "k">
-<!ENTITY hidePluginCmd.label          "Bővítmény elrejtése">
-<!ENTITY hidePluginCmd.accesskey      "r">
 <!ENTITY copyLinkCmd.label            "Hivatkozás címének másolása">
 <!ENTITY copyLinkCmd.accesskey        "v">
 <!ENTITY copyImageCmd.label           "Kép címének másolása">
@@ -455,20 +457,7 @@ items are mutually exclusive. -->
 <!ENTITY mediaMute.label             "Némítás">
 <!ENTITY mediaMute.accesskey         "N">
 <!ENTITY mediaUnmute.label           "Hang be">
-<!ENTITY mediaUnmute.accesskey       "n">
-<!ENTITY mediaPlaybackRate.label     "Lejátszási sebesség">
-<!ENTITY mediaPlaybackRate.accesskey "s">
-<!ENTITY mediaPlaybackRate050x.label "Lassított felvétel (0,5×)">
-<!ENTITY mediaPlaybackRate050x.accesskey "L">
-<!ENTITY mediaPlaybackRate100x.label "Normál sebesség">
-<!ENTITY mediaPlaybackRate100x.accesskey "N">
-<!ENTITY mediaPlaybackRate150x.label "Gyorsított felvétel (1,5×)">
-<!ENTITY mediaPlaybackRate150x.accesskey "G">
-<!-- LOCALIZATION NOTE: "Ludicrous Speed" is a reference to the
-movie "Space Balls" and is meant to say that this speed is very
-fast. -->
-<!ENTITY mediaPlaybackRate200x.label "Elképzelhetetlen sebesség (2×)">
-<!ENTITY mediaPlaybackRate200x.accesskey "K">
+<!ENTITY mediaUnmute.accesskey       "H">
 <!-- LOCALIZATION NOTE: The access keys for "Show Controls" and
 "Hide Controls" are the same because the two context-menu
 items are mutually exclusive. -->
@@ -598,6 +587,7 @@ just addresses the organization to follow, e.g. "This site is run by " -->
 
 <!ENTITY identity.moreInfoLinkText "További információ…">
 
+<!ENTITY allTabs.filter.emptyText "Keresés a lapokon">
 <!-- Name for the tabs toolbar as spoken by screen readers.
      The word "toolbar" is appended automatically and should not be contained below! -->
 <!ENTITY tabsToolbar.label "Böngészőlapok">
@@ -625,8 +615,6 @@ just addresses the organization to follow, e.g. "This site is run by " -->
 <!ENTITY social.toggleSidebar.label "Oldalsáv megjelenítése">
 <!ENTITY social.toggleSidebar.accesskey "s">
 
-<!ENTITY social.addons.label "Szolgáltatások kezelése…">
-
 <!ENTITY social.toggleNotifications.label "Asztali értesítések megjelenítése">
 <!ENTITY social.toggleNotifications.accesskey "A">
 
@@ -644,8 +632,3 @@ just addresses the organization to follow, e.g. "This site is run by " -->
 
 <!ENTITY webrtcIndicatorButton.label "Kamera/mikrofon elérése">
 <!ENTITY webrtcIndicatorButton.tooltip "Megjeleníti azon oldalakat, amelyekkel megosztja kameráját vagy mikrofonját">
-
-<!ENTITY mixedContentBlocked.helplink "További információ">
-<!ENTITY mixedContentBlocked.moreinfo "A legtöbb weboldal ezen tartalom blokkolása után is megfelelően fog működni.">
-
-<!ENTITY pointerLock.notification.message "Nyomja meg bármikor az Esc-t a megjelenítéséhez.">

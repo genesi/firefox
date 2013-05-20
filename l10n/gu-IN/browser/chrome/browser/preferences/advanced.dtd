@@ -1,7 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!-- Note: due to bug 143065, the only remaining accesskeys available to be used
      in the Advanced pane are: "j", "q", "z" -->
 
@@ -96,12 +92,16 @@
 <!ENTITY limitCacheSizeBefore.label      "તેની માટે મર્યાદિત કેશ">
 <!ENTITY overrideSmartCacheSize.accesskey "O">
 <!ENTITY overrideSmartCacheSize.label    "આપોઆપ કેશ સંચાલન પર ફરીથી લખો">
+<!ENTITY submitCrashes.accesskey         "S">
+<!ENTITY submitCrashes.label             "ભંગાણ અહેવાલોને ઉમેરો">
 
 <!ENTITY clearOfflineAppCacheNow.label   "હમણાં સાફ કરો">
 <!ENTITY clearOfflineAppCacheNow.accesskey "N">
 <!ENTITY httpCache.label                 "કેશ થયેલ વેબ સમાવિષ્ટો">
 <!ENTITY offlineAppsList2.label          "નીચેની વેબસાઇટોને ઑફલાઇન વપરાશ માટે માહિતી સંગ્રહવાની પરવાનગી છે:">
 <!ENTITY offlineStorage2.label           "ઑફલાઇન વેબ સમાવિષ્ટો અને વપરાશકર્તા માહિતી">
+<!ENTITY submitTelemetry.accesskey       "P">
+<!ENTITY submitTelemetry.label           "પર્ફોરમન્સ માહિતી જમા કરો">
 <!ENTITY updateApp.label                 "&brandShortName; સુધારાઓ:">
 <!ENTITY updateAuto.accesskey            "A">
 <!ENTITY updateAuto.label                "સુધારાઓ આપોઆપ સ્થાપિત કરો (આગ્રહણીય: સુધારાયેલ સુરક્ષા)">

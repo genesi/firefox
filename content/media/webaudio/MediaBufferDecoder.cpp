@@ -97,7 +97,7 @@ private:
   // GetReentrantMonitor correctly.
   ReentrantMonitor mReentrantMonitor;
   nsCOMPtr<nsIThread> mDecodeThread;
-  nsAutoPtr<MediaResource> mResource;
+  nsRefPtr<MediaResource> mResource;
 };
 
 NS_IMPL_THREADSAFE_ISUPPORTS0(BufferDecoder)
@@ -389,7 +389,7 @@ MediaDecodeTask::CreateReader()
 {
   MOZ_ASSERT(NS_IsMainThread());
 
-  BufferMediaResource* resource =
+  nsRefPtr<BufferMediaResource> resource =
     new BufferMediaResource(static_cast<uint8_t*> (mBuffer),
                             mLength, mPrincipal, mContentType);
 
@@ -418,9 +418,9 @@ MediaDecodeTask::Decode()
 {
   MOZ_ASSERT(!NS_IsMainThread());
 
-  mDecoderReader->OnDecodeThreadStart();
-
   mBufferDecoder->BeginDecoding(NS_GetCurrentThread());
+
+  mDecoderReader->OnDecodeThreadStart();
 
   VideoInfo videoInfo;
   nsAutoPtr<MetadataTags> tags;

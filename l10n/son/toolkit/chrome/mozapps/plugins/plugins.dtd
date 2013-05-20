@@ -1,6 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 <!ENTITY pluginWizard.title                                  "Sukari ceecikoy">
 <!ENTITY pluginWizard.firstPage.title                        "Kubayni &pluginWizard.title; do">
 
@@ -36,6 +33,8 @@
 <!-- LOCALIZATION NOTE (tapToPlayPlugin): Mobile (used for touch interfaces) only has one type of plugin possible. -->
 <!ENTITY tapToPlayPlugin                                     "Kar ne ka sukaroo dirandi.">
 <!ENTITY clickToPlayPlugin                                   "Naagu ne ka sukaroo tunandi.">
+<!ENTITY clickToPlayPluginVulnerableUpdateAvailable          "Click here to activate vulnerable plugin.">
+<!ENTITY clickToPlayPluginVulnerableNoUpdate                 "Click here to activate vulnerable plugin (no update available).">
 <!ENTITY checkForUpdates                                     "Check for updates…">
 <!ENTITY disabledPlugin                                      "Sukaroo n' ka hun goy.">
 <!ENTITY blockedPlugin.label                                 "Sukaroo woo gagayandi war da boŋ-daabaa še.">
@@ -56,6 +55,3 @@
 <!ENTITY report.disabled                                     "Kaŋyan bayrandi kay.">
 <!ENTITY report.failed                                       "Sanbari kay.">
 <!ENTITY report.unavailable                                  "Mayray kul ši bara.">
-
-<!ENTITY plugin.file                                         "File">
-<!ENTITY plugin.mimeTypes                                    "MIME Types">

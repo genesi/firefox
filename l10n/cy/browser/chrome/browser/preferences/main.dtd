@@ -4,11 +4,11 @@
 
 <!ENTITY startup.label             "Cychwyn">
 
-<!ENTITY startupPage.label         "Pan fydd &brandShortName; yn cychwyn:">
-<!ENTITY startupPage.accesskey     "c">
+<!ENTITY startupPage.label         "Cychwyn &brandShortName;:">
+<!ENTITY startupPage.accesskey     "C">
 <!ENTITY startupHomePage.label     "Dangos tudalen cartref">
 <!ENTITY startupBlankPage.label    "Dangos tudalen wag">
-<!ENTITY startupLastSession.label  "Dangos ffenestri a thabiau o'r tro diwethaf">
+<!ENTITY startupLastSession.label  "Ffenestri a thabiau tro diwethaf">
 
 <!ENTITY homepage.label            "Tudalen Cartref:">
 <!ENTITY homepage.accesskey        "T">

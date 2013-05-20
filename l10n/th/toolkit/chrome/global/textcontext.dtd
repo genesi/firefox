@@ -1,13 +1,9 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!ENTITY cutCmd.label "ตัด">
 <!ENTITY cutCmd.accesskey "ต">
 <!ENTITY copyCmd.label "คัดลอก">
 <!ENTITY copyCmd.accesskey "ค">
 <!ENTITY pasteCmd.label "วาง">
-<!ENTITY pasteCmd.accesskey "p">
+<!ENTITY pasteCmd.accesskey "แ">
 <!ENTITY undoCmd.label "เรียกคืน">
 <!ENTITY undoCmd.accesskey "ร">
 <!ENTITY selectAllCmd.label "เลือกทั้งหมด">
@@ -19,8 +15,8 @@
 <!ENTITY spellAddToDictionary.accesskey "ป">
 <!ENTITY spellUndoAddToDictionary.label "ยกเลิกการเพิ่มไปยังพจนานุกรม">
 <!ENTITY spellUndoAddToDictionary.accesskey "ย">
-<!ENTITY spellCheckToggle.label "Check Spelling">
-<!ENTITY spellCheckToggle.accesskey "g">
+<!ENTITY spellCheckEnable.label "ตรวจสอบการสะกด">
+<!ENTITY spellCheckEnable.accesskey "ส">
 <!ENTITY spellNoSuggestions.label "(ไม่มีคำสะกดแนะนำ)">
 <!ENTITY spellDictionaries.label "ภาษา">
 <!ENTITY spellDictionaries.accesskey "ภ">

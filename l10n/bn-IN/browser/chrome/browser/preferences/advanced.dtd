@@ -123,11 +123,11 @@
 <!ENTITY setDefault.label                "&brandShortName;-কে ডিফল্ট ব্রাউজার রূপে নির্ধারণ করুন">
 <!ENTITY setDefault.accesskey            "d">
 <!ENTITY isDefault.label                 "&brandShortName; বর্তমানে আপনার ডিফল্ট ব্রাউজার রূপে নির্ধারিত রয়েছে।">
-<!--ENTITY submitCrashes.label             "বিপর্যয়ের রিপোর্ট দায়ের করা হবে"-->
-<!--ENTITY submitCrashes.accesskey         "S"-->
+<!ENTITY submitCrashes.label             "বিপর্যয়ের রিপোর্ট দায়ের করা হবে">
+<!ENTITY submitCrashes.accesskey         "S">
 <!-- ENTITY offlineStorage.label            "অফ-লাইন অবস্থায় সংরক্ষণ" -->
-<!--ENTITY submitTelemetry.label           "কর্মক্ষমতা সংক্রান্ত তথ্য দাখিল করা হবে"-->
-<!--ENTITY submitTelemetry.accesskey       "P"-->
+<!ENTITY submitTelemetry.label           "কর্মক্ষমতা সংক্রান্ত তথ্য দাখিল করা হবে">
+<!ENTITY submitTelemetry.accesskey       "P">
 
 <!-- LOCALIZATION NOTE:
   The entities limitCacheSizeBefore.label and limitCacheSizeAfter.label appear on a single
@@ -150,22 +150,6 @@
 <!ENTITY offlineNotify.accesskey         "T">
 <!ENTITY offlineNotifyExceptions.label   "ব্যতিক্রম…">
 <!ENTITY offlineNotifyExceptions.accesskey "x">
-<!ENTITY crashReporterDesc.label         "&brandShortName; submits crash reports to help &vendorShortName; make your browser more stable and secure">
-<!ENTITY crashReporterLearnMore.label    "Learn More">
-<!ENTITY crashReporterSection.label      "Crash Reporter">
-<!ENTITY dataChoicesTab.label            "Data Choices">
-<!ENTITY enableCrashReporter.accesskey   "C">
-<!ENTITY enableCrashReporter.label       "Enable Crash Reporter">
-<!ENTITY enableHealthReport.accesskey    "R">
-<!ENTITY enableHealthReport.label        "Enable &brandShortName; Health Report">
-<!ENTITY enableTelemetry.accesskey       "T">
-<!ENTITY enableTelemetry.label           "Enable Telemetry">
-<!ENTITY healthReportDesc.label          "Helps you understand your browser performance and shares data with &vendorShortName; about your browser health">
-<!ENTITY healthReportLearnMore.label     "Learn More">
-<!ENTITY healthReportSection.label       "&brandShortName; Health Report">
-<!ENTITY telemetryDesc.label             "Shares performance, usage, hardware and customization data about your browser with &vendorShortName; to help us make &brandShortName; better">
-<!ENTITY telemetryLearnMore.label        "Learn More">
-<!ENTITY telemetrySection.label          "Telemetry">
 
 <!-- ENTITY offlineAppsList.label           "নিম্নলিখিত ওয়েব-সাইটগুলি দ্বারা অফ-লাইন অবস্থায় ব্যবহারের উদ্দেশ্যে তথ্য সংরক্ষণ করা হয়েছে:" -->
 <!ENTITY offlineAppsList2.label          "অফ-লাইন অবস্থায় ব্যবহারের উদ্দেশ্যে নিম্নলিখিত ওয়েব-সাইটগুলি তথ্য সংরক্ষণ করতে অনুমোদিত রয়েছে:">

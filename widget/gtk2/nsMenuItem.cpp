@@ -28,6 +28,7 @@
 #include "nsNativeMenuDocListener.h"
 #include "nsNativeMenuUtils.h"
 #include "nsMenuBar.h"
+#include "nsMenu.h"
 
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
@@ -83,42 +84,6 @@ private:
     nsRefPtr<nsMenuItem> mMenuItem;
 };
 
-class nsMenuItemRefreshRunnable MOZ_FINAL : public nsRunnable {
-public:
-    NS_IMETHODIMP Run() {
-        mMenuItem->RefreshUnblocked(mType);
-        return NS_OK;
-    }
-
-    nsMenuItemRefreshRunnable(nsMenuItem *aMenuItem,
-                              nsMenuObject::ERefreshType aType) :
-        mMenuItem(aMenuItem),
-        mType(aType) { };
-
-private:
-    nsRefPtr<nsMenuItem> mMenuItem;
-    nsMenuObject::ERefreshType mType;
-};
-
-class nsMenuItemCommandNodeAttributeChangedRunnable MOZ_FINAL :
-    public nsRunnable
-{
-public:
-    NS_IMETHODIMP Run() {
-        mMenuItem->CommandNodeAttributeChanged(mAttribute);
-        return NS_OK;
-    }
-
-    nsMenuItemCommandNodeAttributeChangedRunnable(nsMenuItem *aMenuItem,
-                                                  nsIAtom *aAttribute) :
-        mMenuItem(aMenuItem),
-        mAttribute(aAttribute) { };
-
-private:
-    nsRefPtr<nsMenuItem> mMenuItem;
-    nsCOMPtr<nsIAtom> mAttribute;
-};
-
 /* static */ void
 nsMenuItem::item_activated_cb(DbusmenuMenuitem *menuitem,
                               guint timestamp,
@@ -135,7 +100,8 @@ nsMenuItem::Activate(uint32_t aTimestamp)
         gtk_widget_get_window(MenuBar()->TopLevelWindow()),
         aTimestamp);
 
-    nsNativeMenuAutoSuspendMutations as;
+    // We do this as an alternative to holding a strong reference to ourself
+    nsNativeMenuAutoUpdateBatch batch;
 
     // This first bit seems backwards, but it's not really. If autocheck is
     // not set or autocheck==true, then the checkbox state is usually updated
@@ -159,62 +125,37 @@ nsMenuItem::Activate(uint32_t aTimestamp)
     nsIDocument *doc = mContent->OwnerDoc();
     nsCOMPtr<nsIDOMEventTarget> target = do_QueryInterface(mContent);
     nsCOMPtr<nsIDOMDocument> domDoc = do_QueryInterface(doc);
-    if (!domDoc || !target) {
-        return;
-    }
+    if (domDoc && target) {
+        nsCOMPtr<nsIDOMEvent> event;
+        domDoc->CreateEvent(NS_LITERAL_STRING("xulcommandevent"),
+                            getter_AddRefs(event));
+        nsCOMPtr<nsIDOMXULCommandEvent> command = do_QueryInterface(event);
+        if (command) {
+            command->InitCommandEvent(NS_LITERAL_STRING("command"),
+                                      true, true, doc->GetWindow(), 0,
+                                      false, false, false, false, nullptr);
 
-    nsCOMPtr<nsIDOMEvent> event;
-    domDoc->CreateEvent(NS_LITERAL_STRING("xulcommandevent"),
-                        getter_AddRefs(event));
-    nsCOMPtr<nsIDOMXULCommandEvent> command = do_QueryInterface(event);
-    if (!command) {
-        return;
-    }
-
-    command->InitCommandEvent(NS_LITERAL_STRING("command"),
-                              true, true, doc->GetWindow(), 0,
-                              false, false, false, false, nullptr);
-
-    event->SetTrusted(true);
-    bool dummy;
-    target->DispatchEvent(event, &dummy);
-}
-
-void
-nsMenuItem::SyncStateFromCommand()
-{
-    nsAutoString checked;
-    if (mCommandContent && mCommandContent->GetAttr(kNameSpaceID_None,
-                                                    nsGkAtoms::checked,
-                                                    checked)) {
-        mContent->SetAttr(kNameSpaceID_None, nsGkAtoms::checked, checked,
-                          true);
-    }
-}
-
-void
-nsMenuItem::SyncLabelFromCommand()
-{
-    nsAutoString label;
-    if (mCommandContent && mCommandContent->GetAttr(kNameSpaceID_None,
-                                                    nsGkAtoms::label,
-                                                    label)) {
-        mContent->SetAttr(kNameSpaceID_None, nsGkAtoms::label, label,
-                          true);
-    }
-}
-
-void
-nsMenuItem::SyncSensitivityFromCommand()
-{
-    if (mCommandContent) {
-        if (mCommandContent->AttrValueIs(kNameSpaceID_None, nsGkAtoms::disabled,
-                                         nsGkAtoms::_true, eCaseMatters)) {
-            mContent->SetAttr(kNameSpaceID_None, nsGkAtoms::disabled,
-                              NS_LITERAL_STRING("true"), true);
-        } else {
-            mContent->UnsetAttr(kNameSpaceID_None, nsGkAtoms::disabled, true);
+            event->SetTrusted(true);
+            bool dummy;
+            target->DispatchEvent(event, &dummy);
         }
+    }
+
+    // This kinda sucks, but Unity doesn't send a closed event
+    // after activating a menuitem
+    nsMenuObject *ancestor = Parent();
+    while (ancestor && ancestor->Type() == eType_Menu) {
+        static_cast<nsMenu *>(ancestor)->OnClose();
+        ancestor = ancestor->Parent();
+    }
+}
+
+void
+nsMenuItem::SyncAttrFromNodeIfExists(nsIContent *aContent, nsIAtom *aAttribute)
+{
+    nsAutoString value;
+    if (aContent->GetAttr(kNameSpaceID_None, aAttribute, value)) {
+        mContent->SetAttr(kNameSpaceID_None, aAttribute, value, true);
     }
 }
 
@@ -269,6 +210,27 @@ nsMenuItem::SyncTypeAndStateFromContent()
 void
 nsMenuItem::SyncAccelFromContent()
 {
+    nsIDocument *doc = mContent->GetCurrentDoc();
+    if (doc) {
+        nsCOMPtr<nsIContent> oldKeyContent;
+        oldKeyContent.swap(mKeyContent);
+
+        nsAutoString key;
+        mContent->GetAttr(kNameSpaceID_None, nsGkAtoms::key, key);
+        if (!key.IsEmpty()) {
+            mKeyContent = doc->GetElementById(key);
+        }
+
+        if (mKeyContent != oldKeyContent) {
+            if (oldKeyContent) {
+                mListener->UnregisterForContentChanges(oldKeyContent);
+            }
+            if (mKeyContent) {
+                mListener->RegisterForContentChanges(mKeyContent, this);
+            }
+        }
+    }
+
     if (!mKeyContent) {
         dbusmenu_menuitem_property_remove(mNativeData,
                                           DBUSMENU_MENUITEM_PROP_SHORTCUT);
@@ -337,82 +299,16 @@ nsMenuItem::SyncAccelFromContent()
 }
 
 void
-nsMenuItem::CommandNodeAttributeChanged(nsIAtom *aAttribute)
-{
-    if (aAttribute == nsGkAtoms::label) {
-        SyncLabelFromCommand();
-    } else if (aAttribute == nsGkAtoms::disabled) {
-        SyncSensitivityFromCommand();
-    } else if (aAttribute == nsGkAtoms::checked) {
-        SyncStateFromCommand();
-    }
-}
-
-void
 nsMenuItem::InitializeNativeData()
 {
     g_signal_connect(G_OBJECT(mNativeData),
                      DBUSMENU_MENUITEM_SIGNAL_ITEM_ACTIVATED,
                      G_CALLBACK(item_activated_cb), this);
-}
 
-void
-nsMenuItem::Refresh(nsMenuObject::ERefreshType aType)
-{
-    if (aType == eRefreshType_Full) {
-        if (mCommandContent) {
-            mListener->UnregisterForContentChanges(mCommandContent, this);
-            mCommandContent = nullptr;
-        }
-        if (mKeyContent) {
-            mListener->UnregisterForContentChanges(mKeyContent, this);
-            mKeyContent = nullptr;
-        }
-
-        nsIDocument *doc = mContent->GetCurrentDoc();
-        nsAutoString command;
-        mContent->GetAttr(kNameSpaceID_None, nsGkAtoms::command, command);
-        if (!command.IsEmpty()) {
-            mCommandContent = doc->GetElementById(command);
-            if (mCommandContent) {
-                mListener->RegisterForContentChanges(mCommandContent, this);
-            }
-        }
-
-        nsAutoString key;
-        mContent->GetAttr(kNameSpaceID_None, nsGkAtoms::key, key);
-        if (!key.IsEmpty()) {
-            mKeyContent = doc->GetElementById(key);
-            if (mKeyContent) {
-                mListener->RegisterForContentChanges(mKeyContent, this);
-            }
-        }
-    }
-
-    if (nsContentUtils::IsSafeToRunScript()) {
-        RefreshUnblocked(aType);
-    } else {
-        nsContentUtils::AddScriptRunner(new nsMenuItemRefreshRunnable(this,
-                                                                      aType));
-    }
-}
-
-void
-nsMenuItem::RefreshUnblocked(nsMenuObject::ERefreshType aType)
-{
-    SyncStateFromCommand();
-    SyncLabelFromCommand();
-    SyncSensitivityFromCommand();
-
-    if (aType == eRefreshType_Full) {
-        SyncTypeAndStateFromContent();
-        SyncAccelFromContent();
-        SyncLabelFromContent();
-        SyncSensitivityFromContent();
-    }
-
-    SyncVisibilityFromContent();
-    SyncIconFromContent();
+    SyncTypeAndStateFromContent();
+    SyncAccelFromContent();
+    SyncLabelFromContent();
+    SyncSensitivityFromContent();
 }
 
 void
@@ -464,13 +360,8 @@ nsMenuItem::nsMenuItem() :
 
 nsMenuItem::~nsMenuItem()
 {
-    if (mListener) {
-        if (mCommandContent) {
-            mListener->UnregisterForContentChanges(mCommandContent, this);
-        }
-        if (mKeyContent) {
-            mListener->UnregisterForContentChanges(mKeyContent, this);
-        }
+    if (mListener && mKeyContent) {
+        mListener->UnregisterForContentChanges(mKeyContent);
     }
 
     if (mNativeData) {
@@ -483,7 +374,7 @@ nsMenuItem::~nsMenuItem()
 }
 
 /* static */ already_AddRefed<nsMenuObject>
-nsMenuItem::Create(nsMenuObject *aParent,
+nsMenuItem::Create(nsMenuObjectContainer *aParent,
                    nsIContent *aContent)
 {
     nsRefPtr<nsMenuItem> menuitem = new nsMenuItem();
@@ -495,10 +386,43 @@ nsMenuItem::Create(nsMenuObject *aParent,
 }
 
 void
+nsMenuItem::Update()
+{
+    nsIDocument *doc = mContent->GetCurrentDoc();
+    if (doc) {
+        nsAutoString command;
+        mContent->GetAttr(kNameSpaceID_None, nsGkAtoms::command, command);
+        if (!command.IsEmpty()) {
+            nsCOMPtr<nsIContent> commandContent =
+                doc->GetElementById(command);
+            if (commandContent) {
+                if (commandContent->AttrValueIs(kNameSpaceID_None,
+                                                nsGkAtoms::disabled,
+                                                nsGkAtoms::_true,
+                                                eCaseMatters)) {
+                    mContent->SetAttr(kNameSpaceID_None, nsGkAtoms::disabled,
+                                      NS_LITERAL_STRING("true"), true);
+                } else {
+                    mContent->UnsetAttr(kNameSpaceID_None, nsGkAtoms::disabled,
+                                        true);
+                }
+
+                SyncAttrFromNodeIfExists(commandContent, nsGkAtoms::checked);
+                SyncAttrFromNodeIfExists(commandContent, nsGkAtoms::accesskey);
+                SyncAttrFromNodeIfExists(commandContent, nsGkAtoms::label);
+                SyncAttrFromNodeIfExists(commandContent, nsGkAtoms::hidden);
+            }
+        }
+    }
+
+    SyncVisibilityFromContent();
+    SyncIconFromContent();
+}
+
+void
 nsMenuItem::OnAttributeChanged(nsIContent *aContent, nsIAtom *aAttribute)
 {
-    NS_ASSERTION(aContent == mContent || aContent == mCommandContent ||
-                 aContent == mKeyContent,
+    NS_ASSERTION(aContent == mContent || aContent == mKeyContent,
                  "Received an event that wasn't meant for us!");
 
     if (aContent == mContent && aAttribute == nsGkAtoms::checked &&
@@ -513,9 +437,8 @@ nsMenuItem::OnAttributeChanged(nsIContent *aContent, nsIAtom *aAttribute)
     }
 
     if (aContent == mContent) {
-        if (aAttribute == nsGkAtoms::command ||
-            aAttribute == nsGkAtoms::key) {
-            Refresh(eRefreshType_Full);
+        if (aAttribute == nsGkAtoms::key) {
+            SyncAccelFromContent();
         } else if (aAttribute == nsGkAtoms::label ||
                    aAttribute == nsGkAtoms::accesskey ||
                    aAttribute == nsGkAtoms::crop) {
@@ -532,15 +455,10 @@ nsMenuItem::OnAttributeChanged(nsIContent *aContent, nsIAtom *aAttribute)
                    aAttribute == nsGkAtoms::collapsed) {
             SyncVisibilityFromContent();
         }
-    } else if (aContent == mCommandContent) {
-        if (nsContentUtils::IsSafeToRunScript()) {
-            CommandNodeAttributeChanged(aAttribute);
-        } else {
-            nsContentUtils::AddScriptRunner(
-                new nsMenuItemCommandNodeAttributeChangedRunnable(this,
-                                                                  aAttribute));
-        }
-    } else if (aContent == mKeyContent) {
+    } else if (aContent == mKeyContent &&
+               (aAttribute == nsGkAtoms::key ||
+                aAttribute == nsGkAtoms::keycode ||
+                aAttribute == nsGkAtoms::modifiers)) {
         SyncAccelFromContent();
     }
 }

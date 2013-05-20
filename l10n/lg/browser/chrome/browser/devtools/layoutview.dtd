@@ -16,7 +16,6 @@
 
 
 
-<!ENTITY title                  "Box Model">
 <!ENTITY margins.tooltip        "margins">
 <!ENTITY borders.tooltip        "Ensalo">
 <!ENTITY padding.tooltip        "padding">

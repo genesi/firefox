@@ -16,10 +16,6 @@
 
 <!ENTITY aboutTelemetry.simpleMeasurementsSection "  Simple Measurements">
 
-<!ENTITY aboutTelemetry.lateWritesSection "
-  Late Writes
-">
-
 <!ENTITY aboutTelemetry.systemInfoSection "  System Information">
 
 <!ENTITY aboutTelemetry.addonHistogramsSection "  Histograms Collected by Add-ons">

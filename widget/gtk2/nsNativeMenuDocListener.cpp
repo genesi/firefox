@@ -10,43 +10,47 @@
 #include "nsIDocument.h"
 #include "mozilla/dom/Element.h"
 #include "nsINode.h"
+#include "mozilla/DebugOnly.h"
 
 #include "nsMenuObject.h"
 
-uint32_t nsNativeMenuDocListener::sInhibitDepth = 0;
+using namespace mozilla;
+
+uint32_t nsNativeMenuDocListener::sUpdateDepth = 0;
 
 nsNativeMenuDocListener::listener_array_type *gPendingListeners;
 
-class DispatchContext {
+/*
+ * Small helper which caches a single listener, so that consecutive
+ * events which go to the same node avoid multiple hash table lookups
+ */
+class DispatchHelper {
 public:
-    DispatchContext(nsNativeMenuDocListener *aOwner,
-                    nsIContent *aTarget) :
-        mOwner(aOwner), mObservers(nullptr) {
-        NS_ASSERTION(!mOwner->mCurrentTarget,
-                     "Nested dispatch! This should never happen");
-        mOwner->mCurrentTarget = aTarget;
-        mOwner->mContentToObserverTable.Get(aTarget, &mObservers);
-    };
-
-    ~DispatchContext() {
-        if (mObservers && mObservers->Length() == 0) {
-            mOwner->mContentToObserverTable.Remove(mOwner->mCurrentTarget);
+    DispatchHelper(nsNativeMenuDocListener *aListener,
+                   nsIContent *aContent
+                   MOZ_GUARD_OBJECT_NOTIFIER_PARAM) :
+                   mObserver(nullptr) {
+        MOZ_GUARD_OBJECT_NOTIFIER_INIT;
+        if (aContent == aListener->mLastSource) {
+            mObserver = aListener->mLastTarget;
+        } else {
+            mObserver = aListener->mContentToObserverTable.Get(aContent);
+            if (mObserver) {
+                aListener->mLastSource = aContent;
+                aListener->mLastTarget = mObserver;
+            }
         }
+    }
 
-        mOwner->mCurrentTarget = nullptr;
-    };
+    ~DispatchHelper() { };
 
-    bool HasObservers() const {
-        return mObservers ? true : false;
-    };
+    nsNativeMenuChangeObserver* Observer() const { return mObserver; }
 
-    nsNativeMenuDocListener::observer_array_type& Observers() const {
-        return *mObservers;
-    };
+    bool HasObserver() const { return !!mObserver; }
 
 private:
-    nsNativeMenuDocListener *mOwner;
-    nsNativeMenuDocListener::observer_array_type *mObservers;
+    nsNativeMenuChangeObserver *mObserver;
+    MOZ_DECL_USE_GUARD_OBJECT_NOTIFIER
 };
 
 NS_IMPL_ISUPPORTS1(nsNativeMenuDocListener, nsIMutationObserver)
@@ -55,13 +59,9 @@ void
 nsNativeMenuDocListener::DoAttributeChanged(nsIContent *aContent,
                                             nsIAtom *aAttribute)
 {
-    DispatchContext ctx(this, aContent);
-
-    if (ctx.HasObservers()) {
-        observer_array_type::ForwardIterator iter(ctx.Observers());
-        while (iter.HasMore()) {
-            iter.GetNext()->OnAttributeChanged(aContent, aAttribute);
-        }
+    DispatchHelper h(this, aContent);
+    if (h.HasObserver()) {
+        h.Observer()->OnAttributeChanged(aContent, aAttribute);
     }
 }
 
@@ -70,13 +70,9 @@ nsNativeMenuDocListener::DoContentInserted(nsIContent *aContainer,
                                            nsIContent *aChild,
                                            nsIContent *aPrevSibling)
 {
-    DispatchContext ctx(this, aContainer);
-
-    if (ctx.HasObservers()) {
-        observer_array_type::ForwardIterator iter(ctx.Observers());
-        while (iter.HasMore()) {
-            iter.GetNext()->OnContentInserted(aContainer, aChild, aPrevSibling);
-        }
+    DispatchHelper h(this, aContainer);
+    if (h.HasObserver()) {
+        h.Observer()->OnContentInserted(aContainer, aChild, aPrevSibling);
     }
 }
 
@@ -84,41 +80,28 @@ void
 nsNativeMenuDocListener::DoContentRemoved(nsIContent *aContainer,
                                           nsIContent *aChild)
 {
-    DispatchContext ctx(this, aContainer);
-
-    if (ctx.HasObservers()) {
-        observer_array_type::ForwardIterator iter(ctx.Observers());
-        while (iter.HasMore()) {
-            iter.GetNext()->OnContentRemoved(aContainer, aChild);
-        }
+    DispatchHelper h(this, aContainer);
+    if (h.HasObserver()) {
+        h.Observer()->OnContentRemoved(aContainer, aChild);
     }
 }
 
 void
 nsNativeMenuDocListener::DoBeginUpdateBatch(nsIContent *aTarget)
 {
-    DispatchContext ctx(this, aTarget);
-
-    if (ctx.HasObservers()) {
-        observer_array_type::ForwardIterator iter(ctx.Observers());
-        while (iter.HasMore()) {
-            iter.GetNext()->BeginUpdateBatch(aTarget);
-        }
+    DispatchHelper h(this, aTarget);
+    if (h.HasObserver()) {
+        h.Observer()->BeginUpdateBatch(aTarget);
     }
 }
 
 void
 nsNativeMenuDocListener::DoEndUpdateBatch(nsIContent *aTarget)
 {
-    DispatchContext ctx(this, aTarget);
-
-    if (ctx.HasObservers()) {
-        observer_array_type::ForwardIterator iter(ctx.Observers());
-        while (iter.HasMore()) {
-            iter.GetNext()->EndUpdateBatch();
-        }
+    DispatchHelper h(this, aTarget);
+    if (h.HasObserver()) {
+        h.Observer()->EndUpdateBatch();
     }
-
 }
 
 void
@@ -168,9 +151,9 @@ nsNativeMenuDocListener::FlushPendingMutations()
 }
 
 /* static */ void
-nsNativeMenuDocListener::ScheduleListener(nsNativeMenuDocListener *aListener)
+nsNativeMenuDocListener::ScheduleFlush(nsNativeMenuDocListener *aListener)
 {
-    NS_ASSERTION(sInhibitDepth > 0, "Shouldn't be doing this now");
+    NS_ASSERTION(sUpdateDepth > 0, "Shouldn't be doing this now");
 
     if (!gPendingListeners) {
         gPendingListeners = new listener_array_type;
@@ -183,7 +166,7 @@ nsNativeMenuDocListener::ScheduleListener(nsNativeMenuDocListener *aListener)
 }
 
 /* static */ void
-nsNativeMenuDocListener::RemoveListener(nsNativeMenuDocListener *aListener)
+nsNativeMenuDocListener::UnscheduleFlush(nsNativeMenuDocListener *aListener)
 {
     if (!gPendingListeners) {
         return;
@@ -193,9 +176,9 @@ nsNativeMenuDocListener::RemoveListener(nsNativeMenuDocListener *aListener)
 }
 
 /* static */ void
-nsNativeMenuDocListener::RemoveMutationBlocker()
+nsNativeMenuDocListener::EndUpdates()
 {
-    if (sInhibitDepth == 1 && gPendingListeners) {
+    if (sUpdateDepth == 1 && gPendingListeners) {
         {
             while (gPendingListeners->Length() > 0) {
                 (*gPendingListeners)[0]->FlushPendingMutations();
@@ -207,13 +190,14 @@ nsNativeMenuDocListener::RemoveMutationBlocker()
         gPendingListeners = nullptr;
     }
  
-    NS_ASSERTION(sInhibitDepth > 0, "Negative inhibit depth!");
-    sInhibitDepth--;
+    NS_ASSERTION(sUpdateDepth > 0, "Negative update depth!");
+    sUpdateDepth--;
 }
 
 nsNativeMenuDocListener::nsNativeMenuDocListener() :
     mDocument(nullptr),
-    mCurrentTarget(nullptr)
+    mLastSource(nullptr),
+    mLastTarget(nullptr)
 {
     MOZ_COUNT_CTOR(nsNativeMenuDocListener);
     mContentToObserverTable.Init();
@@ -223,7 +207,7 @@ nsNativeMenuDocListener::~nsNativeMenuDocListener()
 {
     NS_ASSERTION(mContentToObserverTable.Count() == 0,
                  "Some nodes forgot to unregister listeners");
-    RemoveListener(this);
+    UnscheduleFlush(this);
     MOZ_COUNT_DTOR(nsNativeMenuDocListener);
 }
 
@@ -244,7 +228,7 @@ nsNativeMenuDocListener::AttributeChanged(nsIDocument *aDocument,
                                           nsIAtom *aAttribute,
                                           int32_t aModType)
 {
-    if (sInhibitDepth == 0) {
+    if (sUpdateDepth == 0) {
         DoAttributeChanged(aElement, aAttribute);
         return;
     }
@@ -254,7 +238,7 @@ nsNativeMenuDocListener::AttributeChanged(nsIDocument *aDocument,
     m->mTarget = aElement;
     m->mAttribute = aAttribute;
 
-    ScheduleListener(this);
+    ScheduleFlush(this);
 }
 
 void
@@ -276,7 +260,7 @@ nsNativeMenuDocListener::ContentInserted(nsIDocument *aDocument,
 {
     nsIContent *prevSibling = nsMenuObjectContainer::GetPreviousSupportedSibling(aChild);
 
-    if (sInhibitDepth == 0) {
+    if (sUpdateDepth == 0) {
         DoContentInserted(aContainer, aChild, prevSibling);
         return;
     }
@@ -287,7 +271,7 @@ nsNativeMenuDocListener::ContentInserted(nsIDocument *aDocument,
     m->mChild = aChild;
     m->mPrevSibling = prevSibling;
 
-    ScheduleListener(this);
+    ScheduleFlush(this);
 }
 
 void
@@ -297,7 +281,7 @@ nsNativeMenuDocListener::ContentRemoved(nsIDocument *aDocument,
                                         int32_t aIndexInContainer,
                                         nsIContent *aPreviousSibling)
 {
-    if (sInhibitDepth == 0) {
+    if (sUpdateDepth == 0) {
         DoContentRemoved(aContainer, aChild);
         return;
     }
@@ -307,7 +291,7 @@ nsNativeMenuDocListener::ContentRemoved(nsIDocument *aDocument,
     m->mTarget = aContainer;
     m->mChild = aChild;
 
-    ScheduleListener(this);
+    ScheduleFlush(this);
 }                                                           
 
 void
@@ -329,46 +313,33 @@ nsNativeMenuDocListener::Create(nsIContent *aRootNode)
 
 void
 nsNativeMenuDocListener::RegisterForContentChanges(nsIContent *aContent,
-                                                   nsMenuObject *aMenuObject)
+                                                   nsNativeMenuChangeObserver *aObserver)
 {
-    NS_ASSERTION(aContent && aMenuObject, "Invalid parameters");
-    if (!aContent || !aMenuObject) {
+    NS_ASSERTION(aContent, "Need content parameter");
+    NS_ASSERTION(aObserver, "Need observer parameter");
+    if (!aContent || !aObserver) {
         return;
     }
 
-    nsTObserverArray<nsMenuObject *> *observers;
-    if (!mContentToObserverTable.Get(aContent, &observers)) {
-        observers = new nsTObserverArray<nsMenuObject *>;
-        mContentToObserverTable.Put(aContent, observers);
-    }
+    DebugOnly<nsNativeMenuChangeObserver *> old;
+    NS_ASSERTION(!mContentToObserverTable.Get(aContent, &old) || old == aObserver,
+                 "Multiple observers for the same content node are not supported");
 
-    observers->AppendElement(aMenuObject);
+    mContentToObserverTable.Put(aContent, aObserver);
 }
 
 void
-nsNativeMenuDocListener::UnregisterForContentChanges(nsIContent *aContent,
-                                                     nsMenuObject *aMenuObject)
+nsNativeMenuDocListener::UnregisterForContentChanges(nsIContent *aContent)
 {
-    NS_ASSERTION(aContent && aMenuObject, "Invalid parameters");
-    if (!aContent || !aMenuObject) {
+    NS_ASSERTION(aContent, "Need content parameter");
+    if (!aContent) {
         return;
     }
 
-    nsTObserverArray<nsMenuObject *> *observers;
-    if (!mContentToObserverTable.Get(aContent, &observers)) {
-        return;
-    }
-
-    observers->RemoveElement(aMenuObject);
-
-    /* We can't remove the observer array here if we are currently
-     * dispatching events for this content node, as it will
-     * crash inside the iterators destructor. DispatchContext
-     * takes care of removing this for us once we have returned from
-     * this dispatch
-     */
-    if (observers->Length() == 0 && aContent != mCurrentTarget) {
-        mContentToObserverTable.Remove(aContent);
+    mContentToObserverTable.Remove(aContent);
+    if (aContent == mLastSource) {
+        mLastSource = nullptr;
+        mLastTarget = nullptr;
     }
 }
 
@@ -395,6 +366,6 @@ nsNativeMenuDocListener::Stop()
         mDocument = nullptr;
     }
 
-    RemoveListener(this);
+    UnscheduleFlush(this);
     mPendingMutations.Clear();
 }

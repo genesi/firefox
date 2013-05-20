@@ -12,7 +12,6 @@
 #
 # Alexandru Szasz <alexxed@gmail.com>
 # Cristian Silaghi <cristian.silaghi@mozilla.ro>
-# raulmalea <raul.malea@gmail.com>
 #
 -->
 <!-- This Source Code Form is subject to the terms of the Mozilla Public
@@ -21,13 +20,8 @@
 
 <!ENTITY tracking.label                 "Urmărire">
 
-<!ENTITY dntTrackingNopref.label        "Nu spune saiturilor nimic despre preferințele mele de urmărire.">
-<!ENTITY dntTrackingNopref.accesskey    "o">
-<!ENTITY dntTrackingNotOkay.label       "Spune saiturilor că nu vreau să fiu urmărit.">
-<!ENTITY dntTrackingNotOkay.accesskey   "n">
-<!ENTITY dntTrackingOkay.label          "Spune saiturilor că vreau să fiu urmărit.">
-<!ENTITY dntTrackingOkay.accesskey      "t">
-<!ENTITY doNotTrackInfo.label           "Află mai multe">
+<!ENTITY doNotTrack.label               "Informează saiturile web că nu vreau să fiu urmărit">
+<!ENTITY doNotTrack.accesskey           "I">
 
 <!ENTITY  history.label                 "Istoric">
 

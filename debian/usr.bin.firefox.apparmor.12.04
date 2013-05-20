@@ -130,6 +130,9 @@
   owner @{HOME}/.{firefox,mozilla}/**/plugins/** rm,
   owner @{HOME}/.config/ibus/bus/ w,
   owner @{HOME}/.gnome2/firefox*-bin-* rw,
+  owner @{HOME}/.cache/mozilla/{,@MOZ_APP_NAME@/} rw,
+  owner @{HOME}/.cache/mozilla/@MOZ_APP_NAME@/** rw,
+  owner @{HOME}/.cache/mozilla/@MOZ_APP_NAME@/**/*.sqlite k,
 
   #
   # Extensions

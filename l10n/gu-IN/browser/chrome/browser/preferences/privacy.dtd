@@ -1,7 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!ENTITY  history.label "ઈતિહાસ">
 
 <!ENTITY  locbar.pre.label              "જ્યારે સ્થિતિદર્શક પટ્ટી વાપરી રહ્યા હોય, ત્યારે સૂચન કરો:">
@@ -81,6 +77,9 @@
 <!ENTITY  rememberSearchForm.label       "શોધ અને ફોર્મ ઈતિહાસ યાદ રાખો">
 <!ENTITY  rememberSearchForm.accesskey   "f">
 
+
+<!ENTITY doNotTrack.accesskey           "d">
+<!ENTITY doNotTrack.label               "વેબસાઇટ ને કહો કે હું ટ્રેક કરવા માંગતો નથી">
 <!ENTITY tracking.label                 "ટ્રેક કરી રહ્યા છે">
 
 <!ENTITY  privateBrowsingPermanent2.label "હંમેશા ખાનગી બ્રાઉઝીંગ સ્થિતિ વાપરો">

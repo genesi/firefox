@@ -42,6 +42,8 @@ public:
 
     nsMenuObject::EType Type() const { return nsMenuObject::eType_MenuBar; }
 
+    bool IsBeingDisplayed() const { return true; }
+
     // Get the native window ID for this menubar
     uint32_t WindowId() const;
 
@@ -52,28 +54,17 @@ public:
     // by the menuservice when registering this menubar
     nsNativeMenuGIORequest& BeginRegisterRequest() {
         mRegisterRequestCanceller.Start();
-        mFlags &= ~eFlag_Registered;
         return mRegisterRequestCanceller;
     }
 
     // Finishes the current request to register the menubar
-    void EndRegisterRequest(bool aSuccess) {
+    void EndRegisterRequest() {
         NS_ASSERTION(RegisterRequestInProgress(), "No request in progress");
         mRegisterRequestCanceller.Finish();
-        if (aSuccess) {
-            mFlags |= eFlag_Registered;
-        } else {
-            mFlags &= ~eFlag_Registered;
-        }
     }
 
     bool RegisterRequestInProgress() const {
         return mRegisterRequestCanceller.InProgress();
-    }
-
-    // Is the menubar registered?
-    bool IsRegistered() const {
-        return mFlags & eFlag_Registered;
     }
 
     // Get the top-level GtkWindow handle
@@ -94,8 +85,7 @@ public:
 
 private:
     enum {
-        eFlag_Active = 1 << 0,
-        eFlag_Registered = 1 << 1
+        eFlag_Active = 1 << 0
     };
 
     enum ModifierFlags {

@@ -2,15 +2,10 @@
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
-<!ENTITY tracking.label                 "ट्रैकिंग">
+<!ENTITY tracking.label                 "Tracking">
 
-<!ENTITY dntTrackingNopref.label        "वेबसाइटों को मेरी ट्रैकिंग वरीयताओं की जानकारी न दें .">
-<!ENTITY dntTrackingNopref.accesskey    "o">
-<!ENTITY dntTrackingNotOkay.label       "वेबसाइटों को बताएं कि मैं नहीं चाहता कि मुझे ट्रैक किया जाना चाहता">
-<!ENTITY dntTrackingNotOkay.accesskey   "n">
-<!ENTITY dntTrackingOkay.label          "वेबसाइटों को बताएं कि मैं चाहता हूँ कि मुझे ट्रैक किया जाए ">
-<!ENTITY dntTrackingOkay.accesskey      "t">
-<!ENTITY doNotTrackInfo.label           "और जानें">
+<!ENTITY doNotTrack.label               "Tell web sites I do not want to be tracked">
+<!ENTITY doNotTrack.accesskey           "d">
 
 <!ENTITY  history.label                 "इतिहास">
 
@@ -27,11 +22,8 @@
 <!ENTITY  acceptCookies.label           "साइटों से कुकीज़ स्वीकारें">
 <!ENTITY  acceptCookies.accesskey       "A">
 
-<!ENTITY  acceptThirdParty.pre.label      "तृतीय पक्षीय कुकीज़ स्वीकारें (c)">
-<!ENTITY  acceptThirdParty.pre.accesskey  "c">
-<!ENTITY  acceptThirdParty.always.label   "हमेशा">
-<!ENTITY  acceptThirdParty.never.label    "कभी न ">
-<!ENTITY  acceptThirdParty.visited.label  "From visited">
+<!ENTITY  acceptThirdParty.label        "तृतीय पक्षीय कुकीज़ स्वीकारें">
+<!ENTITY  acceptThirdParty.accesskey    "c">
 
 <!ENTITY  keepUntil.label               "बनाए रखें जबतक:">
 <!ENTITY  keepUntil.accesskey           "K">

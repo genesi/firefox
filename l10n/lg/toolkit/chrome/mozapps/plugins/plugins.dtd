@@ -1,6 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 <!ENTITY pluginWizard.title                                  "Enkola y'okwongerezebwaako efunubwa">
 <!ENTITY pluginWizard.firstPage.title                        "Oyanirizibwa ku &pluginWizard.title;">
 
@@ -35,7 +32,7 @@
 <!ENTITY missingPlugin                                       "Ekyongerwako kyetagisa okulaga ebirimuno.">
 <!-- LOCALIZATION NOTE (tapToPlayPlugin): Mobile (used for touch interfaces) only has one type of plugin possible. -->
 <!ENTITY tapToPlayPlugin                                     "Koona wano okutandika ekyongerwamu.">
-<!ENTITY clickToActivatePlugin                               "Activate plugin.">
+<!ENTITY clickToPlayPlugin                                   "Koona wano okutandika ekyongerwamu.">
 <!ENTITY checkForUpdates                                     "Kebera ku Bituusa…">
 <!ENTITY disabledPlugin                                      "Ekyongerwamu kigiddwako.">
 <!ENTITY blockedPlugin.label                                 "Ekyongerwamu kyino kyiziyiziddwa kulw'obukumi bwo.">
@@ -56,8 +53,3 @@
 <!ENTITY report.disabled                                     "Okuweereza lipoota eza amangu kunafuyiziddwa.">
 <!ENTITY report.failed                                       "Okuwayo kulemereddwa.">
 <!ENTITY report.unavailable                                  "Tewali alipoota eriwo.">
-<!ENTITY report.comment                                      "Gatttawo endowooza yo (endowooza zirabibwa buli omu)">
-<!ENTITY report.pageURL                                      "Include the page's URL">
-
-<!ENTITY plugin.file                                         "Failo">
-<!ENTITY plugin.mimeTypes                                    "MIME Types">

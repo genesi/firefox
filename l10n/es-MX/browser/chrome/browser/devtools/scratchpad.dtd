@@ -7,10 +7,6 @@
 <!ENTITY openFileCmd.label "Abrir archivo…">
 <!ENTITY openFileCmd.accesskey "O">
 <!ENTITY openFileCmd.commandkey "o">
-<!ENTITY openRecentMenu.label "Abrir reciente">
-<!ENTITY openRecentMenu.accesskey "r">
-<!ENTITY revertCmd.label "Revert…">
-<!ENTITY revertCmd.accesskey "t">
 <!ENTITY saveFileCmd.label "Guardar">
 <!ENTITY saveFileCmd.accesskey "S">
 <!ENTITY saveFileCmd.commandkey "s">
@@ -44,9 +40,6 @@
 <!ENTITY documentationLink.accesskey "D">
 <!ENTITY resetContext2.label "Resetear variables">
 <!ENTITY resetContext2.accesskey "T">
-<!ENTITY reloadAndRun.label "Reload And Run">
-<!ENTITY reloadAndRun.accesskey "E">
-<!ENTITY reloadAndRun.key "r">
 <!ENTITY executeMenu.label "Ejecutar">
 <!ENTITY executeMenu.accesskey "X">
 <!ENTITY errorConsoleCmd.commandkey "j">

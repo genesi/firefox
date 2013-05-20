@@ -10,7 +10,6 @@
 # Reviewer(s):
 #
 # Alexandru Szasz <alexxed@gmail.com>
-# raulmalea <raul.malea@gmail.com>
 #
 -->
 <!-- This Source Code Form is subject to the terms of the Mozilla Public
@@ -27,7 +26,7 @@
 
 <!ENTITY setup.choicePage.title.label     "Ați mai folosit &syncBrand.fullName.label;?">
 <!ENTITY setup.choicePage.new.label       "N-am mai folosit niciodată &syncBrand.shortName.label;">
-<!ENTITY setup.choicePage.existing2.label "Utilizez deja &syncBrand.shortName.label; pe alt dispozitiv">
+<!ENTITY setup.choicePage.existing.label  "Folosesc deja &syncBrand.shortName.label; pe alt calculator">
 
 <!-- New Account AND Existing Account -->
 <!ENTITY server.label               "Server">
@@ -93,8 +92,8 @@
 
 <!-- Sync Options -->
 <!ENTITY setup.optionsPage.title      "Opțiuni de sincronizare">
-<!ENTITY syncDeviceName.label       "Nume dispozitiv:">
-<!ENTITY syncDeviceName.accesskey   "d">
+<!ENTITY syncComputerName.label       "Nume calculator:">
+<!ENTITY syncComputerName.accesskey   "c">
 
 <!ENTITY syncMy.label               "Sincronizează">
 <!ENTITY engine.bookmarks.label     "Semne de carte">
@@ -110,16 +109,16 @@
 <!ENTITY engine.addons.label        "Suplimente">
 <!ENTITY engine.addons.accesskey    "S">
 
-<!ENTITY choice2a.merge.main.label       "Îmbină datele de pe acest dispozitiv cu datele &syncBrand.shortName.label;">
+<!ENTITY choice2.merge.main.label      "Combină datele de pe acest calculator cu datele existente în &syncBrand.shortName.label;">
 <!ENTITY choice2.merge.recommended.label "Recomandat:">
-<!ENTITY choice2a.client.main.label      "Înlocuiește toate datele de pe acest dispozitiv cu datele &syncBrand.shortName.label;">
-<!ENTITY choice2a.server.main.label      "Înlocuiește datele de pe toate dispozitivele cu datele de pe acest dispozitiv">
+<!ENTITY choice2.client.main.label     "Înlocuiește toate datele pe acest calculator cu datele din &syncBrand.shortName.label;">
+<!ENTITY choice2.server.main.label     "Înlocuiește datele celorlalte dispozitive cu datele de pe acest calculator">
 
 <!-- Confirm Merge Options -->
 <!ENTITY setup.optionsConfirmPage.title "Confirmare">
-<!ENTITY confirm.merge2.label    "&syncBrand.fullName.label; va îmbinare acum toate datele navigatorului de pe acest dispozitiv cu contul de sincronizare.">
-<!ENTITY confirm.client3.label         "Atenție: Următoarele date &brandShortName; de pe acest dispozitiv vor fi șterse:">
-<!ENTITY confirm.client2.moreinfo.label "&brandShortName; va copia datele &syncBrand.fullName.label; pe acest dispozitiv.">
+<!ENTITY confirm.merge.label    "Ați ales să combinați datele de pe acest calculator cu datele de pe alte dispozitive care rulează &syncBrand.fullName.label;.">
+<!ENTITY confirm.client2.label         "Atenție: Următoarele date &brandShortName; de pe acest calculator vor fi șterse:">
+<!ENTITY confirm.client.moreinfo.label "&brandShortName; va copia apoi datele din &syncBrand.fullName.label; pe acest calculator.">
 <!ENTITY confirm.server2.label         "Atenție: Următoarele dispozitive vor fi suprascrise cu datele dumneavoastră locale:">
 
 <!-- New & Existing Account: Setup Complete -->

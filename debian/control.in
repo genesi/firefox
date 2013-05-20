@@ -3,7 +3,7 @@ Source: @MOZ_PKG_NAME@
 Section: web
 Priority: optional
 Maintainer: Ubuntu Mozilla Team <ubuntu-mozillateam@lists.ubuntu.com>
-Vcs-Bzr: https://code.launchpad.net/~mozillateam/firefox/firefox-aurora.head
+Vcs-Bzr: https://code.launchpad.net/~mozillateam/firefox/firefox-beta.raring
 Build-Depends: cdbs,
 	locales,
 	debhelper (>= 7),

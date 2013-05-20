@@ -1,7 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!-- The page shown when not logged in... -->
 <!ENTITY setupButton.label          "Misa i-&syncBrand.fullName.label;">
 <!ENTITY setupButton.accesskey      "M">
@@ -34,8 +30,6 @@
 <!ENTITY engine.passwords.accesskey "A">
 <!ENTITY engine.prefs.label         "Okuthandwayo">
 <!ENTITY engine.prefs.accesskey     "t">
-<!ENTITY engine.addons.label        "Nokungezwayo">
-<!ENTITY engine.addons.accesskey    "N">
 <!-- Device Settings -->
 
 <!ENTITY syncComputerName.label       "Igama lekhompyutha:">

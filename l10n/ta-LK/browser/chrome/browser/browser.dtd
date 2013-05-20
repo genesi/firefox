@@ -28,6 +28,8 @@
 <!ENTITY printCmd.label "அச்சிடுக">
 <!ENTITY printCmd.accesskey "P">
 <!ENTITY printCmd.commandkey "p">
+<!ENTITY import.label "இறக்குமதி...">
+<!ENTITY import.accesskey "I">
 
 <!ENTITY goOfflineCmd.label "இணைப்பில்லாநிலையில் ​வேலை செய்க">
 <!ENTITY goOfflineCmd.accesskey "w">
@@ -67,6 +69,7 @@
 <!ENTITY subscribeToPageMenuitem.label "இப்பக்கத்திற்கு அங்கத்துவத்தை அளிக்க">
 <!ENTITY addCurPagesCmd.label "அனைத்து தத்தல்களையும் புத்தகக்குறியிடுக">
 
+<!ENTITY bookmarkAllCmd.label "அனைத்து தத்தல்களையும் புத்தகக்குறியிடுக">
 <!ENTITY bookmarksToolbarChevron.tooltip "இன்னும் புத்தகக்குறிகளைக் காட்டுக">
 
 <!ENTITY backCmd.label "பின்னோக்குக">
@@ -75,8 +78,6 @@
 <!ENTITY forwardCmd.label "முன்னோக்குக">
 <!ENTITY forwardCmd.accesskey "F">
 <!ENTITY forwardButton.tooltip "ஒரு பக்கம் முன்னோக்கி செல்க">
-<!ENTITY backForwardButtonMenu.tooltip "Right-click or pull down to show history">
-<!ENTITY backForwardButtonMenuMac.tooltip "Pull down to show history">
 <!ENTITY reloadCmd.label "மீண்டும் ஏற்றுக">
 <!ENTITY reloadCmd.accesskey "R">
 <!ENTITY reloadButton.tooltip "நடப்புப் பக்கத்தை மீண்டும் ஏற்றுக">
@@ -133,7 +134,6 @@
 <!ENTITY undoCmd.label            "அ-செய்">  
 <!ENTITY undoCmd.key            "Z">  
 <!ENTITY undoCmd.accesskey          "U"> 
-
 
 <!ENTITY redoCmd.label            "மீ-செய்">  
 <!ENTITY redoCmd.key            "Y">  
@@ -208,7 +208,6 @@
   
  -->
 <!ENTITY searchFocus.commandkey       "k">
-<!ENTITY searchFocus.commandkey2      "e">
 <!ENTITY searchFocusUnix.commandkey   "j">
 
 <!ENTITY openLinkCmd.label            "இணைப்பை புதிய சாளரத்தில் திறக்க">
@@ -417,6 +416,7 @@ Entities below were automatically added by compare-locales,
 
 <!ENTITY appMenuCustomize.label "தனிப்பயனாக்குக">
 <!ENTITY bookmarksGtkCmd.commandkey "o">
+<!ENTITY inspectStylePanelTitle.label "நடை">
 <!ENTITY fullScreenButton.tooltip "முழு தி​ரையில் சாளரத்தை காட்சிப் படுத்தவும்">
 <!ENTITY addonBarCmd.label "உட்செருகல் பட்டை">
 <!ENTITY fullScreenCmd.macCommandKey "f">
@@ -446,6 +446,7 @@ Entities below were automatically added by compare-locales,
 <!ENTITY moveToNewWindow.accesskey "W">
 <!ENTITY viewBookmarksToolbar.label "புத்தகக்குறிகள் கருவிப்பட்டையை நோக்கு">
 <!ENTITY menubarCmd.label "பட்டிப் பட்டை">
+<!ENTITY inspectNextButton.label "அடுத்தது">
 <!ENTITY moveToNewGroup.label "புதிய குழு">
 <!ENTITY showAllTabsCmd.accesskey "A">
 <!ENTITY appMenuButton.tooltip "&brandShortName; பட்டியைத் திறக்க">
@@ -455,9 +456,8 @@ Entities below were automatically added by compare-locales,
 <!ENTITY syncSetup.label "Set Up &syncBrand.shortName.label;…">
 <!ENTITY appMenuSafeMode.accesskey "R">
 <!ENTITY inspectButton.label "பரிசோதிக்க">
-<!ENTITY inspectContextMenu.label     "Inspect Element">
-<!ENTITY inspectContextMenu.accesskey "Q">
 <!ENTITY backForwardItem.title "பின்னோக்கு/முன்னனோக்கு">
+<!ENTITY inspectPreviousButton.accesskey "P">
 <!ENTITY historyRestoreLastSession.label "முந்தைய அமர்வை மீட்கவும்">
 <!ENTITY webConsoleCmd.accesskey "W">
 <!ENTITY clearRecentHistory.accesskey "H">
@@ -479,18 +479,22 @@ Entities below were automatically added by compare-locales,
 <!ENTITY moveToGroup.label "குழுவுக்கு நகர்த்துக">
 <!ENTITY closeTab.label "தத்தலை மூடுக">
 <!ENTITY pinAppTab.label "Pin as App Tab">
+<!ENTITY inspectStyleButton.accesskey "S">
 <!ENTITY webConsoleCmd.label "Web Console">
 <!ENTITY viewTabsOnTop.label "தத்தல்கள் மேலே">
 <!ENTITY viewTabGroups.label "தத்தல் குழுக்கள்">
 <!ENTITY urlbar.switchToTab.label "தத்தலுக்கு மாற்றுக:">
+<!ENTITY inspectPreviousButton.label "முந்தையது">
 <!ENTITY appMenuSafeMode.label "செயலற்றதாக்கப்பட்ட உட்செருகல்களுடன் மீளத் தொடங்குக...">
 <!ENTITY addons.commandkey "A">
 <!ENTITY tabGroupsButton.tooltip "உங்களுடைய தத்தல்களை குழுவாக்குக">
 <!ENTITY allTabs.filter.emptyText "தேடல் தத்தல்கள்">
 <!ENTITY reloadTab.label "மீள ஏற்றல் தத்தல்">
 <!ENTITY appMenuWebDeveloper.label "இணையத்தை உருவாக்குபவர்">
+<!ENTITY inspectObjectButton.label "பொருள்">
 <!ENTITY viewTabGroups.accesskey "G">
 <!ENTITY viewTabsOnTop.accesskey "T">
+<!ENTITY inspectNextButton.accesskey "N">
 <!ENTITY moveToGroup.accesskey "M">
 <!ENTITY syncTabsMenu.label "ஏனைய கணினிகளிலிருந்து தத்தல்கள்">
 <!ENTITY bookmarksMenuButton.tooltip "உங்களுடைய புத்தகக்குறிகளைக் காட்சிப்படுத்துக">
@@ -503,11 +507,13 @@ Entities below were automatically added by compare-locales,
 <!ENTITY videoFullScreen.accesskey "F">
 <!ENTITY tabsToolbar.label "உலாவி தத்தல்கள்">
 <!ENTITY feedButton.tooltip "இந்தப் பக்கத்திற்கு அங்கத்தினராகுக...">
+<!ENTITY inspectStyleButton.label "நடை">
 <!ENTITY showAllTabsCmd.label "அனைத்துத் தத்தல்களையும் காட்டுக">
 <!ENTITY unpinAppTab.label "Unpin தத்தல்">
 <!ENTITY reloadAllTabs.label "அனைத்துத் தத்தல்களையும் மீள ஏற்றுக">
 <!ENTITY closeTab.accesskey "c">
 <!ENTITY inspectMenu.label "பரிசோதிக்க">
+<!ENTITY inspectObjectButton.accesskey "O">
 <!ENTITY clearRecentHistory.label "அண்மைய வரலாறை சுத்தப்படுத்துக...">
 <!ENTITY zoomOutButton.tooltip "சிறிதாக்குக">
 <!ENTITY bookmarksCmd.commandkey "b">
@@ -523,19 +529,3 @@ Entities below were automatically added by compare-locales,
 <!ENTITY addonBarCloseButton.tooltip "செருகல் பட்டையை மூடுக">
 <!ENTITY preferencesCmd2.label "தெரிவுகள்">
 <!ENTITY toggleAddonBarCmd.key        "/">
-
-
-<!--
-Entities below were automatically added by compare-locales,
- based on en-US entities.
--->
-
-<!ENTITY webDeveloperMenu.accesskey "W">
-<!ENTITY scratchpad.keycode "VK_F4">
-<!ENTITY unsortedBookmarksCmd.label "Unsorted பக்கஅடையாளங்கள்">
-<!ENTITY scratchpad.label "Scratchpad">
-<!ENTITY getMoreDevtoolsCmd.label "மேலும் கருவிகளை பெறுக">
-<!ENTITY scratchpad.keytext "F4">
-<!ENTITY getMoreDevtoolsCmd.accesskey "M">
-<!ENTITY scratchpad.accesskey "s">
-<!ENTITY webDeveloperMenu.label "இணைய அபிவிருத்தியாளர்">

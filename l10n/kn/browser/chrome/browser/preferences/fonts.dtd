@@ -1,7 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!ENTITY  fontsDialog.title                       "ಅಕ್ಷರ ಶೈಲಿಗಳು">
 <!ENTITY  window.width                            "39em">
 <!ENTITY  window.macWidth                         "43em">
@@ -23,6 +19,8 @@
 <!ENTITY  sans-serif.accesskey                    "n">
 <!ENTITY  monospace.label                         "ಮೋನೊಸ್ಪೇಸ್‍:">
 <!ENTITY  monospace.accesskey                     "M">
+<!-- LOCALIZATION NOTE (fantasy.label): 'Fantasy' means 'Ornate' -->
+
 
 <!ENTITY  font.langGroup.latin1                   "ವೆಸ್ಟರ್ನ್">
 <!ENTITY  font.langGroup.latin2                   "ಸೆಂಟ್ರಲ್‍ ಯೂರೋಪಿಯನ್‍">
@@ -51,17 +49,16 @@
 <!ENTITY  font.langGroup.gurmukhi                 "ಗುರುಮುಖಿ">
 <!ENTITY  font.langGroup.khmer                    "ಖ್ಮೇರ್">
 <!ENTITY  font.langGroup.malayalam                "ಮಲೆಯಾಳಂ">
+<!ENTITY  font.langGroup.kannada                  "ಕನ್ನಡ">
 <!ENTITY  font.langGroup.oriya                    "ಒರಿಯಾ">
 <!ENTITY  font.langGroup.telugu                   "ತೆಲುಗು">
-<!ENTITY  font.langGroup.kannada                  "ಕನ್ನಡ">
 <!ENTITY  font.langGroup.sinhala                  "ಸಿಂಹಳ">
-<!ENTITY  font.langGroup.tibetan                  "ಟಿಬೆಟಿಯನ್">
 <!-- Minimum font size -->
 <!ENTITY minSize.label                            "ಅಕ್ಷರದ ಕನಿಷ್ಠ  ಗಾತ್ರ:">
 <!ENTITY minSize.accesskey                        "o">
 <!ENTITY minSize.none                             "ಯಾವುದೂ ಇಲ್ಲ">
-<!-- default font type -->
 
+<!-- default font type -->
 <!ENTITY  useDefaultFontSerif.label               "ಸೆರಿಫ್">
 <!ENTITY  useDefaultFontSansSerif.label           "ಸಾನ್ಸ್‍ ಸೆರಿಫ್">
 
@@ -71,3 +68,4 @@
 <!ENTITY languages.customize.Charset.grouplabel         "ಅಕ್ಷರಗಳ ಎನ್ಕೋಡಿಂಗ್‍ ">
 <!ENTITY languages.customize.DefaultCharset.label       "ಡೀಫಾಲ್ಟ್‍ ಅಕ್ಷರಗಳ ಎನ್ಕೋಡಿಂಗ್‍ :">
 <!ENTITY languages.customize.DefaultCharset.accesskey   "C">
+<!ENTITY  font.langGroup.tibetan                  "ಟಿಬೆಟಿಯನ್">

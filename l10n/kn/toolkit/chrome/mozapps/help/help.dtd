@@ -1,7 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!ENTITY printCmd.commandkey            "p">
 
 <!ENTITY findOnCmd.commandkey           "F">
@@ -26,25 +22,8 @@
 <!ENTITY printButton.tooltip            "ಈ ಪುಟವನ್ನು ಮುದ್ರಿಸು">
 <!ENTITY closeWindow.commandkey         "W">
 
-<!ENTITY search.emptytext               "ಹುಡುಕು">
-<!ENTITY searchHeader.label             "ಹುಡುಕು ಫಲಿತಾಂಶಗಳು">
-<!ENTITY toctab.label                   "ವಿಷಯಗಳು">
+<!ENTITY toctab.label       	  	"ವಿಷಯಗಳು">
 <!ENTITY toctab.accesskey               "C">
-<!-- LOCALIZATION NOTE :
-fullZoomEnlargeCmd.commandkey3, fullZoomReduceCmd.commandkey2 and
-fullZoomResetCmd.commandkey2 are alternative acceleration keys for zoom.
-If shift key is needed with your locale popular keyboard for them,
-you can use these alternative items. Otherwise, their values should be empty.  -->
-
-
-<!ENTITY fullZoomReduceCmd.commandkey   "-">
-<!ENTITY fullZoomReduceCmd.commandkey2  "">
-<!ENTITY fullZoomEnlargeCmd.commandkey  "+">
-<!-- + is above this key on many keyboards -->
-<!ENTITY fullZoomEnlargeCmd.commandkey2 "="> 
-<!ENTITY fullZoomEnlargeCmd.commandkey3 "">
-<!ENTITY fullZoomResetCmd.commandkey    "0">
-<!ENTITY fullZoomResetCmd.commandkey2   "">
 
 <!ENTITY helpSearch.commandkey          "k">
 
@@ -55,3 +34,19 @@ you can use these alternative items. Otherwise, their values should be empty.  -
 <!ENTITY fullZoomReduceBtn.accesskey    "O">
 <!ENTITY fullZoomEnlargeBtn.label       "ಹಿಗ್ಗಿಸು">
 <!ENTITY fullZoomEnlargeBtn.accesskey   "I">
+
+<!-- LOCALIZATION NOTE :
+fullZoomEnlargeCmd.commandkey3, fullZoomReduceCmd.commandkey2 and
+fullZoomResetCmd.commandkey2 are alternative acceleration keys for zoom.
+If shift key is needed with your locale popular keyboard for them,
+you can use these alternative items. Otherwise, their values should be empty.  -->
+
+<!ENTITY fullZoomReduceCmd.commandkey   "-">
+<!ENTITY fullZoomReduceCmd.commandkey2  "">
+<!ENTITY fullZoomEnlargeCmd.commandkey  "+">
+<!ENTITY fullZoomEnlargeCmd.commandkey2 "="> <!-- ಹೆಚ್ಚಿನ ಕೀಲಿಮಣೆಗಳಲ್ಲಿ +ಕೀಲಿಯು ಈ ಕೀಲಿಗಿಂತ ಮೇಲ್ಭಾಗದಲ್ಲಿ ಇರುತ್ತದೆ -->
+<!ENTITY fullZoomEnlargeCmd.commandkey3 "">
+<!ENTITY fullZoomResetCmd.commandkey    "0">
+<!ENTITY fullZoomResetCmd.commandkey2   "">
+<!ENTITY search.emptytext               "ಹುಡುಕು">
+<!ENTITY searchHeader.label             "ಹುಡುಕು ಫಲಿತಾಂಶಗಳು">

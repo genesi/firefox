@@ -4,13 +4,8 @@
 
 <!ENTITY tracking.label                 "ره‌گیری">
 
-<!ENTITY dntTrackingNopref.label        "Do not tell sites anything about my tracking preferences.">
-<!ENTITY dntTrackingNopref.accesskey    "o">
-<!ENTITY dntTrackingNotOkay.label       "Tell sites that I do not want to be tracked.">
-<!ENTITY dntTrackingNotOkay.accesskey   "n">
-<!ENTITY dntTrackingOkay.label          "Tell sites that I want to be tracked.">
-<!ENTITY dntTrackingOkay.accesskey      "t">
-<!ENTITY doNotTrackInfo.label           "بیشتر بدانید">
+<!ENTITY doNotTrack.label               "درخواست از وب‌گاه‌ها برای عدم ره‌گیری فعالیت‌های من">
+<!ENTITY doNotTrack.accesskey           "ع">
 
 <!ENTITY  history.label                 "تاریخچه">
 
@@ -27,11 +22,8 @@
 <!ENTITY  acceptCookies.label           "به وب‌گاه‌ها اجازهٔ استفاده از کوکی داده شود">
 <!ENTITY  acceptCookies.accesskey       "ج">
 
-<!ENTITY  acceptThirdParty.pre.label      "Accept third-party cookies:">
-<!ENTITY  acceptThirdParty.pre.accesskey  "c">
-<!ENTITY  acceptThirdParty.always.label   "Always">
-<!ENTITY  acceptThirdParty.never.label    "Never">
-<!ENTITY  acceptThirdParty.visited.label  "From visited">
+<!ENTITY  acceptThirdParty.label        "پذیرفتن کوکی‌های شخص ثالث">
+<!ENTITY  acceptThirdParty.accesskey    "ث">
 
 <!ENTITY  keepUntil.label               "نگهداری شوند تا:">
 <!ENTITY  keepUntil.accesskey           "ن">
@@ -72,7 +64,7 @@
 <!ENTITY  dontrememberActions.clearHistory.label "تمام تاریخچهٔ موجود را پاک کنید">
 <!ENTITY  dontrememberActions.post.label         ".">
 
-<!ENTITY  privateBrowsingPermanent2.label "همیشه از حالت &quot;مرور مخفیانه&quot; استفاده کن">
+<!ENTITY  privateBrowsingPermanent2.label 'همیشه از حالت "مرور مخفیانه" استفاده کن'>
 <!ENTITY  privateBrowsingPermanent2.accesskey "p">
 
 <!ENTITY  rememberHistory2.label      "مرور و بارگذاری های مرا به خاطر بسپار">

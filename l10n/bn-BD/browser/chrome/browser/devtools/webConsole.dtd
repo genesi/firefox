@@ -10,7 +10,7 @@
 
 <!ENTITY window.title "ওয়েব কনসোল">
 
-<!ENTITY networkPanel.requestURLColon             "অনুরোধকৃত URL:">
+<!ENTITY networkPanel.requestURLColon             "অনুরোধের URL:">
 <!ENTITY networkPanel.requestMethodColon          "অনুরোধের পদ্ধতি:">
 <!ENTITY networkPanel.statusCodeColon             "স্ট্যাটাস কোড:">
 
@@ -59,10 +59,31 @@
 <!ENTITY btnConsoleInfo         "তথ্য">
 <!ENTITY btnConsoleWarnings     "সতর্কবার্তা">
 <!ENTITY btnConsoleLog          "লগ">
+<!-- LOCALIZATION NOTE (btnPosition.label): The label shown for the menu which
+  -  allows the user to toggle between the Web Console positioning types. -->
+
+<!ENTITY btnPosition.label     "অবস্থান">
+<!-- LOCALIZATION NOTE (btnPosition.tooltip): The tooltip shown when the user
+  -  hovers the Position button in the Web Console toolbar. -->
+
+<!ENTITY btnPosition.tooltip   "নথির উপরে বা নিচে ওয়েব কনসোলের অবস্থান ঠিক করুন">
+<!-- LOCALIZATION NOTE (positionMenu.above): When this option is selected the
+  -  Web Console interface is displayed above the web page. -->
+
+<!ENTITY positionMenu.above    "উপরে">
+<!-- LOCALIZATION NOTE (positionMenu.below): When this option is selected the
+  -  Web Console interface is displayed below the web page. -->
+
+<!ENTITY positionMenu.below    "নিচে">
+<!-- LOCALIZATION NOTE (positionMenu.window): When this option is selected the
+  -  Web Console interface is displayed in a floating panel. -->
+
+<!ENTITY positionMenu.window   "উইন্ডো">
 
 <!ENTITY filterBox.placeholder "ফিল্টার">
 <!ENTITY btnClear.label        "মুছে ফেলুন">
 <!ENTITY btnClear.tooltip      "ওয়েব কনসোল আউটপুট পরিষ্কার করুন">
+<!ENTITY btnClose.tooltip      "ওয়েব কনসোল বন্ধ করুন">
 
 <!ENTITY fullZoomEnlargeCmd.commandkey  "+">
 <!-- + is above this key on many keyboards -->
@@ -70,10 +91,10 @@
 <!ENTITY fullZoomEnlargeCmd.commandkey3 "">
 
 <!ENTITY fullZoomReduceCmd.commandkey   "-">
-<!ENTITY fullZoomReduceCmd.commandkey2  "বড়-ছোট">
+<!ENTITY fullZoomReduceCmd.commandkey2  "">
 
 <!ENTITY fullZoomResetCmd.commandkey    "0">
-<!ENTITY fullZoomResetCmd.commandkey2   "পূর্বাবস্থা">
+<!ENTITY fullZoomResetCmd.commandkey2   "">
 
 <!ENTITY copyURLCmd.label     "লিংকের ঠিকানা অনুলিপি (a)">
 <!ENTITY copyURLCmd.accesskey "a">

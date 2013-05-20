@@ -2,7 +2,7 @@
 @MOZ_ADDONDIR@/extensions @MOZ_LIBDIR@/browser/extensions
 @MOZ_ADDONDIR@/plugins @MOZ_LIBDIR@/browser/plugins
 @MOZ_ADDONDIR@/searchplugins @MOZ_LIBDIR@/browser/searchplugins
-@MOZ_ADDONDIR@/distribution/extensions @MOZ_LIBDIR@/browser/distribution/extensions
+@MOZ_ADDONDIR@/distribution/extensions @MOZ_LIBDIR@/distribution/extensions
 
 # System dictionaries / hyphenation patterns
 usr/share/hunspell @MOZ_LIBDIR@/dictionaries
@@ -11,6 +11,3 @@ usr/share/hyphen @MOZ_LIBDIR@/hyphenation
 @MOZ_LIBDIR@/firefox.sh usr/bin/@MOZ_APP_NAME@
 @MOZ_LIBDIR@/browser/icons/mozicon128.png usr/share/pixmaps/@MOZ_APP_NAME@.png
 etc/@MOZ_PKG_NAME@/syspref.js @MOZ_LIBDIR@/browser/defaults/preferences/syspref.js
-
-# Compat with ubuntu-defaults-builder (see comment in firefox.install.in)
-@MOZ_LIBDIR@/distribution/distribution.ini @MOZ_LIBDIR@/browser/distribution/distribution.ini

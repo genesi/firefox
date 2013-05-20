@@ -26,6 +26,7 @@
     FUNC(dbusmenu_menuitem_property_set_bool, gboolean, (DbusmenuMenuitem *mi, const gchar *property, const gboolean value)) \
     FUNC(dbusmenu_menuitem_property_set_int, gboolean, (DbusmenuMenuitem *mi, const gchar *property, const gint value)) \
     FUNC(dbusmenu_menuitem_show_to_user, void, (DbusmenuMenuitem *mi, guint timestamp)) \
+    FUNC(dbusmenu_menuitem_take_children, GList*, (DbusmenuMenuitem *mi)) \
     FUNC(dbusmenu_server_new, DbusmenuServer*, (const gchar *object)) \
     FUNC(dbusmenu_server_set_root, void, (DbusmenuServer *server, DbusmenuMenuitem *root)) \
     FUNC(dbusmenu_server_set_status, void, (DbusmenuServer *server, DbusmenuStatus status))
@@ -87,6 +88,7 @@ public:
 #define dbusmenu_menuitem_property_set_bool nsDbusmenuFunctions::s_dbusmenu_menuitem_property_set_bool
 #define dbusmenu_menuitem_property_set_int nsDbusmenuFunctions::s_dbusmenu_menuitem_property_set_int
 #define dbusmenu_menuitem_show_to_user nsDbusmenuFunctions::s_dbusmenu_menuitem_show_to_user
+#define dbusmenu_menuitem_take_children nsDbusmenuFunctions::s_dbusmenu_menuitem_take_children
 #define dbusmenu_server_new nsDbusmenuFunctions::s_dbusmenu_server_new
 #define dbusmenu_server_set_root nsDbusmenuFunctions::s_dbusmenu_server_set_root
 #define dbusmenu_server_set_status nsDbusmenuFunctions::s_dbusmenu_server_set_status

@@ -772,11 +772,7 @@ pref("javascript.options.strict.debug",     true);
 pref("javascript.options.methodjit.content", true);
 pref("javascript.options.methodjit.chrome",  true);
 pref("javascript.options.ion.content",      true);
-#ifdef RELEASE_BUILD
-pref("javascript.options.experimental_asmjs", false);
-#else
-pref("javascript.options.experimental_asmjs", true);
-#endif
+pref("javascript.options.asmjs",            true);
 pref("javascript.options.ion.parallel_compilation", true);
 pref("javascript.options.pccounts.content", false);
 pref("javascript.options.pccounts.chrome",  false);
@@ -1319,7 +1315,7 @@ pref("network.proxy.socks_remote_dns",      false);
 pref("network.proxy.no_proxies_on",         "localhost, 127.0.0.1");
 pref("network.proxy.failover_timeout",      1800); // 30 minutes
 pref("network.online",                      true); //online/offline
-pref("network.cookie.cookieBehavior",       3); // 0-Accept, 1-dontAcceptForeign, 2-dontUse, 3-limitForeign
+pref("network.cookie.cookieBehavior",       0); // 0-Accept, 1-dontAcceptForeign, 2-dontUse, 3-limitForeign
 #ifdef ANDROID
 pref("network.cookie.cookieBehavior",       0); // Keep the old default of accepting all cookies
 #endif

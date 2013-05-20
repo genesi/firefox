@@ -28,12 +28,11 @@
 
 <!-- Sync Settings -->
 <!-- ENTITY syncPrefsCaption.label       "ব্রাউজার সুসংগতি" -->
-<!--ENTITY syncComputerName.label       "কম্পিউটারের নাম:"-->
-<!--ENTITY syncComputerName.accesskey   "c"-->
+<!ENTITY syncComputerName.label       "কম্পিউটারের নাম:">
+<!ENTITY syncComputerName.accesskey   "c">
 <!-- ENTITY deactivateDevice.label       "এই ডিভাইসটি নিষ্ক্রিয় করা হবে" -->
 <!ENTITY unlinkDevice.label           "ডিভাইসের বিচ্ছিন্ন করুন">
-<!ENTITY syncDeviceName.accesskey   "c">
-<!ENTITY syncDeviceName.label       "Device Name:">
+
 <!ENTITY syncMy.label               "সুসংগত করা হবে">
 <!ENTITY engine.bookmarks.label     "বুকমার্ক">
 <!ENTITY engine.bookmarks.accesskey "m">

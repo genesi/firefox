@@ -1,7 +1,3 @@
-<!-- This Source Code Form is subject to the terms of the Mozilla Public
-   - License, v. 2.0. If a copy of the MPL was not distributed with this
-   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-
 <!ENTITY safeb.palm.warning.title "இணைய மோசடி என கருதப்படுகிறது">
 
 <!ENTITY safeb.palm.message.p1 "இந்த பக்கம் தனிப்பட்ட அல்லது நிதி விவரங்களை பகிர ஒரு இணைய மோசடியாக அறிக்கையிடப்பட்டுள்ளது. இதில் தனிப்பட்ட விவரங்களை உள்ளிட்டால் அவை திருடு போவதற்கு வாய்ப்புள்ளது. &#160;">
@@ -28,3 +24,5 @@
 <!-- Localization note (safeb.blocked.phishing.shortDesc) - Please don't translate the contents of the <span id="phishing_sitename"/> tag. It will be replaced at runtime with a domain name (e.g. www.badsite.com) -->
 <!ENTITY safeb.blocked.phishingPage.shortDesc "இந்த இணைய தளம் <span id='phishing_sitename'/>இல் ஒரு இணைய மோசடி செய்துள்ளதாக அறிக்கையிடப்பட்டு உங்கள் பாதுகாப்பு முன்னுரிமையின் படி தடுக்கப்பட்டுள்ளது.">
 <!ENTITY safeb.blocked.phishingPage.longDesc "<p>இணைய மோசடிகள் என்பது தனிப்பட்ட அல்லது நிதி தகவல்களை கொண்ட இணைய தளங்களை போலவே செயல்படும் படி வடிவமைக்கப்பட்டிருக்கும்.</p><p>அதில் நீங்கள் தகவலை உள்ளிட்டால் அவை திருடப்படும் அல்லது வேறு ஏமாற்று வேலைகளை செய்யும்.</p>">
+
+

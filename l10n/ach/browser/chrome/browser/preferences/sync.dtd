@@ -14,8 +14,8 @@
 <!ENTITY resetPass.label              "Nwo tero">
 <!-- Manage Account -->
 
-<!ENTITY manageAccount.label          "Manage Account">
-<!ENTITY manageAccount.accesskey      "n">
+<!ENTITY manageAccount.label          "Lo Akaunti">
+<!ENTITY manageAccount.accesskey      "A">
 <!ENTITY viewQuota.label              "Nen Ngap">
 <!ENTITY changePassword2.label        "Lok Icwil me donyo…">
 <!ENTITY myRecoveryKey.label          "Lagony mega me Nongo">
@@ -38,8 +38,8 @@
 <!ENTITY engine.addons.accesskey    "L">
 <!-- Device Settings -->
 
-<!ENTITY syncDeviceName.label       "Nying Jamitic:">
-<!ENTITY syncDeviceName.accesskey   "t">
+<!ENTITY syncComputerName.label       "Nying kompiuta:">
+<!ENTITY syncComputerName.accesskey   "N">
 <!ENTITY unlinkDevice.label           "Pe i Kub Jami man">
 <!-- Footer stuff -->
 

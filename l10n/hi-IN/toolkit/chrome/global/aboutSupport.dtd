@@ -42,10 +42,6 @@ variant of aboutSupport.showDir.label. -->
 <!ENTITY aboutSupport.modifiedKeyPrefsTitle "महत्वपूर्ण रूपांतरित वरीयताएँ">
 <!ENTITY aboutSupport.modifiedPrefsName "नाम">
 <!ENTITY aboutSupport.modifiedPrefsValue "मान">
-<!-- LOCALIZATION NOTE (aboutSupport.userJSTitle, aboutSupport.userJSDescription): user.js is the name of the preference override file being checked. -->
-
-<!ENTITY aboutSupport.userJSTitle "उपयोक्ता प्राथमिकताएँ">
-<!ENTITY aboutSupport.userJSDescription "Your profile folder contains a <a id='prefs-user-js-link'>user.js file</a>, which includes preferences that were not created by &brandShortName;.">
 
 <!ENTITY aboutSupport.graphicsTitle "चित्रादि">
 
@@ -61,5 +57,4 @@ variant of aboutSupport.showDir.label. -->
 <!ENTITY aboutSupport.installationHistoryTitle "संस्थापन इतिहास">
 <!ENTITY aboutSupport.updateHistoryTitle "अद्यतन इतिहास">
 
-<!ENTITY aboutSupport.copyTextToClipboard.label "पाठ क्लिपबोर्ड में नक़ल लें">
-<!ENTITY aboutSupport.copyRawDataToClipboard.label "कच्चे डाटा क्लिपबोर्ड में नक़ल लें">
+<!ENTITY aboutSupport.copyToClipboard.label "सभी का क्लिपबोर्ड में नक़ल लें">

@@ -4,13 +4,8 @@
 
 <!ENTITY tracking.label                 "Rehwɛ">
 
-<!ENTITY dntTrackingNopref.label        "Do not tell sites anything about my tracking preferences.">
-<!ENTITY dntTrackingNopref.accesskey    "o">
-<!ENTITY dntTrackingNotOkay.label       "Tell sites that I do not want to be tracked.">
-<!ENTITY dntTrackingNotOkay.accesskey   "n">
-<!ENTITY dntTrackingOkay.label          "Tell sites that I want to be tracked.">
-<!ENTITY dntTrackingOkay.accesskey      "t">
-<!ENTITY doNotTrackInfo.label           "Sua bio ka ho">
+<!ENTITY doNotTrack.label               "Ka kyerɛ nwɛbsaet nyinara sɛ me mmpɛ sɛ wɔhwɛ me ekyiri kwan">
+<!ENTITY doNotTrack.accesskey           "p">
 
 <!ENTITY  history.label                 "Abakɔsɛm">
 
@@ -27,11 +22,8 @@
 <!ENTITY  acceptCookies.label           "Gye nkuki firi nsaet">
 <!ENTITY  acceptCookies.accesskey       "G">
 
-<!ENTITY  acceptThirdParty.pre.label      "Accept third-party cookies:">
-<!ENTITY  acceptThirdParty.pre.accesskey  "c">
-<!ENTITY  acceptThirdParty.always.label   "Always">
-<!ENTITY  acceptThirdParty.never.label    "Never">
-<!ENTITY  acceptThirdParty.visited.label  "From visited">
+<!ENTITY  acceptThirdParty.label        "Gye afoforofo wɔn nkuki">
+<!ENTITY  acceptThirdParty.accesskey    "y">
 
 <!ENTITY  keepUntil.label               "Fa to hɔ kosi:">
 <!ENTITY  keepUntil.accesskey           "F">

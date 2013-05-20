@@ -14,7 +14,7 @@
 <!ENTITY resetPass.label              "Ddamu otegeke">
 <!-- Manage Account -->
 
-<!ENTITY manageAccount.label          "Dukanya Akawunta">
+<!ENTITY manageAccount.label          "Fuga Akawunta">
 <!ENTITY manageAccount.accesskey      "A">
 <!ENTITY viewQuota.label              "Laba essalira">
 <!ENTITY changePassword2.label        "Kyusa Akasuumuluzo…">
@@ -38,8 +38,8 @@
 <!ENTITY engine.addons.accesskey    "E">
 <!-- Device Settings -->
 
-<!ENTITY syncDeviceName.label       "Elinya lye Ekyuma:">
-<!ENTITY syncDeviceName.accesskey   "k">
+<!ENTITY syncComputerName.label       "Elinnya lya Kompuuta:">
+<!ENTITY syncComputerName.accesskey   "E">
 <!ENTITY unlinkDevice.label           "Jja Enkwaso Kukuma Kano">
 <!-- Footer stuff -->
 

@@ -2,7 +2,6 @@
 # Translator(s):
 #
 # Alexandru Szasz <alexxed@gmail.com>
-# raulmalea <raul.malea@gmail.com>
 # Cristian Silaghi <cristian.silaghi@mozilla.ro>
 # secarica <orice@secarica.ro>
 #
@@ -50,9 +49,6 @@
 
 <!ENTITY openRecentMenu.label         "Deschide fișiere recente">
 <!ENTITY openRecentMenu.accesskey     "r">
-
-<!ENTITY revertCmd.label              "Revert…">
-<!ENTITY revertCmd.accesskey          "t">
 
 <!ENTITY saveFileCmd.label            "Salvează">
 <!ENTITY saveFileCmd.accesskey        "S">
@@ -120,10 +116,6 @@
 <!ENTITY resetContext2.label          "Resetează variabilele">
 <!ENTITY resetContext2.accesskey      "t">
 
-<!ENTITY reloadAndRun.label           "Reload And Run">
-<!ENTITY reloadAndRun.accesskey       "E">
-<!ENTITY reloadAndRun.key             "r">
-
 <!ENTITY executeMenu.label            "Execută">
 <!ENTITY executeMenu.accesskey        "x">
 
@@ -132,4 +124,10 @@
   -  the same name in browser.dtd.
   -->
 <!ENTITY errorConsoleCmd.commandkey   "j">
+
+<!-- LOCALIZATION NOTE (webConsoleCmd.commandkey): This command key launches
+  -  the browser WebConsole, the key should be identical to the property of
+  -  the same name in browser.dtd.
+  -->
+<!ENTITY webConsoleCmd.commandkey     "k">
 
