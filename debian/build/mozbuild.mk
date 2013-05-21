@@ -309,7 +309,7 @@ debian/stamp-make-langpack-xpi-%:
 		$(MAKE) langpack-$* LOCALE_MERGEDIR=$(CURDIR)/debian/l10n-mergedirs/$* || exit 1;
 	@touch $@
 
-common-build-arch:: make-langpack-xpis $(pkgconfig_files) make-testsuite run-tests
+common-build-arch:: make-langpack-xpis $(pkgconfig_files)
 
 install/$(MOZ_PKG_NAME)::
 	@echo "Adding suggests / recommends on support packages"
@@ -557,4 +557,4 @@ clean:: debian/tests/control
 	rm -f debian/testing/extra.test.zip
 	rm -rf debian/testing/extra-stage
 
-.PHONY: make-buildsymbols make-testsuite make-langpack-xpis refresh-supported-locales auto-refresh-supported-locales get-orig-source create-virtualenv
+.PHONY: make-buildsymbols make-langpack-xpis refresh-supported-locales auto-refresh-supported-locales get-orig-source create-virtualenv
