@@ -202,17 +202,17 @@ if test "$CPU_ARCH" = "arm"; then
       HAVE_ARM_SIMD=1
   fi
 
-  #AC_MSG_CHECKING(for ARM NEON support in compiler)
-  ## We try to link so that this also fails when
-  ## building with LTO.
-  #AC_TRY_LINK([],
-  #               [asm(".fpu neon\n vadd.i8 d0, d0, d0");],
-  #               result="yes", result="no")
-  #AC_MSG_RESULT("$result")
-  #if test "$result" = "yes"; then
-  #    AC_DEFINE(HAVE_ARM_NEON)
-  #    HAVE_ARM_NEON=1
-  #fi
+  AC_MSG_CHECKING(for ARM NEON support in compiler)
+  # We try to link so that this also fails when
+  # building with LTO.
+  AC_TRY_LINK([],
+                 [asm(".fpu neon\n vadd.i8 d0, d0, d0");],
+                 result="yes", result="no")
+  AC_MSG_RESULT("$result")
+  if test "$result" = "yes"; then
+      AC_DEFINE(HAVE_ARM_NEON)
+      HAVE_ARM_NEON=1
+  fi
 
   AC_MSG_CHECKING(ARM version support in compiler)
   dnl Determine the target ARM architecture (5 for ARMv5, v5T, v5E, etc.; 6 for ARMv6, v6K, etc.)
