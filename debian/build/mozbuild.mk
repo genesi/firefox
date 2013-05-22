@@ -330,8 +330,6 @@ common-install-arch common-install-indep::
 			mv debian/tmp/$(dir)-$(MOZ_VERSION) debian/tmp/$(dir); \
 		fi; )
 
-common-install-arch:: install-testsuite
-
 common-binary-arch:: make-buildsymbols
 
 binary-install/$(MOZ_PKG_NAME)::
