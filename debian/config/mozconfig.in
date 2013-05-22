@@ -12,9 +12,10 @@ ac_add_options --disable-updater
 ac_add_options --enable-application=browser
 ac_add_options --enable-startup-notification
 ac_add_options --with-distribution-id=com.ubuntu
-ac_add_options --enable-gstreamer
 %%if DEB_HOST_ARCH == armel
+ac_add_options --enable-gstreamer
 ac_add_options --with-gl-provider=EGL
+ac_add_options --enable-libjpeg-turbo
 %%if DISTRIB_VERSION < 1210
 ac_add_options --enable-thumb2
 %%else
