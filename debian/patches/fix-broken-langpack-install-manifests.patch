@@ -1,7 +1,7 @@
-Index: firefox-23.0~a2~hg20130515r138475/l10n/csb/toolkit/defines.inc
+Index: firefox-22.0~b1+build1/l10n/csb/toolkit/defines.inc
 ===================================================================
---- firefox-23.0~a2~hg20130515r138475.orig/l10n/csb/toolkit/defines.inc	2013-05-15 12:42:16.194988570 +0100
-+++ firefox-23.0~a2~hg20130515r138475/l10n/csb/toolkit/defines.inc	2013-05-15 12:42:16.186988569 +0100
+--- firefox-22.0~b1+build1.orig/l10n/csb/toolkit/defines.inc	2013-05-15 11:20:47.000000000 +0100
++++ firefox-22.0~b1+build1/l10n/csb/toolkit/defines.inc	2013-05-17 18:19:22.000000000 +0100
 @@ -1,2 +1 @@
  #define MOZ_LANG_TITLE Kashubian (CSB)
 -

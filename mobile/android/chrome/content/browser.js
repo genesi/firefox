@@ -1312,6 +1312,7 @@ var BrowserApp = {
 
       case "Viewport:FixedMarginsChanged":
         gViewportMargins = JSON.parse(aData);
+        this.selectedTab.updateViewportSize(gScreenWidth);
         break;
 
       case "nsPref:changed":
@@ -2092,7 +2093,7 @@ var LightWeightThemeWebInstaller = {
 
 var UserAgent = {
   DESKTOP_UA: null,
-  YOUTUBE_DOMAIN: /\.?youtube\.com$/,
+  YOUTUBE_DOMAIN: /(^|\.)youtube\.com$/,
 
   init: function ua_init() {
     Services.obs.addObserver(this, "DesktopMode:Change", false);
@@ -2130,10 +2131,13 @@ var UserAgent = {
   },
 
   getUserAgentForUriAndTab: function ua_getUserAgentForUriAndTab(aUri, aTab, defaultUA) {
-    if (this.YOUTUBE_DOMAIN.test(aUri.host)) {
-      // Send the phone UA to youtube if this is a tablet
-      if (defaultUA.indexOf("Android; Mobile;") === -1)
-        return defaultUA.replace("Android;", "Android; Mobile;");
+    // Not all schemes have a host member.
+    if (aUri.schemeIs("http") || aUri.schemeIs("https")) {
+      if (this.YOUTUBE_DOMAIN.test(aUri.host)) {
+        // Send the phone UA to Youtube if this is a tablet.
+        if (defaultUA.indexOf("Android; Mobile;") === -1)
+          return defaultUA.replace("Android;", "Android; Mobile;");
+      }
     }
 
     // Send desktop UA if "Request Desktop Site" is enabled
@@ -2801,8 +2805,8 @@ Tab.prototype = {
     // the clamping scroll-port size.
     let factor = Math.min(viewportWidth / screenWidth, pageWidth / screenWidth,
                           viewportHeight / screenHeight, pageHeight / screenHeight);
-    let scrollPortWidth = Math.min(screenWidth * factor, pageWidth * zoom);
-    let scrollPortHeight = Math.min(screenHeight * factor, pageHeight * zoom);
+    let scrollPortWidth = screenWidth * factor;
+    let scrollPortHeight = screenHeight * factor;
 
     let win = this.browser.contentWindow;
     win.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils).
@@ -2953,13 +2957,13 @@ Tab.prototype = {
     // within the screen size, so remeasure when the page size remains within
     // the threshold of screen + margins, in case it's sizing itself relative
     // to the viewport.
-    if (!this.updatingViewportForPageSizeChange) {
+    if (!this.updatingViewportForPageSizeChange && aPageSizeUpdate) {
       this.updatingViewportForPageSizeChange = true;
-      if (((viewport.pageBottom - viewport.pageTop
-              < gScreenHeight + gViewportMargins.top + gViewportMargins.bottom)
+      if (((Math.round(viewport.pageBottom - viewport.pageTop)
+              <= gScreenHeight + gViewportMargins.top + gViewportMargins.bottom)
              != this.viewportExcludesVerticalMargins) ||
-          ((viewport.pageRight - viewport.pageLeft
-              < gScreenWidth + gViewportMargins.left + gViewportMargins.right)
+          ((Math.round(viewport.pageRight - viewport.pageLeft)
+              <= gScreenWidth + gViewportMargins.left + gViewportMargins.right)
              != this.viewportExcludesHorizontalMargins)) {
         this.updateViewportSize(gScreenWidth);
       }
@@ -4081,8 +4085,7 @@ var BrowserEventHandler = {
        * - It's a select element showing multiple rows
        */
       if (checkElem) {
-        if (((elem.scrollHeight > elem.clientHeight) ||
-             (elem.scrollWidth > elem.clientWidth)) &&
+        if ((elem.scrollTopMax > 0 || elem.scrollLeftMax > 0) &&
             (this._hasScrollableOverflow(elem) ||
              elem.mozMatchesSelector("html, body, textarea")) ||
             (elem instanceof HTMLSelectElement && (elem.size > 1 || elem.multiple))) {
@@ -4113,10 +4116,10 @@ var BrowserEventHandler = {
 
   _elementCanScroll: function(elem, x, y) {
     let scrollX = (x < 0 && elem.scrollLeft > 0)
-               || (x > 0 && elem.scrollLeft < (elem.scrollWidth - elem.clientWidth));
+               || (x > 0 && elem.scrollLeft < elem.scrollLeftMax);
 
     let scrollY = (y < 0 && elem.scrollTop > 0)
-               || (y > 0 && elem.scrollTop < (elem.scrollHeight - elem.clientHeight));
+               || (y > 0 && elem.scrollTop < elem.scrollTopMax);
 
     return scrollX || scrollY;
   }

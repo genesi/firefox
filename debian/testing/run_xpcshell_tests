@@ -53,7 +53,12 @@ def main():
         sys.argv.extend(['--test-path', os.path.basename(arg)])
         args[0] = os.path.dirname(arg)
 
-    sys.argv.append(os.path.join(helper.root, 'bin', 'xpcshell') if options.xpcshell == None else options.xpcshell)
+    xpcshell = options.xpcshell
+    if xpcshell == None and helper.xredir != None:
+      xpcshell = os.path.join(helper.xredir, 'xpcshell')
+    if xpcshell == None:
+      xpcshell = os.path.join(helper.root, 'bin', 'xpcshell')
+    sys.argv.append(xpcshell)
 
   helper = XPCShellTestsHelper()
   sys.exit(helper.run(defaults=DEFAULTS, pre_run_cb=pre_run_cb))

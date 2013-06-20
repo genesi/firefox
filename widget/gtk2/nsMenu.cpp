@@ -112,17 +112,6 @@ nsMenu::SetPopupState(EPopupState aState)
     }
 }
 
-/* static */ gboolean
-nsMenu::menu_about_to_show_cb(DbusmenuMenuitem *menu,
-                              gpointer user_data)
-{
-    nsMenu *self = static_cast<nsMenu *>(user_data);
-
-    self->AboutToOpen();
-
-    return FALSE;
-}
-
 /* static */ void
 nsMenu::menu_event_cb(DbusmenuMenuitem *menu,
                       const gchar *name,
@@ -140,7 +129,7 @@ nsMenu::menu_event_cb(DbusmenuMenuitem *menu,
     }
 
     if (event.Equals(NS_LITERAL_CSTRING("opened"))) {
-        self->AboutToOpen();
+        self->OnOpen();
         return;
     }
 }
@@ -215,12 +204,8 @@ DispatchMouseEvent(nsIContent *aTarget, uint32_t aMsg)
 }
 
 void
-nsMenu::AboutToOpen()
+nsMenu::OnOpen()
 {
-    if (PopupState() == ePopupState_Open) {
-        return;
-    }
-
     if (NeedsBuild() && NS_FAILED(Build())) {
         SetNeedsBuildFlag();
         return;
@@ -300,8 +285,13 @@ nsMenu::Build()
 void
 nsMenu::InitializeNativeData()
 {
-    g_signal_connect(G_OBJECT(mNativeData), "about-to-show",
-                     G_CALLBACK(menu_about_to_show_cb), this);
+    // Dbusmenu provides an "about-to-show" signal, and also "opened" and
+    // "closed" events. However, Unity is the only thing that sends
+    // both "about-to-show" and "opened" events. Unity 2D and the HUD only
+    // send "opened" events, so we ignore "about-to-show" (I don't think
+    // there's any real difference between them anyway).
+    // To complicate things, there are certain conditions where we don't
+    // get a "closed" event, so we need to be able to handle this :/
     g_signal_connect(G_OBJECT(mNativeData), "event",
                      G_CALLBACK(menu_event_cb), this);
 
@@ -492,9 +482,6 @@ nsMenu::~nsMenu()
 
     if (mNativeData) {
         g_signal_handlers_disconnect_by_func(mNativeData,
-                                             nsNativeMenuUtils::FuncToVoidPtr(menu_about_to_show_cb),
-                                             this);
-        g_signal_handlers_disconnect_by_func(mNativeData,
                                              nsNativeMenuUtils::FuncToVoidPtr(menu_event_cb),
                                              this);
     }
@@ -537,9 +524,7 @@ nsMenu::OpenMenuDelayed()
     // item of the history menu in Firefox when opening it with the keyboard,
     // because extra items to appear at the top of the menu
 
-    SetPopupState(ePopupState_Closed);
-    AboutToOpen();
-    SetPopupState(ePopupState_Closed);
+    OnOpen();
 
     nsCOMPtr<nsITimer> timer = do_CreateInstance(NS_TIMER_CONTRACTID);
     if (!timer) {
@@ -567,10 +552,19 @@ nsMenu::OnClose()
     nsNativeMenuAutoUpdateBatch batch;
 
     SetPopupState(ePopupState_Hiding);
-
     DispatchMouseEvent(mPopupContent, NS_XUL_POPUP_HIDING);
-    SetPopupState(ePopupState_Closed);
 
+    // Sigh, make sure all of our descendants are closed, as we don't
+    // always get closed events for submenus when scrubbing quickly through
+    // the menu
+    uint32_t count = mMenuObjects.Length();
+    for (uint32_t i = 0; i < count; ++i) {
+        if (mMenuObjects[i]->Type() == nsMenuObject::eType_Menu) {
+            static_cast<nsMenu *>(mMenuObjects[i].get())->OnClose();
+        }
+    }
+
+    SetPopupState(ePopupState_Closed);
     DispatchMouseEvent(mPopupContent, NS_XUL_POPUP_HIDDEN);
 
     mContent->UnsetAttr(kNameSpaceID_None, nsGkAtoms::open, true);

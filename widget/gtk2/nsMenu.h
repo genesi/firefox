@@ -117,8 +117,6 @@ private:
     };
     void SetPopupState(EPopupState aState);
 
-    static gboolean menu_about_to_show_cb(DbusmenuMenuitem *menu,
-                                          gpointer user_data);
     static void menu_event_cb(DbusmenuMenuitem *menu,
                               const gchar *name,
                               GVariant *value,
@@ -130,7 +128,7 @@ private:
     void MaybeAddPlaceholderItem();
     bool EnsureNoPlaceholderItem();
 
-    void AboutToOpen();
+    void OnOpen();
     nsresult Build();
     void InitializeNativeData();
     void InitializePopup();

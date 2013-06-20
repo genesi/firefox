@@ -11,7 +11,8 @@
 @MOZ_LIBDIR@/webapprt
 
 # GRE files (except for dictionaries/, which we symlink elsewhere)
-@MOZ_LIBDIR@/components
+@MOZ_LIBDIR@/components/components.manifest
+@MOZ_LIBDIR@/components/lib*.so
 @MOZ_LIBDIR@/defaults
 @MOZ_LIBDIR@/omni.ja
 @MOZ_LIBDIR@/*.so

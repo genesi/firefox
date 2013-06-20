@@ -83,7 +83,7 @@ GlobalPCList.prototype = {
         this._list[winID].forEach(function(pcref) {
           let pc = pcref.get();
           if (pc !== null) {
-            pc._pc.close(false);
+            pc._pc.close();
             delete pc._observer;
             pc._pc = null;
           }
@@ -92,8 +92,10 @@ GlobalPCList.prototype = {
       }
     } else if (topic == "profile-change-net-teardown" ||
                topic == "network:offline-about-to-go-offline") {
-      // Delete all peerconnections on shutdown - synchronously (we need
-      // them to be done deleting transports before we return)!
+      // Delete all peerconnections on shutdown - mostly synchronously (we
+      // need them to be done deleting transports and streams before we
+      // return)!  All socket operations must be queued to STS thread
+      // before we return to here.
       // Also kill them if "Work Offline" is selected - more can be created
       // while offline, but attempts to connect them should fail.
       let array;
@@ -101,7 +103,7 @@ GlobalPCList.prototype = {
         array.forEach(function(pcref) {
           let pc = pcref.get();
           if (pc !== null) {
-            pc._pc.close(true);
+            pc._pc.close();
             delete pc._observer;
             pc._pc = null;
           }
@@ -269,6 +271,12 @@ PeerConnection.prototype = {
     this._pc = Cc["@mozilla.org/peerconnection;1"].
              createInstance(Ci.IPeerConnection);
     this._observer = new PeerConnectionObserver(this);
+    this._win = win;
+    this._winID = this._win.QueryInterface(Ci.nsIInterfaceRequestor)
+                           .getInterface(Ci.nsIDOMWindowUtils).currentInnerWindowID;
+
+    // Add a reference to the PeerConnection to global list (before init).
+    _globalPCList.addPC(this);
 
     // Nothing starts until ICE gathering completes.
     this._queueOrRun({
@@ -276,13 +284,6 @@ PeerConnection.prototype = {
       args: [this._observer, win, rtcConfig, Services.tm.currentThread],
       wait: true
     });
-
-    this._win = win;
-    this._winID = this._win.QueryInterface(Ci.nsIInterfaceRequestor)
-                           .getInterface(Ci.nsIDOMWindowUtils).currentInnerWindowID;
-
-    // Add a reference to the PeerConnection to global list.
-    _globalPCList.addPC(this);
   },
 
   /**
@@ -685,6 +686,20 @@ PeerConnection.prototype = {
     if (dict == undefined) {
 	dict = {};
     }
+    // can't throw warnings easily; mozilla 24+ will warn
+    if (dict.maxRetransmitNum != undefined) {
+      dict.maxRetransmits = dict.maxRetransmitNum;
+    }
+    if (dict.outOfOrderAllowed != undefined) {
+      dict.ordered = !dict.outOfOrderAllowed; // the meaning is swapped with the name change
+    }
+    if (dict.preset != undefined) {
+      dict.negotiated = dict.preset;
+    }
+    if (dict.stream != undefined) {
+      dict.id = dict.stream;
+    }
+
     if (dict.maxRetransmitTime != undefined &&
         dict.maxRetransmitNum != undefined) {
       throw new Components.Exception("Both maxRetransmitTime and maxRetransmitNum cannot be provided");

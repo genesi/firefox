@@ -1167,7 +1167,11 @@ public class GeckoAppShell
         return null;
     }
 
-    static void setClipboardText(final String text) {
+    static void setClipboardText(String copiedText) {
+        // Copy an empty string instead of null to avoid clipboard crashes.
+        // AndroidBridge::EmptyClipboard() passes null to clear the clipboard's current contents.
+        final String text = (copiedText != null) ? copiedText : "";
+
         ThreadUtils.postToBackgroundThread(new Runnable() {
             @Override
             @SuppressWarnings("deprecation")
@@ -1176,7 +1180,14 @@ public class GeckoAppShell
                 if (android.os.Build.VERSION.SDK_INT >= 11) {
                     android.content.ClipboardManager cm = (android.content.ClipboardManager)
                         context.getSystemService(Context.CLIPBOARD_SERVICE);
-                    cm.setPrimaryClip(ClipData.newPlainText("Text", text));
+                    ClipData clip = ClipData.newPlainText("Text", text);
+                    try {
+                        cm.setPrimaryClip(clip);
+                    } catch (NullPointerException e) {
+                        // Bug 776223: This is a Samsung clipboard bug. setPrimaryClip() can throw
+                        // a NullPointerException if Samsung's /data/clipboard directory is full.
+                        // Fortunately, the text is still successfully copied to the clipboard.
+                    }
                 } else {
                     android.text.ClipboardManager cm = (android.text.ClipboardManager)
                         context.getSystemService(Context.CLIPBOARD_SERVICE);

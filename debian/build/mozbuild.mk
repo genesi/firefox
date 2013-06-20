@@ -102,9 +102,9 @@ CFLAGS			:= -g
 CXXFLAGS		:= -g
 LDFLAGS 		:= $(shell echo $$LDFLAGS | sed -e 's/-Wl,-Bsymbolic-functions//')
 
-#ifneq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
+ifneq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
 MOZ_WANT_UNIT_TESTS = 0
-#endif
+endif
 
 ifeq (1,$(MOZ_VALGRIND))
 MOZ_BUILD_UNOFFICIAL = 1
@@ -289,6 +289,9 @@ endif
 install-testsuite: debian/stamp-installtestsuite
 debian/stamp-installtestsuite: debian/stamp-maketestsuite
 	install $(MOZ_DISTDIR)/bin/xpcshell debian/tmp/$(MOZ_LIBDIR)
+	install $(MOZ_DISTDIR)/bin/components/httpd.js debian/tmp/$(MOZ_LIBDIR)/components
+	install $(MOZ_DISTDIR)/bin/components/httpd.manifest debian/tmp/$(MOZ_LIBDIR)/components
+	install $(MOZ_DISTDIR)/bin/components/test_necko.xpt debian/tmp/$(MOZ_LIBDIR)/components
 	install -d debian/tmp/$(MOZ_LIBDIR)/testing
 	install $(MOZ_DISTDIR)/$(MOZ_APP_NAME)-$(MOZ_VERSION).en-US.linux-*.tests.zip debian/tmp/$(MOZ_LIBDIR)/testing
 	@touch $@
@@ -309,7 +312,7 @@ debian/stamp-make-langpack-xpi-%:
 		$(MAKE) langpack-$* LOCALE_MERGEDIR=$(CURDIR)/debian/l10n-mergedirs/$* || exit 1;
 	@touch $@
 
-common-build-arch:: make-langpack-xpis $(pkgconfig_files)
+common-build-arch:: make-langpack-xpis $(pkgconfig_files) make-testsuite run-tests
 
 install/$(MOZ_PKG_NAME)::
 	@echo "Adding suggests / recommends on support packages"
@@ -329,6 +332,8 @@ common-install-arch common-install-indep::
 		then \
 			mv debian/tmp/$(dir)-$(MOZ_VERSION) debian/tmp/$(dir); \
 		fi; )
+
+common-install-arch:: install-testsuite
 
 common-binary-arch:: make-buildsymbols
 
@@ -555,4 +560,4 @@ clean:: debian/tests/control
 	rm -f debian/testing/extra.test.zip
 	rm -rf debian/testing/extra-stage
 
-.PHONY: make-buildsymbols make-langpack-xpis refresh-supported-locales auto-refresh-supported-locales get-orig-source create-virtualenv
+.PHONY: make-buildsymbols make-testsuite make-langpack-xpis refresh-supported-locales auto-refresh-supported-locales get-orig-source create-virtualenv

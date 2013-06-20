@@ -160,4 +160,49 @@ Description: Safe and easy web browser from Mozilla - Unity menubar integration
  This package depends on the libraries which allow Firefox to take
  advantage of the Unity menubar
 
+Package: @MOZ_PKG_NAME@-testsuite
+Architecture: any
+Depends: ${shlibs:Depends},
+	${misc:Depends},
+	@MOZ_PKG_NAME@ (= ${binary:Version}),
+	@MOZ_PKG_NAME@-gnome-support (= ${binary:Version}),
+	@MOZ_PKG_NAME@-globalmenu (= ${binary:Version}),
+	@MOZ_LOCALE_PKGS@,
+	python,
+	dbus-x11,
+	xvfb,
+	libc-bin,
+	make,
+	notify-osd,
+	metacity,
+	language-pack-en-base,
+	language-pack-es-base,
+	language-pack-fr-base,
+	language-pack-pt-base,
+	fonts-arabeyes,
+	fonts-kacst,
+	fonts-takao-mincho,
+	fonts-takao-gothic,
+	ttf-wqy-zenhei,
+	fonts-arphic-uming,
+	ttf-arphic-ukai,
+	fonts-nanum,
+	fonts-nanum-coding,
+	fonts-unfonts-core,
+	ttf-liberation,
+	gnome-session,
+	gnome-settings-daemon,
+	ubuntu-settings,
+	light-themes,
+	unzip,
+	hunspell-en-us
+Provides: ${app:Provides}
+Conflicts: ${app:Conflicts}
+Description: Safe and easy web browser from Mozilla - testsuite
+ Firefox delivers safe, easy web browsing. A familiar user interface,
+ enhanced security features including protection from online identity theft,
+ and integrated search let you get the most out of the web.
+ .
+ This package contains the Firefox testsuite
+
 # Language packs below here

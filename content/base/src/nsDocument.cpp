@@ -2020,9 +2020,9 @@ nsDocument::ResetToURI(nsIURI *aURI, nsILoadGroup *aLoadGroup,
       nsNodeUtils::ContentRemoved(this, content, i, previousSibling);
       content->UnbindFromTree();
     }
+    mCachedRootElement = nullptr;
   }
   mInUnlinkOrDeletion = oldVal;
-  mCachedRootElement = nullptr;
 
   mCustomPrototypes.Clear();
 
@@ -6585,6 +6585,12 @@ nsIDocument::AdoptNode(nsINode& aAdoptedNode, ErrorResult& rv)
     case nsIDOMNode::COMMENT_NODE:
     case nsIDOMNode::DOCUMENT_TYPE_NODE:
     {
+      // Don't allow adopting a node's anonymous subtree out from under it.
+      if (adoptedNode->AsContent()->IsRootOfAnonymousSubtree()) {
+        rv.Throw(NS_ERROR_DOM_NOT_SUPPORTED_ERR);
+        return nullptr;
+      }
+
       // We don't want to adopt an element into its own contentDocument or into
       // a descendant contentDocument, so we check if the frameElement of this
       // document or any of its parents is the adopted node or one of its
@@ -6606,7 +6612,9 @@ nsIDocument::AdoptNode(nsINode& aAdoptedNode, ErrorResult& rv)
       // Remove from parent.
       nsCOMPtr<nsINode> parent = adoptedNode->GetParentNode();
       if (parent) {
-        parent->RemoveChildAt(parent->IndexOf(adoptedNode), true);
+        int32_t idx = parent->IndexOf(adoptedNode);
+        MOZ_ASSERT(idx >= 0);
+        parent->RemoveChildAt(idx, true);
       }
 
       break;
@@ -8931,11 +8939,13 @@ nsDocument::FindImageMap(const nsAString& aUseMapValue)
 }
 
 #define DEPRECATED_OPERATION(_op) #_op "Warning",
+#define DEPRECATED_OPERATION_WITH_HARDCODED_STRING(_op, _str) "\0" _str,
 static const char* kWarnings[] = {
 #include "nsDeprecatedOperationList.h"
   nullptr
 };
 #undef DEPRECATED_OPERATION
+#undef DEPRECATED_OPERATION_WITH_HARDCODED_STRING
 
 void
 nsIDocument::WarnOnceAbout(DeprecatedOperations aOperation,
@@ -8948,10 +8958,18 @@ nsIDocument::WarnOnceAbout(DeprecatedOperations aOperation,
   mWarnedAbout |= (1ull << aOperation);
   uint32_t flags = asError ? nsIScriptError::errorFlag
                            : nsIScriptError::warningFlag;
-  nsContentUtils::ReportToConsole(flags,
-                                  "DOM Core", this,
-                                  nsContentUtils::eDOM_PROPERTIES,
-                                  kWarnings[aOperation]);
+  if (*kWarnings[aOperation]) {
+    // Localized message
+    nsContentUtils::ReportToConsole(flags,
+                                    "DOM Core", this,
+                                    nsContentUtils::eDOM_PROPERTIES,
+                                    kWarnings[aOperation]);
+  } else {
+    // Non-localized message
+    NS_ConvertUTF8toUTF16 errorText(&kWarnings[aOperation][1]);
+    nsContentUtils::ReportToConsoleNonLocalized(errorText, flags,
+                                                "DOM Core", this);
+  }
 }
 
 nsresult

@@ -48,6 +48,7 @@
 #include "MediaStreamList.h"
 #include "nsIScriptGlobalObject.h"
 #include "jsapi.h"
+#include "DOMMediaStream.h"
 #endif
 
 #ifndef USE_FAKE_MEDIA_STREAMS
@@ -142,6 +143,41 @@ public:
 
   ~PeerConnectionObserverDispatch(){}
 
+#ifdef MOZILLA_INTERNAL_API
+  class TracksAvailableCallback : public DOMMediaStream::OnTracksAvailableCallback
+  {
+  public:
+    TracksAvailableCallback(DOMMediaStream::TrackTypeHints aTrackTypeHints,
+                            nsCOMPtr<IPeerConnectionObserver> aObserver)
+      : DOMMediaStream::OnTracksAvailableCallback(aTrackTypeHints),
+        mObserver(aObserver) {}
+
+    virtual void NotifyTracksAvailable(DOMMediaStream* aStream) MOZ_OVERRIDE
+    {
+      MOZ_ASSERT(NS_IsMainThread());
+
+      // Start currentTime from the point where this stream was successfully
+      // returned.
+      aStream->SetLogicalStreamStartTime(aStream->GetStream()->GetCurrentTime());
+
+      CSFLogInfo(logTag, "Returning success for OnAddStream()");
+      // We are running on main thread here so we shouldn't have a race
+      // on this callback
+
+      // We provide a type field because it is in the IDL
+      // and we want code that looks at it not to crash.
+      // We use "video" so that if an app looks for
+      // that string it has some chance of working.
+      // TODO(ekr@rtfm.com): Bug 834847
+      // The correct way for content JS to know stream type
+      // is via get{Audio,Video}Tracks. See Bug 834835.
+      mObserver->OnAddStream(aStream, "video");
+    }
+
+    nsCOMPtr<IPeerConnectionObserver> mObserver;
+  };
+#endif
+
   NS_IMETHOD Run() {
 
     CSFLogInfo(logTag, "PeerConnectionObserverDispatch processing "
@@ -230,6 +266,12 @@ public:
           if (!stream) {
             CSFLogError(logTag, "%s: GetMediaStream returned NULL", __FUNCTION__);
           } else {
+#ifdef MOZILLA_INTERNAL_API
+            TracksAvailableCallback* tracksAvailableCallback =
+              new TracksAvailableCallback(mRemoteStream->mTrackTypeHints, mObserver);
+
+            stream->OnTracksAvailable(tracksAvailableCallback);
+#else
             // We provide a type field because it is in the IDL
             // and we want code that looks at it not to crash.
             // We use "video" so that if an app looks for
@@ -238,6 +280,7 @@ public:
             // The correct way for content JS to know stream type
             // is via get{Audio,Video}Tracks. See Bug 834835.
             mObserver->OnAddStream(stream, "video");
+#endif
           }
           break;
         }
@@ -284,6 +327,8 @@ PeerConnectionImpl::PeerConnectionImpl()
 #ifdef MOZILLA_INTERNAL_API
   MOZ_ASSERT(NS_IsMainThread());
 #endif
+  CSFLogInfo(logTag, "%s: PeerConnectionImpl constructor for %p",
+             __FUNCTION__, (void *) this);
 }
 
 PeerConnectionImpl::~PeerConnectionImpl()
@@ -296,8 +341,9 @@ PeerConnectionImpl::~PeerConnectionImpl()
     CSFLogError(logTag, "PeerConnectionCtx is already gone. Ignoring...");
   }
 
-  CSFLogInfo(logTag, "%s: PeerConnectionImpl destructor invoked", __FUNCTION__);
-  CloseInt(false);
+  CSFLogInfo(logTag, "%s: PeerConnectionImpl destructor invoked for %p",
+             __FUNCTION__, (void *) this);
+  CloseInt();
 
 #ifdef MOZILLA_INTERNAL_API
   // Deregister as an NSS Shutdown Object
@@ -671,6 +717,8 @@ PeerConnectionImpl::EnsureDataConnection(uint16_t aNumstreams)
     CSFLogError(logTag,"%s DataConnection Init Failed",__FUNCTION__);
     return NS_ERROR_FAILURE;
   }
+  CSFLogDebug(logTag,"%s DataChannelConnection %p attached to %p",
+              __FUNCTION__, (void*) mDataConnection.get(), (void *) this);
 #endif
   return NS_OK;
 }
@@ -1213,33 +1261,35 @@ PeerConnectionImpl::CheckApiState(bool assert_ice_ready) const
 }
 
 NS_IMETHODIMP
-PeerConnectionImpl::Close(bool aIsSynchronous)
+PeerConnectionImpl::Close()
 {
-  CSFLogDebug(logTag, __FUNCTION__);
+  CSFLogDebug(logTag, "%s: for %p", __FUNCTION__, (void *) this);
   PC_AUTO_ENTER_API_CALL_NO_CHECK();
 
-  return CloseInt(aIsSynchronous);
+  return CloseInt();
 }
 
 
 nsresult
-PeerConnectionImpl::CloseInt(bool aIsSynchronous)
+PeerConnectionImpl::CloseInt()
 {
   PC_AUTO_ENTER_API_CALL_NO_CHECK();
 
   if (mCall) {
-    CSFLogInfo(logTag, "%s: Closing PeerConnectionImpl; "
-                       "ending call", __FUNCTION__);
+    CSFLogInfo(logTag, "%s: Closing PeerConnectionImpl %p; "
+               "ending call", __FUNCTION__, (void *) this);
     mCall->endCall();
   }
 #ifdef MOZILLA_INTERNAL_API
   if (mDataConnection) {
+    CSFLogInfo(logTag, "%s: Destroying DataChannelConnection %p for %p",
+               __FUNCTION__, (void *) mDataConnection.get(), (void *) this);
     mDataConnection->Destroy();
     mDataConnection = nullptr; // it may not go away until the runnables are dead
   }
 #endif
 
-  ShutdownMedia(aIsSynchronous);
+  ShutdownMedia();
 
   // DataConnection will need to stay alive until all threads/runnables exit
 
@@ -1247,7 +1297,7 @@ PeerConnectionImpl::CloseInt(bool aIsSynchronous)
 }
 
 void
-PeerConnectionImpl::ShutdownMedia(bool aIsSynchronous)
+PeerConnectionImpl::ShutdownMedia()
 {
   PC_AUTO_ENTER_API_CALL_NO_CHECK();
 
@@ -1461,18 +1511,24 @@ static nsresult
 GetStreams(JSContext* cx, PeerConnectionImpl* peerConnection,
            MediaStreamList::StreamType type, JS::Value* streams)
 {
-  nsAutoPtr<MediaStreamList> list(new MediaStreamList(peerConnection, type));
+  nsRefPtr<MediaStreamList> list(new MediaStreamList(peerConnection, type));
 
-  ErrorResult rv;
-  JSObject* obj = list->WrapObject(cx, rv);
-  if (rv.Failed()) {
+  nsCOMPtr<nsIScriptGlobalObject> global =
+    do_QueryInterface(peerConnection->GetWindow());
+  JS::Rooted<JSObject*> scope(cx, global->GetGlobalJSObject());
+  if (!scope) {
     streams->setNull();
-    return rv.ErrorCode();
+    return NS_ERROR_FAILURE;
   }
 
-  // Transfer ownership to the binding.
+  JSAutoCompartment ac(cx, scope);
+  JSObject* obj = list->WrapObject(cx, scope);
+  if (!obj) {
+    streams->setNull();
+    return NS_ERROR_FAILURE;
+  }
+
   streams->setObject(*obj);
-  list.forget();
   return NS_OK;
 }
 #endif

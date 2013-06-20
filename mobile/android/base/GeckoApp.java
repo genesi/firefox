@@ -191,6 +191,17 @@ abstract public class GeckoApp
     abstract public boolean hasTabsSideBar();
     abstract protected String getDefaultProfileName();
 
+    @SuppressWarnings("serial")
+    class SessionRestoreException extends Exception {
+        public SessionRestoreException(Exception e) {
+            super(e);
+        }
+
+        public SessionRestoreException(String message) {
+            super(message);
+        }
+    }
+
     void toggleChrome(final boolean aShow) { }
 
     void focusChrome() { }
@@ -1374,6 +1385,37 @@ abstract public class GeckoApp
         mJavaUiStartupTimer = new Telemetry.Timer("FENNEC_STARTUP_TIME_JAVAUI");
         mGeckoReadyStartupTimer = new Telemetry.Timer("FENNEC_STARTUP_TIME_GECKOREADY");
 
+        String args = getIntent().getStringExtra("args");
+
+        String profileName = null;
+        String profilePath = null;
+        if (args != null) {
+            if (args.contains("-P")) {
+                Pattern p = Pattern.compile("(?:-P\\s*)(\\w*)(\\s*)");
+                Matcher m = p.matcher(args);
+                if (m.find()) {
+                    profileName = m.group(1);
+                }
+            }
+            if (args.contains("-profile")) {
+                Pattern p = Pattern.compile("(?:-profile\\s*)(\\S*)(\\s*)");
+                Matcher m = p.matcher(args);
+                if (m.find()) {
+                    profilePath =  m.group(1);
+                }
+                if (profileName == null) {
+                    profileName = getDefaultProfileName();
+                    if (profileName == null)
+                        profileName = "default";
+                }
+                GeckoApp.sIsUsingCustomProfile = true;
+            }
+            if (profileName != null || profilePath != null) {
+                mProfile = GeckoProfile.get(this, profileName, profilePath);
+            }
+        }
+
+        BrowserDB.initialize(getProfile().getName());
         ((GeckoApplication)getApplication()).initialize();
 
         mAppContext = this;
@@ -1383,7 +1425,7 @@ abstract public class GeckoApp
         Favicons.getInstance().attachToContext(this);
 
         // Check to see if the activity is restarted after configuration change.
-        if (getLastNonConfigurationInstance() != null) {
+        if (getLastCustomNonConfigurationInstance() != null) {
             // Restart the application as a safe way to handle the configuration change.
             doRestart();
             System.exit(0);
@@ -1412,7 +1454,7 @@ abstract public class GeckoApp
             }
         }
 
-        LayoutInflater.from(this).setFactory(GeckoViewsFactory.getInstance());
+        LayoutInflater.from(this).setFactory(this);
 
         super.onCreate(savedInstanceState);
 
@@ -1469,7 +1511,7 @@ abstract public class GeckoApp
         GeckoAppShell.setNotificationClient(makeNotificationClient());
     }
 
-    protected void initializeChrome(String uri, boolean isExternalURL) {
+    protected void initializeChrome() {
         mDoorHangerPopup = new DoorHangerPopup(this, null);
         mPluginContainer = (AbsoluteLayout) findViewById(R.id.plugin_container);
         mFormAssistPopup = (FormAssistPopup) findViewById(R.id.form_assist_popup);
@@ -1488,6 +1530,29 @@ abstract public class GeckoApp
         }
     }
 
+    /**
+     * Loads the initial tab at Fennec startup.
+     *
+     * If Fennec was opened with an external URL, that URL will be loaded.
+     * Otherwise, unless there was a session restore, the default URL
+     * (about:home) be loaded.
+     *
+     * @param url External URL to load, or null to load the default URL
+     */
+    protected void loadStartupTab(String url) {
+        if (url == null) {
+            if (mRestoreMode == RESTORE_NONE) {
+                // Show about:home if we aren't restoring previous session and
+                // there's no external URL
+                Tab tab = Tabs.getInstance().loadUrl("about:home", Tabs.LOADURL_NEW_TAB);
+            }
+        } else {
+            // If given an external URL, load it
+            int flags = Tabs.LOADURL_NEW_TAB | Tabs.LOADURL_USER_ENTERED;
+            Tabs.getInstance().loadUrl(url, flags);
+        }
+    }
+
     private void initialize() {
         mInitialized = true;
 
@@ -1495,37 +1560,6 @@ abstract public class GeckoApp
 
         Intent intent = getIntent();
         String action = intent.getAction();
-        String args = intent.getStringExtra("args");
-
-        String profileName = null;
-        String profilePath = null;
-        if (args != null) {
-            if (args.contains("-P")) {
-                Pattern p = Pattern.compile("(?:-P\\s*)(\\w*)(\\s*)");
-                Matcher m = p.matcher(args);
-                if (m.find()) {
-                    profileName = m.group(1);
-                }
-            }
-            if (args.contains("-profile")) {
-                Pattern p = Pattern.compile("(?:-profile\\s*)(\\S*)(\\s*)");
-                Matcher m = p.matcher(args);
-                if (m.find()) {
-                    profilePath =  m.group(1);
-                }
-                if (profileName == null) {
-                    profileName = getDefaultProfileName();
-                    if (profileName == null)
-                        profileName = "default";
-                }
-                GeckoApp.sIsUsingCustomProfile = true;
-            }
-            if (profileName != null || profilePath != null) {
-                mProfile = GeckoProfile.get(this, profileName, profilePath);
-            }
-        }
-
-        BrowserDB.initialize(getProfile().getName());
 
         String passedUri = null;
         String uri = getURIFromIntent(intent);
@@ -1557,59 +1591,20 @@ abstract public class GeckoApp
 
         Tabs.registerOnTabsChangedListener(this);
 
+        initializeChrome();
+
         // If we are doing a restore, read the session data and send it to Gecko
         String restoreMessage = null;
         if (mRestoreMode != RESTORE_NONE && !mIsRestoringActivity) {
             try {
-                String sessionString = getProfile().readSessionFile(false);
-                if (sessionString == null) {
-                    throw new IOException("could not read from session file");
-                }
-
-                // If we are doing an OOM restore, parse the session data and
-                // stub the restored tabs immediately. This allows the UI to be
-                // updated before Gecko has restored.
-                if (mRestoreMode == RESTORE_OOM) {
-                    final JSONArray tabs = new JSONArray();
-                    SessionParser parser = new SessionParser() {
-                        @Override
-                        public void onTabRead(SessionTab sessionTab) {
-                            JSONObject tabObject = sessionTab.getTabObject();
-
-                            int flags = Tabs.LOADURL_NEW_TAB;
-                            flags |= ((isExternalURL || !sessionTab.isSelected()) ? Tabs.LOADURL_DELAY_LOAD : 0);
-                            flags |= (tabObject.optBoolean("desktopMode") ? Tabs.LOADURL_DESKTOP : 0);
-                            flags |= (tabObject.optBoolean("isPrivate") ? Tabs.LOADURL_PRIVATE : 0);
-
-                            Tab tab = Tabs.getInstance().loadUrl(sessionTab.getSelectedUrl(), flags);
-                            tab.updateTitle(sessionTab.getSelectedTitle());
-
-                            try {
-                                tabObject.put("tabId", tab.getId());
-                            } catch (JSONException e) {
-                                Log.e(LOGTAG, "JSON error", e);
-                            }
-                            tabs.put(tabObject);
-                        }
-                    };
-
-                    parser.parse(sessionString);
-                    if (mPrivateBrowsingSession != null) {
-                        parser.parse(mPrivateBrowsingSession);
-                    }
-
-                    if (tabs.length() > 0) {
-                        sessionString = new JSONObject().put("windows", new JSONArray().put(new JSONObject().put("tabs", tabs))).toString();
-                    } else {
-                        throw new Exception("No tabs could be read from session file");
-                    }
-                }
-
-                JSONObject restoreData = new JSONObject();
-                restoreData.put("restoringOOM", mRestoreMode == RESTORE_OOM);
-                restoreData.put("sessionString", sessionString);
-                restoreMessage = restoreData.toString();
-            } catch (Exception e) {
+                // restoreSessionTabs() will create simple tab stubs with the
+                // URL and title for each page, but we also need to restore
+                // session history. restoreSessionTabs() will inject the IDs
+                // of the tab stubs into the JSON data (which holds the session
+                // history). This JSON data is then sent to Gecko so session
+                // history can be restored for each tab.
+                restoreMessage = restoreSessionTabs(isExternalURL);
+            } catch (SessionRestoreException e) {
                 // If restore failed, do a normal startup
                 Log.e(LOGTAG, "An error occurred during restore", e);
                 mRestoreMode = RESTORE_NONE;
@@ -1617,6 +1612,10 @@ abstract public class GeckoApp
         }
 
         GeckoAppShell.sendEventToGecko(GeckoEvent.createBroadcastEvent("Session:Restore", restoreMessage));
+
+        if (!mIsRestoringActivity) {
+            loadStartupTab(isExternalURL ? passedUri : null);
+        }
 
         if (mRestoreMode == RESTORE_OOM) {
             // If we successfully did an OOM restore, we now have tab stubs
@@ -1626,8 +1625,6 @@ abstract public class GeckoApp
             // Move the session file if it exists
             getProfile().moveSessionFile();
         }
-
-        initializeChrome(passedUri, isExternalURL);
 
         // Show telemetry door hanger if we aren't restoring a session
         if (mRestoreMode == RESTORE_NONE) {
@@ -1759,6 +1756,63 @@ abstract public class GeckoApp
 
         if (ACTION_ALERT_CALLBACK.equals(action)) {
             processAlertCallback(intent);
+        }
+    }
+
+    private String restoreSessionTabs(final boolean isExternalURL) throws SessionRestoreException {
+        try {
+            String sessionString = getProfile().readSessionFile(false);
+            if (sessionString == null) {
+                throw new SessionRestoreException("Could not read from session file");
+            }
+
+            // If we are doing an OOM restore, parse the session data and
+            // stub the restored tabs immediately. This allows the UI to be
+            // updated before Gecko has restored.
+            if (mRestoreMode == RESTORE_OOM) {
+                final JSONArray tabs = new JSONArray();
+                SessionParser parser = new SessionParser() {
+                    @Override
+                    public void onTabRead(SessionTab sessionTab) {
+                        JSONObject tabObject = sessionTab.getTabObject();
+
+                        int flags = Tabs.LOADURL_NEW_TAB;
+                        flags |= ((isExternalURL || !sessionTab.isSelected()) ? Tabs.LOADURL_DELAY_LOAD : 0);
+                        flags |= (tabObject.optBoolean("desktopMode") ? Tabs.LOADURL_DESKTOP : 0);
+                        flags |= (tabObject.optBoolean("isPrivate") ? Tabs.LOADURL_PRIVATE : 0);
+
+                        Tab tab = Tabs.getInstance().loadUrl(sessionTab.getUrl(), flags);
+                        tab.updateTitle(sessionTab.getTitle());
+
+                        try {
+                            tabObject.put("tabId", tab.getId());
+                        } catch (JSONException e) {
+                            Log.e(LOGTAG, "JSON error", e);
+                        }
+                        tabs.put(tabObject);
+                    }
+                };
+
+                if (mPrivateBrowsingSession == null) {
+                    parser.parse(sessionString);
+                } else {
+                    parser.parse(sessionString, mPrivateBrowsingSession);
+                }
+
+                if (tabs.length() > 0) {
+                    sessionString = new JSONObject().put("windows", new JSONArray().put(new JSONObject().put("tabs", tabs))).toString();
+                } else {
+                    throw new SessionRestoreException("No tabs could be read from session file");
+                }
+            }
+
+            JSONObject restoreData = new JSONObject();
+            restoreData.put("restoringOOM", mRestoreMode == RESTORE_OOM);
+            restoreData.put("sessionString", sessionString);
+            return restoreData.toString();
+
+        } catch (JSONException e) {
+            throw new SessionRestoreException(e);
         }
     }
 
@@ -2106,12 +2160,6 @@ abstract public class GeckoApp
     }
 
     @Override
-    public void onContentChanged() {
-        super.onContentChanged();
-    }
-
-
-    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
@@ -2125,7 +2173,7 @@ abstract public class GeckoApp
     }
 
     @Override
-    public Object onRetainNonConfigurationInstance() {
+    public Object onRetainCustomNonConfigurationInstance() {
         // Send a non-null value so that we can restart the application, 
         // when activity restarts due to configuration change.
         return Boolean.TRUE;
@@ -2134,6 +2182,21 @@ abstract public class GeckoApp
     @Override
     abstract public String getPackageName();
     abstract public String getContentProcessName();
+
+    /*
+     * Only one factory can be set on the inflater; however, we want to use two
+     * factories (GeckoViewsFactory and the FragmentActivity factory).
+     * Overriding onCreateView() here allows us to dispatch view creation to
+     * both factories.
+     */
+    @Override
+    public View onCreateView(String name, Context context, AttributeSet attrs) {
+        View view = GeckoViewsFactory.getInstance().onCreateView(name, context, attrs);
+        if (view == null) {
+            view = super.onCreateView(name, context, attrs);
+        }
+        return view;
+    }
 
     public void addEnvToIntent(Intent intent) {
         Map<String,String> envMap = System.getenv();

@@ -1,8 +1,60 @@
-firefox (22.0~b1+build1-1genesi1) maverick; urgency=low
+firefox (22.0~b6+build1-1genesi1) maverick; urgency=low
 
   * Bump changelog
 
- -- Ahmed Ammar <aammar@genesi-usa.com>  Mon, 13 May 2013 17:19:15 +0200
+ -- Ahmed Ammar <aammar@genesi-usa.com>  Thu, 20 Jun 2013 17:19:15 +0200
+
+firefox (22.0~b6+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
+
+  * New upstream release from the beta channel (FIREFOX_22_0b6_BUILD1)
+
+ -- Chris Coulson <chris.coulson@canonical.com>  Thu, 20 Jun 2013 11:30:43 +0100
+
+firefox (22.0~b4+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
+
+  * New upstream release from the beta channel (FIREFOX_22_0b4_BUILD1)
+
+ -- Chris Coulson <chris.coulson@canonical.com>  Thu, 06 Jun 2013 11:59:13 +0100
+
+firefox (22.0~b3+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
+
+  * New upstream release from the beta channel (FIREFOX_22_0b3_BUILD1)
+
+  * Fix test_langpack_chrome.js for Mongolian
+    - update debian/testing/extra/xpcshell/package-tests/test_langpack_chrome.js
+  * Refresh debian/patches/fix-broken-langpack-install-manifests.patch
+
+ -- Chris Coulson <chris.coulson@canonical.com>  Wed, 29 May 2013 15:15:32 +0100
+
+firefox (22.0~b2+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
+
+  * New upstream release from the beta channel (FIREFOX_22_0b2_BUILD1)
+
+  * Fix broken nso language pack (and test_langpack_load.js test)
+    - update debian/patches/fix-broken-langpack-install-manifests.patch
+  * Unbreak test_langpack_chrome.js for Hindi
+    - update debian/testing/extra/xpcshell/package-tests/test_langpack_chrome.js
+  * Run the xpcshell binary from the actual install directory rather than
+    the temporary test directory, as some tests assume this now (eg, the
+    distribution/ directory is assumed to be in the same directory as
+    xpcshell). This means we also have to install httpd.js et al in to
+    the actual components/ directory, as the upstream test harness assumes
+    this too. This fixes test_ubuntu_searchplugins.js test failures since
+    the distribution/ directory was moved back up a level on disk
+    - update debian/build/rules.mk
+    - update debian/firefox-testsuite.install.in
+    - update debian/firefox.install.in
+    - update debian/testing/run_xpcshell_tests
+    - update debian/testing/testrunhelper.py
+  * Make "make check" failures non-fatal on armhf. I don't think anybody
+    actually genuinely cares whether Firefox works there or not, so don't
+    let it block migration from proposed
+    - update debian/build/testsuite.mk
+  * Fix an issue where menus stop refreshing because we often don't get
+    closed events from Unity when a menu closes, sigh....
+    - update debian/patches/unity-menubar.patch
+
+ -- Chris Coulson <chris.coulson@canonical.com>  Fri, 17 May 2013 18:22:54 +0100
 
 firefox (22.0~b1+build1-0ubuntu0.13.04.1~mfn2) raring; urgency=low
 

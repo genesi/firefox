@@ -3,7 +3,9 @@
 MOZ_TEST_LOCALE ?= en_US.UTF-8
 
 MOZ_TESTS ?= check xpcshell-tests-build
+ifneq (,$(filter amd64 i386,$(DEB_HOST_ARCH)))
 MOZ_TEST_FAILURES_FATAL ?= 1
+endif
 
 MOZ_TEST_X_WRAPPER ?= xvfb-run -a -s "-screen 0 1024x768x24" dbus-launch --exit-with-session
 MOZ_TESTS_NEED_X ?= xpcshell-tests xpcshell-tests-build jstestbrowser reftest crashtest mochitest
