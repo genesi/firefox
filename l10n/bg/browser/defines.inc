@@ -1,4 +1,5 @@
 #filter emptyLines
+
 #define MOZ_LANGPACK_CREATOR http://openfmi.net/projects/mozilla-bg
 
 # If non-English locales wish to credit multiple contributors, uncomment this

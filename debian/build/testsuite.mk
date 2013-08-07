@@ -58,12 +58,14 @@ $(CURDIR)/$(MOZ_OBJDIR)/$(MOZ_MOZDIR)/_tests/xpcshell/xpcshell-build.ini:
 	cp $(CURDIR)/debian/testing/xpcshell-build.ini $@
 
 run-xpcshell-tests-build: $(CURDIR)/$(MOZ_OBJDIR)/$(MOZ_MOZDIR)/_tests/xpcshell/xpcshell-build.ini
+	cd $(CURDIR)/$(MOZ_OBJDIR)/$(MOZ_MOZDIR); \
 	PYTHONDONTWRITEBYTECODE=1 $(MOZ_PYTHON) -u $(CURDIR)/$(MOZ_MOZDIR)/config/pythonpath.py \
+	  -I./build \
 	  -I$(CURDIR)/$(MOZ_MOZDIR)/build \
-	  -I$(CURDIR)/$(MOZ_OBJDIR)/$(MOZ_MOZDIR)/_tests/mozbase/mozinfo \
+	  -I./_tests/mozbase/mozinfo \
 	  $(CURDIR)/$(MOZ_MOZDIR)/testing/xpcshell/runxpcshelltests.py \
 	  --manifest=$(CURDIR)/$(MOZ_OBJDIR)/$(MOZ_MOZDIR)/_tests/xpcshell/xpcshell-build.ini \
-	  --build-info-json=$(CURDIR)/$(MOZ_OBJDIR)/$(MOZ_MOZDIR)/mozinfo.json \
+	  --build-info-json=./mozinfo.json \
 	  --no-logfiles \
 	  --tests-root-dir=$(CURDIR)/$(MOZ_OBJDIR)/$(MOZ_MOZDIR)/_tests/xpcshell \
 	  --testing-modules-dir=$(CURDIR)/$(MOZ_OBJDIR)/$(MOZ_MOZDIR)/_tests/modules \

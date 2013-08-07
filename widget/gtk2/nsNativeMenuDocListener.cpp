@@ -24,7 +24,7 @@ nsNativeMenuDocListener::listener_array_type *gPendingListeners;
  * Small helper which caches a single listener, so that consecutive
  * events which go to the same node avoid multiple hash table lookups
  */
-class DispatchHelper {
+class MOZ_STACK_CLASS DispatchHelper {
 public:
     DispatchHelper(nsNativeMenuDocListener *aListener,
                    nsIContent *aContent

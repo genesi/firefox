@@ -1,13 +1,14 @@
 {
  "runtests": {},
  "excludetests": {
-  "a11y/accessible/events/test_focus_general.*": "HANGS, https://launchpad.net/bugs/1158821",
-  "a11y/accessible/events/test_textattrchange.html": "HANGS, https://launchpad.net/bugs/1158836",
+  "a11y/accessible/tests/mochitest/events/test_focus_general.*": "HANGS, https://launchpad.net/bugs/1158821",
+  "a11y/accessible/tests/mochitest/events/test_textattrchange.html": "HANGS, https://launchpad.net/bugs/1158836",
   "browser/browser/base/content/test/browser_aboutHome.js": "UNSUPPORTED UBUNTU-SEARCHPLUGINS",
   "browser/browser/base/content/test/browser_contextSearchTabPosition.js": "UNSUPPORTED UBUNTU-SEARCHPLUGINS",
   "browser/browser/base/content/test/browser_urlbar_search_healthreport.js": "UNSUPPORTED UBUNTU-SEARCHPLUGINS",
   "browser/browser/components/search/test/browser_google.js": "UNSUPPORTED UBUNTU-SEARCHPLUGINS",
-  "browser/browser/devtools/debugger/test/browser_dbg_createChrome.js": "HANGS, https://launchpad.net/bugs/1159078",
+  "browser/browser/devtools/framework/test/browser_toolbox_options.js": "FAILS, https://launchpad.net/bugs/1172026",
+  "browser/dom/tests/browser/browser_geolocation_privatebrowsing_perwindowpb.js": "https://launchpad.net/bugs/1167106",
   "browser/toolkit/mozapps/extensions/test/browser/browser_bug557956.js": "UNSUPPORTED UBUNTU-EXTENSIONS",
   "browser/toolkit/mozapps/extensions/test/browser/browser_bug562797.js": "UNSUPPORTED UBUNTU-EXTENSIONS",
   "browser/toolkit/mozapps/extensions/test/browser/browser_bug572561.js": "UNSUPPORTED UBUNTU-EXTENSIONS",

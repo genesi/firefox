@@ -3,23 +3,25 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
 <!ENTITY syncHeader.title "Sync">
-<!ENTITY sync.notconnected "Не злучана">
-<!ENTITY sync.connect "Злучэнне">
-<!ENTITY sync.connected "Злучана">
-<!ENTITY sync.deviceName "Гэтая збудова">
-<!ENTITY sync.disconnect "Разлучыцца">
+<!ENTITY sync.setup.description "Доступ да вашых закладак, пароляў і адчыненых уставак з усіх вашых збудоваў">
+<!ENTITY sync.setupbutton.label "Уладкаваць Sync…">
 <!ENTITY sync.syncNow2 "Сінхранізаваць зараз ">
-<!ENTITY sync.setup.title "Злучыцца з Sync">
+<!ENTITY sync.deviceName "Гэтая збудова">
+<!ENTITY sync.removebutton.label "Прыняць гэтую збудову">
+<!ENTITY sync.removewarn.note "Здаткі азіральніка на гэтай збудове застануцца некранутымі, але вы не зможаце больш сінхранізавацца з гэтым рахункам.">
+<!ENTITY sync.removethrobber.label "Выдаленне збудовы">
+<!ENTITY sync.setup2.title "Уладкаванне Sync">
 <!ENTITY sync.setup.pair2 'Каб задзейнічаць, выберыце "Спараваць збудову" на іншай збудове.'>
-<!ENTITY sync.fallback "Мой кампутар не блізка…">
+<!ENTITY sync.fallback "Увод або праўка звестак пра рахунак…">
 <!ENTITY sync.setup.manual "Увядзіце звесткі вашага рахунку Sync">
 <!ENTITY sync.account "Назва рахунку">
 <!ENTITY sync.password "Пароль">
 <!ENTITY sync.recoveryKey "Адноўны ключ">
 <!ENTITY sync.customServer "Ужываць іншы паслугач">
 <!ENTITY sync.serverURL "URL паслугача">
-<!ENTITY sync.setup.connect "Злучэнне">
+<!ENTITY sync.setup.connect2 "Дадаць збудову">
 <!ENTITY sync.setup.cancel "Скасаваць">
+<!ENTITY sync.setup.remove "Выдаліць">
 <!ENTITY sync.setup.tutorial "Паказаць мне як">
 <!ENTITY sync.setup.waiting2 "Чаканне іншай збудовы…">
 <!ENTITY sync.pair.title "Спараваць збудову">

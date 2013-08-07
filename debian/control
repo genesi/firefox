@@ -3,7 +3,7 @@ Source: firefox
 Section: web
 Priority: optional
 Maintainer: Ubuntu Mozilla Team <ubuntu-mozillateam@lists.ubuntu.com>
-Vcs-Bzr: https://code.launchpad.net/~mozillateam/firefox/firefox-beta.raring
+Vcs-Bzr: https://code.launchpad.net/~mozillateam/firefox/firefox.raring
 Build-Depends: cdbs,
 	locales,
 	debhelper (>= 7),
@@ -36,6 +36,7 @@ Build-Depends: cdbs,
 	xvfb,
 	python2.7 (>= 2.7),
 	libgstreamer-plugins-base0.10-dev
+Build-Conflicts: python-progressbar
 Standards-Version: 3.9.1
 XS-Testsuite: autopkgtest
 
@@ -46,7 +47,9 @@ Depends: lsb-release,
 	${shlibs:Depends}
 Recommends: xul-ext-ubufox,
 	${support:Recommends},
-	libcanberra0
+	libcanberra0,
+	libdbusmenu-glib4,
+	libdbusmenu-gtk4
 Provides: www-browser,
 	iceweasel,
 	gnome-www-browser,
@@ -63,26 +66,6 @@ Description: Safe and easy web browser from Mozilla
  Firefox delivers safe, easy web browsing. A familiar user interface,
  enhanced security features including protection from online identity theft,
  and integrated search let you get the most out of the web.
-
-Package: firefox-gnome-support
-Architecture: any
-Section: gnome
-Depends: ${shlibs:Depends}, 
-	${misc:Depends},
-	libnotify4 | libnotify1,
-	firefox
-Provides: ${app:Provides}
-	${transitional:Provides}
-Replaces: ${transitional:Replaces}
-Conflicts: ${app:Conflicts},
-	${transitional:Conflicts}
-Description: Safe and easy web browser from Mozilla - GNOME support
- Firefox delivers safe, easy web browsing. A familiar user interface,
- enhanced security features including protection from online identity theft,
- and integrated search let you get the most out of the web.
- .
- This package depends on the GNOME libraries which allow Firefox to take
- advantage of technologies such as GConf, GIO libnotify
 
 Package: firefox-dbg
 Architecture: any
@@ -143,35 +126,17 @@ Description: Safe and easy web browser from Mozilla - Breakpad symbols
  Breakpad. Eventually this package should go away and the symbol upload be
  implemented in soyuz (or other builders that build this package)
 
-Package: firefox-globalmenu
-Architecture: any
-Depends: ${shlibs:Depends},
-	${misc:Depends},
-	libdbusmenu-glib4,
-	libdbusmenu-gtk4,
-	firefox
-Provides: ${app:Provides}
-Conflicts: ${app:Conflicts}
-Description: Safe and easy web browser from Mozilla - Unity menubar integration
- Firefox delivers safe, easy web browsing. A familiar user interface,
- enhanced security features including protection from online identity theft,
- and integrated search let you get the most out of the web.
- .
- This package depends on the libraries which allow Firefox to take
- advantage of the Unity menubar
-
 Package: firefox-testsuite
 Architecture: any
+Section: misc
+Priority: extra
 Depends: ${shlibs:Depends},
 	${misc:Depends},
 	firefox (= ${binary:Version}),
-	firefox-gnome-support (= ${binary:Version}),
-	firefox-globalmenu (= ${binary:Version}),
 	firefox-locale-af (= ${binary:Version}), firefox-locale-ar (= ${binary:Version}), firefox-locale-as (= ${binary:Version}), firefox-locale-ast (= ${binary:Version}), firefox-locale-be (= ${binary:Version}), firefox-locale-bg (= ${binary:Version}), firefox-locale-bn (= ${binary:Version}), firefox-locale-br (= ${binary:Version}), firefox-locale-bs (= ${binary:Version}), firefox-locale-ca (= ${binary:Version}), firefox-locale-cs (= ${binary:Version}), firefox-locale-csb (= ${binary:Version}), firefox-locale-cy (= ${binary:Version}), firefox-locale-da (= ${binary:Version}), firefox-locale-de (= ${binary:Version}), firefox-locale-el (= ${binary:Version}), firefox-locale-en (= ${binary:Version}), firefox-locale-eo (= ${binary:Version}), firefox-locale-es (= ${binary:Version}), firefox-locale-et (= ${binary:Version}), firefox-locale-eu (= ${binary:Version}), firefox-locale-fa (= ${binary:Version}), firefox-locale-fi (= ${binary:Version}), firefox-locale-fr (= ${binary:Version}), firefox-locale-fy (= ${binary:Version}), firefox-locale-ga (= ${binary:Version}), firefox-locale-gd (= ${binary:Version}), firefox-locale-gl (= ${binary:Version}), firefox-locale-gu (= ${binary:Version}), firefox-locale-he (= ${binary:Version}), firefox-locale-hi (= ${binary:Version}), firefox-locale-hr (= ${binary:Version}), firefox-locale-hu (= ${binary:Version}), firefox-locale-hy (= ${binary:Version}), firefox-locale-id (= ${binary:Version}), firefox-locale-is (= ${binary:Version}), firefox-locale-it (= ${binary:Version}), firefox-locale-ja (= ${binary:Version}), firefox-locale-ka (= ${binary:Version}), firefox-locale-kk (= ${binary:Version}), firefox-locale-km (= ${binary:Version}), firefox-locale-kn (= ${binary:Version}), firefox-locale-ko (= ${binary:Version}), firefox-locale-ku (= ${binary:Version}), firefox-locale-lg (= ${binary:Version}), firefox-locale-lt (= ${binary:Version}), firefox-locale-lv (= ${binary:Version}), firefox-locale-mai (= ${binary:Version}), firefox-locale-mk (= ${binary:Version}), firefox-locale-ml (= ${binary:Version}), firefox-locale-mn (= ${binary:Version}), firefox-locale-mr (= ${binary:Version}), firefox-locale-nb (= ${binary:Version}), firefox-locale-nl (= ${binary:Version}), firefox-locale-nn (= ${binary:Version}), firefox-locale-nso (= ${binary:Version}), firefox-locale-oc (= ${binary:Version}), firefox-locale-or (= ${binary:Version}), firefox-locale-pa (= ${binary:Version}), firefox-locale-pl (= ${binary:Version}), firefox-locale-pt (= ${binary:Version}), firefox-locale-ro (= ${binary:Version}), firefox-locale-ru (= ${binary:Version}), firefox-locale-si (= ${binary:Version}), firefox-locale-sk (= ${binary:Version}), firefox-locale-sl (= ${binary:Version}), firefox-locale-sq (= ${binary:Version}), firefox-locale-sr (= ${binary:Version}), firefox-locale-sv (= ${binary:Version}), firefox-locale-sw (= ${binary:Version}), firefox-locale-ta (= ${binary:Version}), firefox-locale-te (= ${binary:Version}), firefox-locale-th (= ${binary:Version}), firefox-locale-tr (= ${binary:Version}), firefox-locale-uk (= ${binary:Version}), firefox-locale-vi (= ${binary:Version}), firefox-locale-zh-hans (= ${binary:Version}), firefox-locale-zh-hant (= ${binary:Version}), firefox-locale-zu (= ${binary:Version}) ,
 	python,
 	dbus-x11,
 	xvfb,
-	libc-bin,
 	make,
 	notify-osd,
 	metacity,
@@ -204,6 +169,18 @@ Description: Safe and easy web browser from Mozilla - testsuite
  and integrated search let you get the most out of the web.
  .
  This package contains the Firefox testsuite
+
+# Transitional packages below here
+
+# Can be dropped after 14.04
+Package: firefox-globalmenu
+Architecture: any
+Section: oldlibs
+Priority: extra
+Depends: ${misc:Depends}
+Description: Safe and easy web browser from Mozilla (transitional package)
+ This is a transitional package to ensure that upgrades work correctly.
+ It can be safely removed
 
 # Language packs below here
 
@@ -711,12 +688,13 @@ Description: Malayalam language pack for Firefox
 Package: firefox-locale-mn
 Architecture: any
 Depends: ${misc:Depends}
-Replaces: language-pack-mn-base
 Conflicts: ${app:Conflicts}
 Provides: ${app:Provides}
-Description: Mongolian language pack for Firefox
- This package contains Mongolian translations and search plugins
- for Firefox
+Description: Transitional package for unavailable language
+ This language is unavailable for the current version of Firefox
+ .
+ This is an empty transitional package to ensure a clean upgrade
+ process. You can safely remove this package after installation.
 
 Package: firefox-locale-mr
 Architecture: any
@@ -902,12 +880,13 @@ Description: Swedish language pack for Firefox
 Package: firefox-locale-sw
 Architecture: any
 Depends: ${misc:Depends}
-Replaces: language-pack-sw-base
 Conflicts: ${app:Conflicts}
 Provides: ${app:Provides}
-Description: Swahili language pack for Firefox
- This package contains Swahili translations and search plugins
- for Firefox
+Description: Transitional package for unavailable language
+ This language is unavailable for the current version of Firefox
+ .
+ This is an empty transitional package to ensure a clean upgrade
+ process. You can safely remove this package after installation.
 
 Package: firefox-locale-ta
 Architecture: any

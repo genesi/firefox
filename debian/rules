@@ -1,8 +1,9 @@
 #!/usr/bin/make -f
 
-include $(CURDIR)/debian/build/mozvars.mk
-
 MOZ_PKG_BASENAME	:= firefox
+
+include $(CURDIR)/debian/build/config.mk
+
 MOZ_APP			:= browser
 MOZ_VENDOR		:= Mozilla
 MOZ_MOZDIR		:=
@@ -13,7 +14,7 @@ MOZ_BRANDING		:= $(CHANNEL)
 ifneq (,$(filter release beta, $(MOZ_BRANDING)))
 MOZ_BRANDING		:= official
 endif
-ifeq (1,$(MOZ_BUILD_UNOFFICIAL))
+ifeq (1,$(MOZ_FORCE_UNOFFICIAL_BRANDING))
 ifneq (,$(filter official aurora, $(MOZ_BRANDING)))
 MOZ_BRANDING		:= unofficial
 endif
@@ -45,7 +46,7 @@ MOZ_PKGCONFIG_FILES = \
 	debian/pkgconfig/mozilla-plugin.pc \
 	$(NULL)
 
-include $(CURDIR)/debian/build/mozbuild.mk
+include $(CURDIR)/debian/build/rules.mk
 
 MOZ_EXECUTABLES_$(MOZ_PKG_NAME)-testsuite =	$(MOZ_LIBDIR)/testing/run_mochitest \
 						$(MOZ_LIBDIR)/testing/run_reftest \
@@ -99,10 +100,6 @@ make-langpack-preinsts::
 	done < $(CURDIR)/debian/config/locales.shipped
 
 pre-build:: make-langpack-preinsts
-	@cp $(DEB_SRCDIR)/toolkit/content/widgets/dialog.xml $(DEB_SRCDIR)/toolkit/content/widgets/dialog-kde.xml
-	@cp $(DEB_SRCDIR)/toolkit/content/widgets/preferences.xml $(DEB_SRCDIR)/toolkit/content/widgets/preferences-kde.xml
-	@cp $(DEB_SRCDIR)/browser/base/content/browser.xul $(DEB_SRCDIR)/browser/base/content/browser-kde.xul
-
 ifneq ($(MOZ_APP_BASENAME),$(MOZ_DEFAULT_APP_BASENAME))
 	@echo "Setting MOZ_APP_UA_NAME to $(MOZ_DEFAULT_APP_BASENAME)"
 	@cp $(DEB_SRCDIR)/$(MOZ_BRANDING_DIR)/configure.sh $(DEB_SRCDIR)/$(MOZ_BRANDING_DIR)/configure.sh.bak; \
@@ -124,8 +121,5 @@ clean::
 	$(call RESTORE_BACKUP, $(DEB_SRCDIR)/$(MOZ_BRANDING_DIR)/configure.sh)
 	$(call RESTORE_BACKUP, $(DEB_SRCDIR)/$(MOZ_BRANDING_DIR)/pref/firefox-branding.js)
 	$(call RESTORE_BACKUP, $(DEB_SRCDIR)/webapprt/application.ini.in)
-	rm -f $(DEB_SRCDIR)/toolkit/content/widgets/dialog-kde.xml
-	rm -f $(DEB_SRCDIR)/toolkit/content/widgets/preferences-kde.xml
-	rm -f $(DEB_SRCDIR)/browser/base/content/browser-kde.xul
 
 .PHONY: make-langpack-preinsts

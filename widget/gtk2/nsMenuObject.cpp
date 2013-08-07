@@ -33,6 +33,7 @@
 #include "nsServiceManagerUtils.h"
 #include "nsNetUtil.h"
 #include "mozilla/Preferences.h"
+#include "ImageOps.h"
 
 #include "nsNativeMenuUtils.h"
 #include "nsMenu.h"
@@ -47,6 +48,7 @@
 #include <pango/pango.h>
 
 using namespace mozilla;
+using mozilla::image::ImageOps;
 
 #define MAX_WIDTH 350000
 
@@ -111,16 +113,17 @@ nsMenuObject::IconLoader::Notify(imgIRequest *aProxy,
     }
 
     if (!mImageRect.IsEmpty()) {
-        img->ExtractFrame(0, mImageRect, 0, getter_AddRefs(img));
-    }
-    if (!img) {
-        mOwner->ClearIcon();
-        return NS_OK;
+        img = ImageOps::Clip(img, mImageRect);
     }
 
     int32_t width, height;
     img->GetWidth(&width);
     img->GetHeight(&height);
+
+    if (width <= 0 || height <= 0) {
+        mOwner->ClearIcon();
+        return NS_OK;
+    }
 
     if (width > 100 || height > 100) {
         // The icon data needs to go across DBus. Make sure the icon

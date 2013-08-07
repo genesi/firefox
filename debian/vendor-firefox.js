@@ -36,6 +36,3 @@ pref("network.http.proxy.pipelining", true);
 // Hide missing plugin infobar
 pref("plugins.hide_infobar_for_missing_plugin", true);
 pref("plugins.hide_infobar_for_outdated_plugin", true);
-
-// Reduce memory consumption
-pref("browser.sessionhistory.max_total_viewers", 0);

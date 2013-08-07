@@ -1,73 +1,111 @@
-firefox (22.0~b6+build1-1genesi1) maverick; urgency=low
+firefox (23.0+build2-1genesi1) maverick; urgency=low
 
   * Bump changelog
 
- -- Ahmed Ammar <aammar@genesi-usa.com>  Thu, 20 Jun 2013 17:19:15 +0200
+ -- Ahmed Ammar <aammar@genesi-usa.com>  Mon, 7 Aug 2013 17:19:15 +0200
 
-firefox (22.0~b6+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
+firefox (23.0+build2-0ubuntu0.13.04.1) raring-security; urgency=low
 
-  * New upstream release from the beta channel (FIREFOX_22_0b6_BUILD1)
+  * New upstream stable release (FIREFOX_23_0_BUILD2)
+    - see LP: #1208039 for USN information
 
- -- Chris Coulson <chris.coulson@canonical.com>  Thu, 20 Jun 2013 11:30:43 +0100
-
-firefox (22.0~b4+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
-
-  * New upstream release from the beta channel (FIREFOX_22_0b4_BUILD1)
-
- -- Chris Coulson <chris.coulson@canonical.com>  Thu, 06 Jun 2013 11:59:13 +0100
-
-firefox (22.0~b3+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
-
-  * New upstream release from the beta channel (FIREFOX_22_0b3_BUILD1)
-
-  * Fix test_langpack_chrome.js for Mongolian
+  * Build conflict on python-progressbar, as having this installed causes the
+    jit test harness to fail
+    - update debian/control.in
+  * Disable unsupported W3C webgl tests
+    - update debian/testing/extra/mochitest/mochitest.json
+  * Refresh paths for a11y tests after landing of bmo: #854868
+    - update debian/testing/extra/mochitest/mochitest-chrome.json
+  * Make firefox-globalmenu a real transitional package
+    - update debian/control.in
+    - update debian/build/mozbuild.mk
+  * Just test the selected locale on all channels in test_langpack_chrome.js,
+    rather than testing we get a correctly translated string. This is just
+    way too fragile
     - update debian/testing/extra/xpcshell/package-tests/test_langpack_chrome.js
-  * Refresh debian/patches/fix-broken-langpack-install-manifests.patch
-
- -- Chris Coulson <chris.coulson@canonical.com>  Wed, 29 May 2013 15:15:32 +0100
-
-firefox (22.0~b2+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
-
-  * New upstream release from the beta channel (FIREFOX_22_0b2_BUILD1)
-
-  * Fix broken nso language pack (and test_langpack_load.js test)
-    - update debian/patches/fix-broken-langpack-install-manifests.patch
-  * Unbreak test_langpack_chrome.js for Hindi
-    - update debian/testing/extra/xpcshell/package-tests/test_langpack_chrome.js
-  * Run the xpcshell binary from the actual install directory rather than
-    the temporary test directory, as some tests assume this now (eg, the
-    distribution/ directory is assumed to be in the same directory as
-    xpcshell). This means we also have to install httpd.js et al in to
-    the actual components/ directory, as the upstream test harness assumes
-    this too. This fixes test_ubuntu_searchplugins.js test failures since
-    the distribution/ directory was moved back up a level on disk
-    - update debian/build/rules.mk
-    - update debian/firefox-testsuite.install.in
-    - update debian/firefox.install.in
-    - update debian/testing/run_xpcshell_tests
-    - update debian/testing/testrunhelper.py
-  * Make "make check" failures non-fatal on armhf. I don't think anybody
-    actually genuinely cares whether Firefox works there or not, so don't
-    let it block migration from proposed
-    - update debian/build/testsuite.mk
-  * Fix an issue where menus stop refreshing because we often don't get
-    closed events from Unity when a menu closes, sigh....
+    - update d/p/test-integration/automation-output-junit-xml.patch
     - update debian/patches/unity-menubar.patch
+    - update debian/patches/dont-override-general-useragent-locale.patch
+    - update debian/patches/no_neon_on_arm.patch
+  * Drop crashtest-no-network-access.patch as the test seems to have been
+    removed from the tree
+  * Always build the crash reporter and Breakpad symbols on supported
+    architectures, even if it is disabled at run time. Will hopefully avoid
+    surprises by the time we reach beta (where the crash reporter is enabled)
+    - update debian/rules
+    - update debian/build/mozvars.mk
+    - update debian/build/mozbuild.mk
+  * Rename mozbuild.mk => rules.mk and mozvars.mk => config.mk
+  * Shut up lintian
+    - update debian/copyright
+  * Make the transitional globalmenu package priority extra, section oldlibs
+    - update debian/control.in
+  * Make the testsuite priority extra, section misc
+    - update debian/control.in
+  * The testsuite shouldn't depend on essential package libc-bin
+    - update debian/control.in
+  * Override symlink-is-self-recursive warning in the testsuite, as this is
+    intentional
+    - add debian/firefox-testsuite.lintian-overrides.in
+  * Remove the executable bit from the testsuite zip file
+    - update debian/build/rules.mk
+  * Remove the executable bit from searchplugins
+    - update debian/build/rules.mk
+  * Silence an embedded-library warning and some image-file-in-usr-lib warnings
+    - update debian/firefox.lintian-overrides.in
+  * Drop firefox-gnome-support. It was only depending on libraries that are
+    already guaranteed to exist when firefox is installed (mostly, glib).
+    Firefox has no need to depend on libnotify for the time being either, but
+    if it does again, that dependency should just be on the main package
+    - update debian/control.in
+    - update debian/build/rules.mk
+    - remove debian/firefox-gnome-support.install.in
+  * Only blacklist Firefox in Apport on official builds
+    - update debian/apport/blacklist.in
+    - update debian/build/rules.mk
+  * Merge in latest desktop file translations
+    - update debian/firefox.desktop.in
+  * Refresh patches
+    - update debian/patches/dont-override-general-useragent-locale.patch
+    - update debian/patches/no_neon_on_arm.patch
+    - update d/p/test-integration/automation-output-junit-xml.patch
+    - update d/p/test-overrides/disable-failing-python-tests.patch
+    - update debian/patches/unity-menubar.patch
+    - update debian/patches/fix-broken-langpack-install-manifests.patch
+  * Drop patches fixed upstream
+    - remove debian/patches/dont-use-stale-manual-proxy-config.patch
+    - remove d/p/test-fixes/jittest-disable-bug858582-with-no-parallelarray.patch
+    - update debian/patches/series
+  * Disable intl.locale.matchOS in test_bug848297.js
+    - add d/p/test-fixes/xpcshell-chrome-fix-test_bug848297-with-locale-matchOS.patch
+    - update debian/patches/series
+  * Write xpcshell test duration to the JUnit results when the test fails
+    - add d/p/test-integration/xpcshell-write-time-for-failed-test.patch
+    - update debian/patches/series
+  * Update test-fixes/mochitest-browser-plugincrash-with-no-crashreporter.patch
+    to just not include the test on !MOZ_CRASHREPORTER builds
+  * Fix build-time xpcshell tests after landing of bmo: 597064, by
+    using the python virtualenv provided by the upstream build system
+    - update debian/build/testsuite.mk
+    - update debian/build/rules.mk
+  * Fix broken Bulgarian language pack
+    - update debian/patches/fix-broken-langpack-install-manifests.patch
 
- -- Chris Coulson <chris.coulson@canonical.com>  Fri, 17 May 2013 18:22:54 +0100
+ -- Chris Coulson <chris.coulson@canonical.com>  Sat, 03 Aug 2013 19:23:53 +0100
 
-firefox (22.0~b1+build1-0ubuntu0.13.04.1~mfn2) raring; urgency=low
+firefox (22.0+build2-0ubuntu0.13.04.2) raring-security; urgency=low
 
-  * Backport part of commit from Aurora channel to ensure that
-    parallelarray/bug858582.js is disabled on builds without ParallelArray
-    - add d/p/test-fixes/jittest-disable-bug858582-with-no-parallelarray.patch
+  * Fix LP: #1194841 - Firefox 22 uses stale manual proxy settings when
+    configured to use system proxy settings, and system proxy settings are
+    set to "None"
+    - add debian/patches/dont-use-stale-manual-proxy-config.patch
     - update debian/patches/series
 
- -- Chris Coulson <chris.coulson@canonical.com>  Thu, 16 May 2013 01:18:01 +0100
+ -- Chris Coulson <chris.coulson@canonical.com>  Thu, 27 Jun 2013 16:43:31 +0100
 
-firefox (22.0~b1+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
+firefox (22.0+build2-0ubuntu0.13.04.1) raring-security; urgency=low
 
-  * New upstream release from the beta channel (FIREFOX_22_0b1_BUILD1)
+  * New upstream stable release (FIREFOX_22_0_BUILD2)
 
   * Drop the menubar addon
     - remove debian/globalmenu
@@ -135,71 +173,41 @@ firefox (22.0~b1+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
     - update debian/firefox.links.in
     - update debian/firefox.postinst.in
     - update debian/firefox.preinst.in
+  * Testpilot has been removed from Firefox
+    - update debian/firefox.install.in
+  * Run the xpcshell binary from the actual install directory rather than
+    the temporary test directory, as some tests assume this now (eg, the
+    distribution/ directory is assumed to be in the same directory as
+    xpcshell). This means we also have to install httpd.js et al in to
+    the actual components/ directory, as the upstream test harness assumes
+    this too. This fixes test_ubuntu_searchplugins.js test failures since
+    the distribution/ directory was moved back up a level on disk
+    - update debian/build/rules.mk
+    - update debian/firefox-testsuite.install.in
+    - update debian/firefox.install.in
+    - update debian/testing/run_xpcshell_tests
+    - update debian/testing/testrunhelper.py
+  * Make "make check" failures non-fatal on armhf. I don't think anybody
+    actually genuinely cares whether Firefox works there or not, so don't
+    let it block migration from proposed
+    - update debian/build/testsuite.mk
+
+ -- Chris Coulson <chris.coulson@canonical.com>  Thu, 20 Jun 2013 11:35:16 +0100
+
+firefox (21.0+build2-0ubuntu0.13.04.3) raring-security; urgency=low
+
   * Fix LP: #1180227 - Update the Apparmor profile to allow rw access to
     ~/.cache/mozilla/firefox, and allow locking of sqlite db's there too
     - update debian/usr.bin.firefox.apparmor.12.04
-  * Testpilot has been removed from Firefox
-    - update debian/firefox.install.in
 
- -- Chris Coulson <chris.coulson@canonical.com>  Tue, 14 May 2013 01:30:43 +0100
+ -- Chris Coulson <chris.coulson@canonical.com>  Wed, 29 May 2013 14:16:51 +0100
 
-firefox (21.0~b7+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
+firefox (21.0+build2-0ubuntu0.13.04.2) raring-security; urgency=low
 
-  * New upstream release from the beta channel (FIREFOX_21_0b7_BUILD1)
+  * New upstream stable release (FIREFOX_21_0_BUILD2)
+    - see LP: #1178277
 
-  * Fix a crash when the icon clip region is outside of the actual image
-    - update debian/patches/unity-menubar.patch
-  * Readd menubar addon and disable the new menubar patch for now. We'll go
-    for this again in the next cycle
-    - add debian/globalmenu
-    - update debian/build/mozbuild.mk
-    - update debian/config/mozconfig.in
-    - update debian/control.in
-    - add debian/firefox-globalmenu.dirs.in
-    - add debian/firefox-globalmenu.links.in
-    - add debian/patches/unity-globalmenu-build-support.patch
-    - update debian/patches/series.in
   * Update globalmenu-extension to 4.1
-
- -- Chris Coulson <chris.coulson@canonical.com>  Tue, 07 May 2013 19:50:56 +0100
-
-firefox (21.0~b6+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
-
-  * New upstream release from the beta channel (FIREFOX_21_0b6_BUILD1)
-
-  * Update unity-menubar.patch
-
- -- Chris Coulson <chris.coulson@canonical.com>  Fri, 26 Apr 2013 01:25:09 +0100
-
-firefox (21.0~b3+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
-
-  * New upstream release from the beta channel (FIREFOX_21_0b3_BUILD1)
-
-  * Fix failure to populate Replaces on 12.10 and later (LP: #1165408)
-    - update debian/rules
-
- -- Chris Coulson <chris.coulson@canonical.com>  Fri, 12 Apr 2013 02:14:54 +0100
-
-firefox (21.0~b2+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
-
-  * New upstream release from the beta channel (FIREFOX_21_0b2_BUILD1)
-
-  * Fix test failure due to Northern Sotho language pack
-    - update debian/patches/fix-broken-langpack-install-manifests.patch
-  * Fix test_langpack_chrome.js for Mongolian and Swedish
-    - update debian/testing/extra/xpcshell/package-tests/test_langpack_chrome.js
-  * Disable some unsupported tests that test search healthreporting, as these
-    don't work on Ubuntu where the searchplugins are not in the application
-    directory
-    - update debian/testing/extra/mochitest/mochitest-chrome.json
-  * Disable unity-menubar.patch for now
-
- -- Chris Coulson <chris.coulson@canonical.com>  Fri, 05 Apr 2013 16:37:44 +0100
-
-firefox (21.0~b1+build1-0ubuntu0.13.04.1~mfn2) raring; urgency=low
-
-  * New upstream release from the beta channel (FIREFOX_21_0b1_BUILD1)
-
   * Drop support for building on older than precise
     - update debian/apport/source_firefox.py.in
     - update debian/build/mozbuild.mk
@@ -227,13 +235,6 @@ firefox (21.0~b1+build1-0ubuntu0.13.04.1~mfn2) raring; urgency=low
   * Drop the perl script for preprocessing the quilt series file
     - remove debian/build/enable-dist-patches.pl
     - update debian/build/mozbuild.mk
-  * Refresh patches
-    - update d/p/test-overrides/xpcshell-disable-geolocation-provider-test.patch
-    - update debian/patches/mochitest-allow-test-manifest-for-chrome.patch
-    - update debian/patches/xpcshell-allow-omit-tests-on-real-install.patch
-    - update d/p/test-overrides/reftest-disable-failing-tests.patch
-    - update debian/patches/dont-include-hyphenation-patterns.patch
-    - update d/p/test-fixes/xpcshell-search-fix-browser-dirprovider.patch
   * Make sure that SHELL is set in the build environment
     - update debian/build/mozbuild.mk
   * Don't set the MOZCONFIG environment variable, but just copy our config
@@ -270,18 +271,6 @@ firefox (21.0~b1+build1-0ubuntu0.13.04.1~mfn2) raring; urgency=low
     - update debian/testing/xpcshell-package-tests/test_locale_matchOS_real.js
     - update debian/testing/xpcshell-package-tests/test_langpack_load.js
     - update debian/testing/xpcshell-package-tests/test_langpack_chrome.js
-  * Drop the menubar addon
-    - remove debian/globalmenu
-    - update debian/build/mozbuild.mk
-    - update debian/config/mozconfig.in
-    - update debian/control.in
-    - remove debian/firefox-globalmenu.dirs.in
-    - remove debian/firefox-globalmenu.links.in
-    - remove debian/patches/unity-globalmenu-build-support.patch
-    - update debian/patches/series.in
-  * Add native support for the Unity menubar (no addon)
-    - add debian/patches/unity-menubar.patch
-    - update debian/patches/series.in
   * Disable telemetry xpcshell tests. Telemetry is not enabled on Ubuntu builds
     and the test_TelemetryPing.js fails anyway because the HG revision is
     not embedded in the ping
@@ -384,149 +373,51 @@ firefox (21.0~b1+build1-0ubuntu0.13.04.1~mfn2) raring; urgency=low
     - remove d/p/test-fixes/xpcshell-search-fix-browser-dirprovider.patch,
       as this isn't really needed and just complicates things
     - update debian/patches/series.in
-  * Backport patch from Nightly to fix a build failure due to name
-    lookup changes in gcc 4.7
-    - add debian/patches/gcc-4.7-name-lookup-fixes.patch
-    - update debian/patches/series.in
   * Manually stage the testsuite in debian/tmp and dh_install it in to the
     package from there rather than from objdir/dist, as dh_install is called
     after we have created the breakpad symbols, which modifies the files
     in objdir/dist and causes dh_strip to fail later on
     - update debian/build/mozbuild.mk
     - update debian/firefox-testsuite.install.in
-
- -- Chris Coulson <chris.coulson@canonical.com>  Tue, 02 Apr 2013 22:18:21 +0100
-
-firefox (20.0~b7+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
-
-  * New upstream release from the beta channel (FIREFOX_20_0b7_BUILD1)
-
-  * Fix a broken language pack install.rdf
-    - add debian/patches/langpack-install-rdf-fix.patch
-    - update debian/patches/series.in
-
- -- Chris Coulson <chris.coulson@canonical.com>  Wed, 27 Mar 2013 11:25:17 +0000
-
-firefox (20.0~b6+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
-
-  * New upstream release from the beta channel (FIREFOX_20_0b6_BUILD1)
-
- -- Chris Coulson <chris.coulson@canonical.com>  Thu, 21 Mar 2013 14:08:14 +0000
-
-firefox (20.0~b5+build1-0ubuntu0.13.04.1~mfn2) raring; urgency=low
-
-  * Disable another broken crashtest
-
- -- Chris Coulson <chris.coulson@canonical.com>  Fri, 15 Mar 2013 16:20:35 +0000
-
-firefox (20.0~b5+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
-
-  * New upstream release from the beta channel (FIREFOX_20_0b5_BUILD1)
-
-  * Disable failing browser_geolocation_privatebrowsing_perwindowpb.js
-    for now
-    - update debian/testing/mochitest-chrome.json
-  * Skip font-matching/synthetic-style-1.html reftest which fails on beta
-    (note, it works on the nightly packaging)
-    - update d/p/test-overrides/reftest-disable-failing-tests.patch
-  * Skip dom/plugins/test/test_{crashing,hanging}.html for now,
-    as they don't seem to generate a minidump as expected
-    - update debian/testing/mochitest.json
-  * Disable crashreporter tests that require write access to the test
-    directory. This is fixed properly in the nightly packaging
+  * Fix test failure due to Northern Sotho language pack
+    - update debian/patches/fix-broken-langpack-install-manifests.patch
+  * Fix test_langpack_chrome.js for Mongolian and Swedish
+    - update debian/testing/extra/xpcshell/package-tests/test_langpack_chrome.js
+  * Disable some unsupported tests that test search healthreporting, as these
+    don't work on Ubuntu where the searchplugins are not in the application
+    directory
+    - update debian/testing/extra/mochitest/mochitest-chrome.json
+  * Disable hanging / crashing WebRTC tests
+    - update debian/testing/extra/mochitest/mochitest.json
+  * Refresh patches
+    - update debian/patches/dont-include-hyphenation-patterns.patch
+    - update d/p/test-integration/mochitest-allow-test-manifest-for-chrome.patch
+    - update d/p/test-integration/xpcshell-disable-tests-which-need-appdir-write-access.patch
     - update d/p/test-overrides/xpcshell-disable-failing-tests.patch
+  * Make "make check" tests non-fatal. Everything passes on i386 and amd64,
+    but we get some timeouts with jit tests on armhf. We should probably
+    investigate lengthening the timeout for these, but that requires
+    modifying the build system
+    - update debian/build/testsuite.mk
 
- -- Chris Coulson <chris.coulson@canonical.com>  Thu, 14 Mar 2013 18:48:10 +0000
+ -- Chris Coulson <chris.coulson@canonical.com>  Thu, 09 May 2013 14:51:42 +0100
 
-firefox (20.0~b4+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
+firefox (20.0+build1-0ubuntu2) raring; urgency=low
 
-  * New upstream release from the beta channel (FIREFOX_20_0b4_BUILD1)
+  * Update globalmenu-extension to 4.0
+    - Fix LP: #1169873 - Crash in uGlobalMenuObject::ShouldShowIcon()
+    - Turn a nullptr deref in to a runtime abort for now, to try and get a
+      better idea of what is happening (LP: #1169874)
+  * Fix empty Replaces on 12.10 and later (LP: #1165408)
+    - update debian/rules
 
-  [ Chris Coulson <chris.coulson@canonical.com> ]
-  * Fix a const redeclaration error in test_purpose.js
-    - update d/p/test-fixes/xpcshell-search-fix-const-redeclaration.patch
-  * Create the test results directory
-    - update debian/tests/crashtest
-    - update debian/tests/jstestbrowser
-    - update debian/tests/mochitest
-    - update debian/tests/reftest
-    - update debian/tests/xpcshell-package-tests
-    - update debian/tests/xpcshell-tests
-  * Tidy up search xpcshell test fixes
-    - drop d/p/test-fixes/xpcshell-search-fix-const-redeclaration.patch
-    - update d/p/test-fixes/xpcshell-search-fix-browser-dirprovider.patch
-    - update debian/patches/series.in
-  * Install the test plugins in the testsuite directory so that they
-    aren't visible to the normal browser
-    - update debian/firefox-testsuite.install.in
-    - update debian/firefox-testsuite.links.in
-    - update debian/testing/run_xpcshell_tests.in
-    - update debian/testing/testrunhelper.py
-  * Fix test_ubuntu_useragent.js to work on channels other than Nightly
-    - update debian/testing/xpcshell-package-tests/test_ubuntu_useragent.js
-  * In test_ubuntu_useragent.js, check for the hardcoded buildid on official
-    branded builds, and set up the appinfo with the actual build ID
-    - update debian/testing/xpcshell-package-tests/head_package_tests.js
-    - update debian/testing/xpcshell-package-tests/test_ubuntu_useragent.js
-  * In test_langpack_chrome.js, only test the actual translation of
-    general.useragent.locale on non-nightly builds, as the nightly translations
-    aren't as complete. On nightly builds, just check that the correct locale
-    is selected for the global package
-    - update debian/testing/xpcshell-package-tests/test_langpack_chrome.js
-  * Move duplicated code in to one place
-    - update debian/testing/xpcshell-package-tests/head_package_tests.js
-    - update debian/testing/xpcshell-package-tests/test_langpack_chrome.js
-    - update debian/testing/xpcshell-package-tests/test_langpack_load.js
-    - update debian/testing/xpcshell-package-tests/test_locale_matchOS_real.js
-    - update debian/testing/xpcshell-package-tests/test_searchplugins_valid_real.js
-    - update debian/testing/xpcshell-package-tests/test_ubuntu_searchplugins_real.js
-    - update debian/testing/xpcshell-package-tests/test_ubuntu_useragent.js
-  * Split mochitests in to separate autopkgtest test scripts so that we can
-    propagate error codes from test harness failure without affecting other
-    mochitest stages
-    - update debian/tests/control
-    - update debian/tests/mochitest
-    - add debian/tests/mochitest-browser
-    - add debian/tests/mochitest-chrome
-    - add debian/tests/mochitest-a11y
-    - add debian/tests/mochitest-ipcplugins
-  * Fix an exception that caused mochitests to hang after hitting failures
-    - update d/p/test-integration/mochitest-output-junit-xml.patch
+ -- Chris Coulson <chris.coulson@canonical.com>  Wed, 17 Apr 2013 09:29:49 +0100
 
-  [ Jean-Baptiste Lallement <jean-baptiste@ubuntu.com> ]
-  * Allow the autopkgtest harness to specify a location for test results
-    - update debian/tests/crashtest
-    - update debian/tests/jstestbrowser
-    - update debian/tests/mochitest
-    - update debian/tests/reftest
-    - update debian/tests/xpcshell-package-tests
-    - update debian/tests/xpcshell-tests
-    - update debian/build/mozbuild.mk
+firefox (20.0+build1-0ubuntu1) raring; urgency=low
 
-  [ Drey ]
-  * Use a local favicon in the DuckDuckGo searchplugin (LP: #1120991)
-    - update debian/searchplugins/en-US/duckduckgo.xml
-
- -- Chris Coulson <chris.coulson@canonical.com>  Fri, 08 Mar 2013 10:12:23 +0000
-
-firefox (20.0~b2+build1-0ubuntu0.13.04.1~mfn1) raring; urgency=low
-
-  * New upstream release from the beta channel (FIREFOX_20_0b2_BUILD1)
-
- -- Chris Coulson <chris.coulson@canonical.com>  Wed, 27 Feb 2013 15:00:05 +0000
-
-firefox (20.0~b1+build2-0ubuntu0.13.04.1~mfn3) raring; urgency=low
+  * New upstream stable release (FIREFOX_20_0_BUILD1)
 
   * Update globalmenu-extension to 3.9
-    - Hopefully fix various crashes in imagelib code
-
- -- Chris Coulson <chris.coulson@canonical.com>  Tue, 26 Feb 2013 00:55:09 +0000
-
-firefox (20.0~b1+build2-0ubuntu0.13.04.1~mfn2) raring; urgency=low
-
-  * New upstream release from the beta channel (FIREFOX_20_0b1_BUILD2)
-
-  * Update globalmenu-extension to 3.8
     - Firefox 20 compatibility fixes
     - This is the last version of this addon, and will be dropped in the
       next Firefox release
@@ -715,8 +606,98 @@ firefox (20.0~b1+build2-0ubuntu0.13.04.1~mfn2) raring; urgency=low
     - update debian/tests/xpcshell-tests
   * Fix a tab versus space issue in debian/build/mozbuild.mk
   * Refresh debian/patches/fix-broken-langpack-install-manifests.patch
+  * Create the test results directory
+    - update debian/tests/crashtest
+    - update debian/tests/jstestbrowser
+    - update debian/tests/mochitest
+    - update debian/tests/reftest
+    - update debian/tests/xpcshell-package-tests
+    - update debian/tests/xpcshell-tests
+  * Tidy up search xpcshell test fixes
+    - drop d/p/test-fixes/xpcshell-search-fix-const-redeclaration.patch
+    - update d/p/test-fixes/xpcshell-search-fix-browser-dirprovider.patch
+    - update debian/patches/series.in
+  * Install the test plugins in the testsuite directory so that they
+    aren't visible to the normal browser
+    - update debian/firefox-testsuite.install.in
+    - update debian/firefox-testsuite.links.in
+    - update debian/testing/run_xpcshell_tests.in
+    - update debian/testing/testrunhelper.py
+  * Fix test_ubuntu_useragent.js to work on channels other than Nightly
+    - update debian/testing/xpcshell-package-tests/test_ubuntu_useragent.js
+  * In test_ubuntu_useragent.js, check for the hardcoded buildid on official
+    branded builds, and set up the appinfo with the actual build ID
+    - update debian/testing/xpcshell-package-tests/head_package_tests.js
+    - update debian/testing/xpcshell-package-tests/test_ubuntu_useragent.js
+  * In test_langpack_chrome.js, only test the actual translation of
+    general.useragent.locale on non-nightly builds, as the nightly translations
+    aren't as complete. On nightly builds, just check that the correct locale
+    is selected for the global package
+    - update debian/testing/xpcshell-package-tests/test_langpack_chrome.js
+  * Move duplicated code in to one place
+    - update debian/testing/xpcshell-package-tests/head_package_tests.js
+    - update debian/testing/xpcshell-package-tests/test_langpack_chrome.js
+    - update debian/testing/xpcshell-package-tests/test_langpack_load.js
+    - update debian/testing/xpcshell-package-tests/test_locale_matchOS_real.js
+    - update debian/testing/xpcshell-package-tests/test_searchplugins_valid_real.js
+    - update debian/testing/xpcshell-package-tests/test_ubuntu_searchplugins_real.js
+    - update debian/testing/xpcshell-package-tests/test_ubuntu_useragent.js
+  * Split mochitests in to separate autopkgtest test scripts so that we can
+    propagate error codes from test harness failure without affecting other
+    mochitest stages
+    - update debian/tests/control
+    - update debian/tests/mochitest
+    - add debian/tests/mochitest-browser
+    - add debian/tests/mochitest-chrome
+    - add debian/tests/mochitest-a11y
+    - add debian/tests/mochitest-ipcplugins
+  * Fix an exception that caused mochitests to hang after hitting failures
+    - update d/p/test-integration/mochitest-output-junit-xml.patch
+  * Backport patch from Nightly to fix a build failure due to name
+    lookup changes in gcc 4.7
+    - add debian/patches/gcc-4.7-name-lookup-fixes.patch
+    - update debian/patches/series.in
 
- -- Chris Coulson <chris.coulson@canonical.com>  Thu, 21 Feb 2013 13:39:14 +0000
+  [ Jean-Baptiste Lallement <jean-baptiste@ubuntu.com> ]
+  * Allow the autopkgtest harness to specify a location for test results
+    - update debian/tests/crashtest
+    - update debian/tests/jstestbrowser
+    - update debian/tests/mochitest
+    - update debian/tests/reftest
+    - update debian/tests/xpcshell-package-tests
+    - update debian/tests/xpcshell-tests
+    - update debian/build/mozbuild.mk
+
+  [ Drey ]
+  * Use a local favicon in the DuckDuckGo searchplugin (LP: #1120991)
+    - update debian/searchplugins/en-US/duckduckgo.xml
+
+ -- Chris Coulson <chris.coulson@canonical.com>  Thu, 28 Mar 2013 01:22:41 +0000
+
+firefox (19.0.2+build1-0ubuntu1) raring; urgency=low
+
+  * New upstream stable release (FIREFOX_19_0_2_BUILD1)
+    - see LP: #1152052 for USN information
+
+ -- Chris Coulson <chris.coulson@canonical.com>  Thu, 07 Mar 2013 11:33:49 +0000
+
+firefox (19.0+build1-0ubuntu2) raring; urgency=low
+
+  * Update globalmenu-extension to 3.7.2
+    - Fix various imagelib related crashes (LP: #1134409)
+
+ -- Chris Coulson <chris.coulson@canonical.com>  Wed, 27 Feb 2013 14:35:00 +0000
+
+firefox (19.0+build1-0ubuntu1) raring; urgency=low
+
+  * New upstream stable release (FIREFOX_19_0_BUILD1)
+
+  * Switch to the release channel
+    - update debian/config/branch.mk
+    - update debian/control.in
+    - disable Mongolian and Swahili
+
+ -- Chris Coulson <chris.coulson@canonical.com>  Tue, 26 Feb 2013 11:30:08 +0000
 
 firefox (19.0~b6+build1-0ubuntu1) raring; urgency=low
 

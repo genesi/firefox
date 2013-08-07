@@ -37,38 +37,6 @@ function run_test()
     }
   }
 
-  // For most locales, "chrome://global/locale/intl.properties:general.useragent.locale"
-  // is set to the locale. There are some exceptions though, listed here:
-  const OVERRIDES = {
-    "cs": "cs-CZ",
-    "da": "da-DK",
-    "el": "el-GR",
-    "fa": "fa-IR",
-    "fi": "fi-FI",
-    "gl": "gl-ES",
-    "he": "he-IL",
-    "hi-IN": "en-US",
-    "hu": "hu-HU",
-    "is": "is-IS",
-    "kn": "kn-IN",
-    "ko": "ko-KR",
-    "lv": "lv-LV",
-    "mk": "mk-MK",
-    "mn": "mn-MN",
-    "mr": "mr-IN",
-    "pa-IN": "pa",
-    "pl": "pl-PL",
-    "si": "si-LK",
-    "sw": "en-US",
-    "ta": "en-US",
-    "te": "te-IN",
-    "tr": "tr-TR"
-  };
-
-  // The translations on nightly seem to be a lot different compared to other
-  // channels, so we don't match the value of general.useragent.locale there
-  // (but rather, test the selected locale)
-  let fullTest = Services.prefs.getCharPref("app.update.channel") != "nightly";
   let chrome = Cc["@mozilla.org/chrome/chrome-registry;1"].getService(Ci.nsIXULChromeRegistry);
 
   locales.forEach(function(locale) {
@@ -77,13 +45,6 @@ function run_test()
     Services.strings.flushBundles();
     Services.prefs.setCharPref("general.useragent.locale", locale);
 
-    if (fullTest) {
-      if (locale in OVERRIDES) {
-        locale = OVERRIDES[locale];
-      }
-      do_check_eq(Services.strings.createBundle("chrome://global/locale/intl.properties").GetStringFromName("general.useragent.locale"), locale);
-    } else {
-      do_check_eq(chrome.getSelectedLocale("global"), locale);
-    }
+    do_check_eq(chrome.getSelectedLocale("global"), locale);
   });
 }

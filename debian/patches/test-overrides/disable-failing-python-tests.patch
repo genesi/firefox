@@ -3,16 +3,16 @@ Description: Disable make check tests in mozbuild/mozpack/test, which fail
 Author: Chris Coulson <chris.coulson@canonical.com>
 Forwarded: no
 
-Index: firefox-trunk-22.0~a1~hg20130331r126772/python/Makefile.in
+Index: firefox-trunk-23.0~a1~hg20130503r130725/python/Makefile.in
 ===================================================================
---- firefox-trunk-22.0~a1~hg20130331r126772.orig/python/Makefile.in	2013-04-01 20:37:49.998229471 +0100
-+++ firefox-trunk-22.0~a1~hg20130331r126772/python/Makefile.in	2013-04-01 20:37:49.990229471 +0100
+--- firefox-trunk-23.0~a1~hg20130503r130725.orig/python/Makefile.in	2013-05-03 19:22:12.000000000 -0700
++++ firefox-trunk-23.0~a1~hg20130503r130725/python/Makefile.in	2013-05-04 14:44:42.272253199 -0700
 @@ -15,7 +15,7 @@
    mozbuild/mozbuild/test/controller \
    mozbuild/mozbuild/test/compilation \
    mozbuild/mozbuild/test/frontend \
 -  mozbuild/mozpack/test \
 +#  mozbuild/mozpack/test \
+   mozbuild/dumbmake/test \
    $(NULL)
  
- PYTHON_UNIT_TESTS := $(foreach dir,$(test_dirs),$(wildcard $(srcdir)/$(dir)/*.py))

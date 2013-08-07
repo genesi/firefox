@@ -3,19 +3,29 @@ Description: Skip browser_pluginCrashCommentAndURL.js when the crash reporter
 Author: Chris Coulson <chris.coulson@canonical.com>
 Forwarded: no
 
-Index: firefox-trunk-22.0~a1~hg20130301r123350/browser/base/content/test/browser_pluginCrashCommentAndURL.js
+Index: firefox-trunk-23.0~a1~hg20130511r131518/browser/base/content/test/Makefile.in
 ===================================================================
---- firefox-trunk-22.0~a1~hg20130301r123350.orig/browser/base/content/test/browser_pluginCrashCommentAndURL.js	2013-03-01 02:07:39.000000000 +0000
-+++ firefox-trunk-22.0~a1~hg20130301r123350/browser/base/content/test/browser_pluginCrashCommentAndURL.js	2013-03-01 16:51:12.409226666 +0000
-@@ -9,6 +9,11 @@
- const SERVER_URL = "http://example.com/browser/toolkit/crashreporter/test/browser/crashreport.sjs";
+--- firefox-trunk-23.0~a1~hg20130511r131518.orig/browser/base/content/test/Makefile.in	2013-05-11 03:06:44.000000000 +0100
++++ firefox-trunk-23.0~a1~hg20130511r131518/browser/base/content/test/Makefile.in	2013-05-11 23:34:28.174256706 +0100
+@@ -321,14 +321,19 @@
+                  browser_pageInfo_plugins.js \
+                  browser_pageInfo.js \
+                  feed_tab.html \
+-                 browser_pluginCrashCommentAndURL.js \
+-                 pluginCrashCommentAndURL.html \
+                  browser_private_no_prompt.js \
+                  browser_blob-channelname.js \
+                  browser_aboutHealthReport.js \
+                  healthreport_testRemoteCommands.html \
+                  $(NULL)
  
- function test() {
-+  if (!("@mozilla.org/toolkit/crash-reporter;1" in Cc)) {
-+    todo(false, "Crash reporting is disabled on this build");
-+    return;
-+  }
++ifdef MOZ_CRASHREPORTER
++_BROWSER_FILES += \
++                browser_pluginCrashCommentAndURL.js \
++                pluginCrashCommentAndURL.html \
++				$(NULL)
++endif
 +
-   // Crashing the plugin takes up a lot of time, so extend the test timeout.
-   requestLongerTimeout(runs.length);
-   waitForExplicitFinish();
+ # Disable tests on Windows due to frequent failures (bugs 825739, 841341)
+ ifneq (windows,$(MOZ_WIDGET_TOOLKIT))
+ _BROWSER_FILES += \

@@ -9,11 +9,6 @@ const CRASH_URL = "http://example.com/browser/browser/base/content/test/pluginCr
 const SERVER_URL = "http://example.com/browser/toolkit/crashreporter/test/browser/crashreport.sjs";
 
 function test() {
-  if (!("@mozilla.org/toolkit/crash-reporter;1" in Cc)) {
-    todo(false, "Crash reporting is disabled on this build");
-    return;
-  }
-
   // Crashing the plugin takes up a lot of time, so extend the test timeout.
   requestLongerTimeout(runs.length);
   waitForExplicitFinish();

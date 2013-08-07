@@ -2,6 +2,8 @@
  "runtests": {},
  "excludetests": {
   "content/canvas/test/webgl/test_webgl_conformance_test_suite.html": "UNSUPPORTED",
+  "dom/browser-element/mochitest/test_browserElement_NoWhitelist.html": "HANGS, https://launchpad.net/bugs/1166254",
+  "dom/imptests/html/webgl": "UNSUPPORTED",
   "dom/media/tests/mochitest/test_peerConnection_basicAudio.html": "HANGS, https://bugzilla.mozilla.org/show_bug.cgi?id=841150, https://bugzilla.mozilla.org/show_bug.cgi?id=839677",
   "dom/media/tests/mochitest/test_peerConnection_basicAudioVideo.html": "HANGS, https://bugzilla.mozilla.org/show_bug.cgi?id=841150",
   "dom/media/tests/mochitest/test_peerConnection_basicAudioVideoCombined.html": "HANGS, https://bugzilla.mozilla.org/show_bug.cgi?id=841150",

@@ -30,5 +30,8 @@
 <!ENTITY clearPrivateData.offline "Пазасеткавыя здаткі пляцовак сеціва">
 <!ENTITY clearPrivateData.logins "Дзейныя ўваходы">
 <!ENTITY optionsHeader.privacy.passwords.label "Памятаць паролі">
-<!ENTITY optionsHeader.privacy.doNotTrack.title "Высочванне">
-<!ENTITY optionsHeader.privacy.doNotTrack.label "Забараняць сеціўным пляцоўкам сачыць за мною">
+<!ENTITY doNotTrack.title "Не сачыць">
+<!ENTITY doNotTrack.desc "Загадваць пляцоўкам:">
+<!ENTITY doNotTrack.options.trackingNotOkay "Я не жадаю, каб за мною сачылі">
+<!ENTITY doNotTrack.options.noPreference "Нічога пра маё стаўленне да сачэння">
+<!ENTITY doNotTrack.options.trackingOkay "Я жадаю, каб за мною сачылі">

@@ -127,7 +127,7 @@ public:
  * menu. This allows us to do menu updates without altering the structure
  * seen by the OS.
  */
-class nsNativeMenuAutoUpdateBatch
+class MOZ_STACK_CLASS nsNativeMenuAutoUpdateBatch
 {
 public:
     nsNativeMenuAutoUpdateBatch(MOZ_GUARD_OBJECT_NOTIFIER_ONLY_PARAM) {
